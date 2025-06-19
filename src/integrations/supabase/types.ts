@@ -9,7 +9,170 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      medication_administration: {
+        Row: {
+          administration_notes: string[] | null
+          adverse_effects: string[] | null
+          id: string
+          medication_id: string | null
+          monitoring: string[] | null
+          preparation: string[] | null
+        }
+        Insert: {
+          administration_notes?: string[] | null
+          adverse_effects?: string[] | null
+          id?: string
+          medication_id?: string | null
+          monitoring?: string[] | null
+          preparation?: string[] | null
+        }
+        Update: {
+          administration_notes?: string[] | null
+          adverse_effects?: string[] | null
+          id?: string
+          medication_id?: string | null
+          monitoring?: string[] | null
+          preparation?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_administration_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medication_contraindications: {
+        Row: {
+          contraindication: string
+          id: string
+          medication_id: string | null
+        }
+        Insert: {
+          contraindication: string
+          id?: string
+          medication_id?: string | null
+        }
+        Update: {
+          contraindication?: string
+          id?: string
+          medication_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_contraindications_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medication_dosing: {
+        Row: {
+          compatibility_stability: string[] | null
+          concentration_supplied: string | null
+          dose: string
+          id: string
+          indication: string
+          medication_id: string | null
+          notes: string[] | null
+          patient_type: string
+          provider_routes: string[] | null
+          route: string | null
+        }
+        Insert: {
+          compatibility_stability?: string[] | null
+          concentration_supplied?: string | null
+          dose: string
+          id?: string
+          indication: string
+          medication_id?: string | null
+          notes?: string[] | null
+          patient_type: string
+          provider_routes?: string[] | null
+          route?: string | null
+        }
+        Update: {
+          compatibility_stability?: string[] | null
+          concentration_supplied?: string | null
+          dose?: string
+          id?: string
+          indication?: string
+          medication_id?: string | null
+          notes?: string[] | null
+          patient_type?: string
+          provider_routes?: string[] | null
+          route?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_dosing_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medication_indications: {
+        Row: {
+          id: string
+          indication_text: string
+          indication_type: string
+          medication_id: string | null
+        }
+        Insert: {
+          id?: string
+          indication_text: string
+          indication_type: string
+          medication_id?: string | null
+        }
+        Update: {
+          id?: string
+          indication_text?: string
+          indication_type?: string
+          medication_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medication_indications_medication_id_fkey"
+            columns: ["medication_id"]
+            isOneToOne: false
+            referencedRelation: "medications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      medications: {
+        Row: {
+          classification: string[] | null
+          created_at: string | null
+          high_alert: boolean | null
+          id: string
+          medication_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          classification?: string[] | null
+          created_at?: string | null
+          high_alert?: boolean | null
+          id?: string
+          medication_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          classification?: string[] | null
+          created_at?: string | null
+          high_alert?: boolean | null
+          id?: string
+          medication_name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
