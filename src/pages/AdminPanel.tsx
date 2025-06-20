@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, Plus, Database } from 'lucide-react';
+import { Shield, Plus, Database, Upload } from 'lucide-react';
 import { MedicationWizard } from '@/components/admin/MedicationWizard';
 import { MedicationsList } from '@/components/admin/MedicationsList';
+import { BulkImportManager } from '@/components/admin/BulkImportManager';
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('add');
@@ -22,10 +23,14 @@ const AdminPanel = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="add" className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
             Add Medication
+          </TabsTrigger>
+          <TabsTrigger value="import" className="flex items-center gap-2">
+            <Upload className="h-4 w-4" />
+            Bulk Import
           </TabsTrigger>
           <TabsTrigger value="manage" className="flex items-center gap-2">
             <Database className="h-4 w-4" />
@@ -44,6 +49,21 @@ const AdminPanel = () => {
             </CardHeader>
             <CardContent>
               <MedicationWizard />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="import" className="mt-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Bulk Import Medications</CardTitle>
+              <p className="text-sm text-gray-600">
+                Import multiple medications at once using CSV or JSON files. Perfect for populating 
+                your database with data from existing medication manuals.
+              </p>
+            </CardHeader>
+            <CardContent>
+              <BulkImportManager />
             </CardContent>
           </Card>
         </TabsContent>
