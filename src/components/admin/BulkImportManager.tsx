@@ -70,22 +70,23 @@ export const BulkImportManager = () => {
         const obj: any = {};
         
         headers.forEach((header, index) => {
-          let value = values[index] || '';
+          let value: any = values[index] || '';
           
-          // Handle array fields
+          // Handle array fields - convert string to array
           if (header.includes('classification') || header.includes('preparation') || 
               header.includes('administration_notes') || header.includes('monitoring') || 
               header.includes('adverse_effects') || header.includes('notes') ||
               header.includes('compatibility_stability') || header.includes('provider_routes')) {
-            value = value ? value.split(';').map(v => v.trim()) : [];
+            obj[header] = value ? value.split(';').map((v: string) => v.trim()) : [];
           }
-          
-          // Handle boolean fields
-          if (header === 'high_alert') {
-            value = value.toLowerCase() === 'true' || value === '1';
+          // Handle boolean fields - convert string to boolean
+          else if (header === 'high_alert') {
+            obj[header] = value.toLowerCase() === 'true' || value === '1';
           }
-          
-          obj[header] = value;
+          // Handle regular string fields
+          else {
+            obj[header] = value;
+          }
         });
         
         return obj;
