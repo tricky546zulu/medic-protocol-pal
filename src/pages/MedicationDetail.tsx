@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -7,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, AlertTriangle, Pills, Stethoscope, FileWarning } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, Pill, Stethoscope, FileWarning } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 const MedicationDetail = () => {
@@ -140,7 +139,7 @@ const MedicationDetail = () => {
 
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <Pills className="h-8 w-8 text-blue-600" />
+          <Pill className="h-8 w-8 text-blue-600" />
           <h1 className="text-3xl font-bold text-gray-900">{medication.medication_name}</h1>
           {medication.high_alert && (
             <Badge variant="destructive" className="flex items-center gap-1">

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Pills, Shield, Home } from 'lucide-react';
+import { Pill, Shield, Home } from 'lucide-react';
 
 export const Navigation = () => {
   const location = useLocation();
@@ -14,7 +14,7 @@ export const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2 font-bold text-xl text-blue-600">
-            <Pills className="h-6 w-6" />
+            <Pill className="h-6 w-6" />
             SK EMS Meds
           </Link>
           
@@ -34,7 +34,7 @@ export const Navigation = () => {
               asChild
             >
               <Link to="/medications" className="flex items-center gap-2">
-                <Pills className="h-4 w-4" />
+                <Pill className="h-4 w-4" />
                 Medications
               </Link>
             </Button>

@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pills, Search, Shield, Database, AlertTriangle } from "lucide-react";
+import { Pill, Search, Shield, Database, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -10,7 +10,7 @@ const Index = () => {
       {/* Hero Section */}
       <div className="text-center mb-16">
         <div className="flex justify-center mb-6">
-          <Pills className="h-16 w-16 text-blue-600" />
+          <Pill className="h-16 w-16 text-blue-600" />
         </div>
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Saskatchewan EMS Medications
@@ -39,7 +39,7 @@ const Index = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         <Card className="text-center">
           <CardHeader>
-            <Pills className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+            <Pill className="h-12 w-12 text-blue-600 mx-auto mb-4" />
             <CardTitle>Comprehensive Database</CardTitle>
           </CardHeader>
           <CardContent>
