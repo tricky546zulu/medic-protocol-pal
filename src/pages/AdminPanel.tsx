@@ -1,10 +1,9 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Shield, Plus, Database } from 'lucide-react';
-import { AddMedicationForm } from '@/components/admin/AddMedicationForm';
+import { MedicationWizard } from '@/components/admin/MedicationWizard';
 import { MedicationsList } from '@/components/admin/MedicationsList';
 
 const AdminPanel = () => {
@@ -18,7 +17,7 @@ const AdminPanel = () => {
           <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
         </div>
         <p className="text-gray-600">
-          Manage Saskatchewan EMS medication data and protocols
+          Comprehensive medication data management for Saskatchewan EMS protocols
         </p>
       </div>
 
@@ -37,10 +36,14 @@ const AdminPanel = () => {
         <TabsContent value="add" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Add New Medication</CardTitle>
+              <CardTitle>Add Complete Medication Profile</CardTitle>
+              <p className="text-sm text-gray-600">
+                Use this comprehensive wizard to add all medication information including indications, 
+                contraindications, dosing protocols, and administration details.
+              </p>
             </CardHeader>
             <CardContent>
-              <AddMedicationForm />
+              <MedicationWizard />
             </CardContent>
           </Card>
         </TabsContent>
@@ -49,6 +52,9 @@ const AdminPanel = () => {
           <Card>
             <CardHeader>
               <CardTitle>Existing Medications</CardTitle>
+              <p className="text-sm text-gray-600">
+                View and manage existing medication records in the database.
+              </p>
             </CardHeader>
             <CardContent>
               <MedicationsList />
