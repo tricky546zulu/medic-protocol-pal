@@ -183,9 +183,8 @@ const MedicationDetail = () => {
         </div>
       )}
 
-      {/* Quick Tools Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <DosingCalculator medicationName={medication.medication_name} />
+      {/* Quick Reference Section */}
+      <div className="mb-8">
         <QuickReferenceCard medication={medication} dosing={dosing || []} />
       </div>
 
