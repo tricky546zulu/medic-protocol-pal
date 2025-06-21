@@ -16,6 +16,7 @@ export interface InfusionPumpSettings {
   duration?: string;
   vtbi?: string;
   pump_instructions?: string;
+  medication_selection?: string;
 }
 
 export interface MedicationDosing {
@@ -49,4 +50,11 @@ export interface MedicationWizardData {
 export interface WizardStepProps {
   data: MedicationWizardData;
   updateData: (stepKey: keyof MedicationWizardData, data: any) => void;
+}
+
+export interface EditMedicationProps {
+  medicationId: string;
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess: () => void;
 }

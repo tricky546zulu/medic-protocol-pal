@@ -65,7 +65,7 @@ export const QuickReferenceCard = ({ medication, dosing }: QuickReferenceCardPro
                       <Badge variant="outline">{dose.route}</Badge>
                     )}
                     {dose.requires_infusion_pump && (
-                      <Badge variant="outline" className="flex items-center gap-1 text-blue-700">
+                      <Badge variant="outline" className="flex items-center gap-1 text-blue-700 border-blue-300 bg-blue-50">
                         <Syringe className="h-3 w-3" />
                         IV Pump
                       </Badge>
@@ -80,27 +80,43 @@ export const QuickReferenceCard = ({ medication, dosing }: QuickReferenceCardPro
                   </p>
                 )}
                 {dose.requires_infusion_pump && pumpSettings && (
-                  <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-xs">
-                    <div className="font-semibold text-blue-700 mb-1 flex items-center gap-1">
-                      <Syringe className="h-3 w-3" />
-                      IV Pump Settings:
+                  <div className="mt-3 p-3 bg-blue-50 border-2 border-blue-200 rounded text-xs">
+                    <div className="font-semibold text-blue-700 mb-2 flex items-center gap-1">
+                      <Syringe className="h-4 w-4" />
+                      ⚠️ IV PUMP SETTINGS:
                     </div>
+                    
+                    {pumpSettings.medication_selection && (
+                      <div className="mb-2 p-2 bg-blue-100 rounded border border-blue-300">
+                        <span className="font-bold text-blue-800">PUMP MEDICATION:</span>
+                        <div className="font-semibold text-blue-900">{pumpSettings.medication_selection}</div>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-2 gap-1">
                       {pumpSettings.cca_setting && (
-                        <div><span className="font-medium">CCA:</span> {pumpSettings.cca_setting}</div>
+                        <div className="bg-white p-1 rounded border">
+                          <span className="font-medium">CCA:</span> {pumpSettings.cca_setting}
+                        </div>
                       )}
                       {pumpSettings.line_option && (
-                        <div><span className="font-medium">Line:</span> {pumpSettings.line_option}</div>
+                        <div className="bg-white p-1 rounded border">
+                          <span className="font-medium">Line:</span> {pumpSettings.line_option}
+                        </div>
                       )}
                       {pumpSettings.duration && (
-                        <div><span className="font-medium">Duration:</span> {pumpSettings.duration}</div>
+                        <div className="bg-white p-1 rounded border">
+                          <span className="font-medium">Duration:</span> {pumpSettings.duration}
+                        </div>
                       )}
                       {pumpSettings.vtbi && (
-                        <div><span className="font-medium">VTBI:</span> {pumpSettings.vtbi}</div>
+                        <div className="bg-white p-1 rounded border">
+                          <span className="font-medium">VTBI:</span> {pumpSettings.vtbi}
+                        </div>
                       )}
                     </div>
                     {pumpSettings.pump_instructions && (
-                      <div className="mt-1 pt-1 border-t border-blue-200">
+                      <div className="mt-2 pt-2 border-t border-blue-200">
                         <span className="font-medium">Instructions:</span> {pumpSettings.pump_instructions}
                       </div>
                     )}

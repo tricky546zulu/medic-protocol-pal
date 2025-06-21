@@ -32,6 +32,7 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
       duration: '',
       vtbi: '',
       pump_instructions: '',
+      medication_selection: '',
     },
   });
 
@@ -57,6 +58,7 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
           duration: '',
           vtbi: '',
           pump_instructions: '',
+          medication_selection: '',
         },
       });
     }
@@ -224,6 +226,18 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Medication Selection for IV Pump</Label>
+                    <Input
+                      value={currentDosing.infusion_pump_settings?.medication_selection || ''}
+                      onChange={(e) => updateInfusionPumpSetting('medication_selection', e.target.value)}
+                      placeholder="e.g., Epinephrine 1:10,000 (0.1 mg/mL) - 10 mL prefilled syringe"
+                    />
+                    <p className="text-xs text-gray-600">
+                      Specify exactly which medication preparation and concentration to load into the IV pump
+                    </p>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label>CCA Setting</Label>
@@ -351,6 +365,11 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
                     {dosing.requires_infusion_pump && dosing.infusion_pump_settings && (
                       <div className="text-xs text-blue-700 bg-blue-50 p-2 rounded border">
                         <div className="font-medium mb-1">Pump Settings:</div>
+                        {dosing.infusion_pump_settings.medication_selection && (
+                          <div className="font-medium text-blue-800 mb-1">
+                            Medication: {dosing.infusion_pump_settings.medication_selection}
+                          </div>
+                        )}
                         {dosing.infusion_pump_settings.cca_setting && (
                           <div>CCA: {dosing.infusion_pump_settings.cca_setting}</div>
                         )}

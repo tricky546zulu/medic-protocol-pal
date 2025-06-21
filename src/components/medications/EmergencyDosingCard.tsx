@@ -30,9 +30,9 @@ export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCard
               </Badge>
             )}
             {dosing.requires_infusion_pump && (
-              <Badge variant="outline" className="flex items-center gap-1 bg-blue-100 border-blue-400 text-blue-800">
-                <Syringe className="h-3 w-3" />
-                IV Pump
+              <Badge variant="outline" className="flex items-center gap-1 bg-blue-100 border-blue-400 text-blue-800 font-semibold">
+                <Syringe className="h-4 w-4" />
+                IV PUMP REQUIRED
               </Badge>
             )}
           </div>
@@ -54,41 +54,50 @@ export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCard
           )}
 
           {dosing.requires_infusion_pump && pumpSettings && (
-            <div className="bg-blue-100 border border-blue-300 rounded-lg p-3">
-              <div className="flex items-center gap-2 mb-2">
-                <Syringe className="h-4 w-4 text-blue-700" />
-                <p className="text-xs font-bold text-blue-700 uppercase">IV PUMP SETTINGS</p>
+            <div className="bg-blue-100 border-2 border-blue-400 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Syringe className="h-5 w-5 text-blue-700" />
+                <p className="text-sm font-bold text-blue-700 uppercase">⚠️ IV PUMP SETTINGS</p>
               </div>
+              
+              {pumpSettings.medication_selection && (
+                <div className="mb-3 p-2 bg-blue-200 rounded border border-blue-300">
+                  <p className="text-xs font-bold text-blue-700 uppercase mb-1">PUMP MEDICATION:</p>
+                  <p className="text-sm font-semibold text-blue-900">{pumpSettings.medication_selection}</p>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 gap-2 text-xs">
                 {pumpSettings.cca_setting && (
-                  <div>
-                    <span className="font-medium text-blue-700">CCA:</span>
-                    <span className="text-blue-800 ml-1">{pumpSettings.cca_setting}</span>
+                  <div className="bg-white p-2 rounded border">
+                    <span className="font-bold text-blue-700">CCA:</span>
+                    <span className="text-blue-800 ml-1 font-semibold">{pumpSettings.cca_setting}</span>
                   </div>
                 )}
                 {pumpSettings.line_option && (
-                  <div>
-                    <span className="font-medium text-blue-700">Line:</span>
-                    <span className="text-blue-800 ml-1">{pumpSettings.line_option}</span>
+                  <div className="bg-white p-2 rounded border">
+                    <span className="font-bold text-blue-700">Line:</span>
+                    <span className="text-blue-800 ml-1 font-semibold">{pumpSettings.line_option}</span>
                   </div>
                 )}
                 {pumpSettings.duration && (
-                  <div>
-                    <span className="font-medium text-blue-700">Duration:</span>
-                    <span className="text-blue-800 ml-1">{pumpSettings.duration}</span>
+                  <div className="bg-white p-2 rounded border">
+                    <span className="font-bold text-blue-700">Duration:</span>
+                    <span className="text-blue-800 ml-1 font-semibold">{pumpSettings.duration}</span>
                   </div>
                 )}
                 {pumpSettings.vtbi && (
-                  <div>
-                    <span className="font-medium text-blue-700">VTBI:</span>
-                    <span className="text-blue-800 ml-1">{pumpSettings.vtbi}</span>
+                  <div className="bg-white p-2 rounded border">
+                    <span className="font-bold text-blue-700">VTBI:</span>
+                    <span className="text-blue-800 ml-1 font-semibold">{pumpSettings.vtbi}</span>
                   </div>
                 )}
               </div>
+              
               {pumpSettings.pump_instructions && (
-                <div className="mt-2 pt-2 border-t border-blue-200">
-                  <p className="text-xs font-medium text-blue-700 mb-1">INSTRUCTIONS:</p>
-                  <p className="text-xs text-blue-800">{pumpSettings.pump_instructions}</p>
+                <div className="mt-3 pt-2 border-t border-blue-300">
+                  <p className="text-xs font-bold text-blue-700 mb-1 uppercase">PUMP INSTRUCTIONS:</p>
+                  <p className="text-xs text-blue-800 font-medium">{pumpSettings.pump_instructions}</p>
                 </div>
               )}
             </div>

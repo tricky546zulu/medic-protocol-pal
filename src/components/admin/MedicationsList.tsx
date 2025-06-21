@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,8 +7,11 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Edit, Trash2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { EditMedicationModal } from './EditMedicationModal';
 
 export const MedicationsList = () => {
+  const [editingMedicationId, setEditingMedicationId] = useState<string | null>(null);
+
   const { data: medications, isLoading, refetch } = useQuery({
     queryKey: ['admin-medications'],
     queryFn: async () => {
@@ -51,6 +54,10 @@ export const MedicationsList = () => {
     }
   };
 
+  const handleEditSuccess = () => {
+    refetch();
+  };
+
   if (isLoading) {
     return <div className="text-center py-8">Loading medications...</div>;
   }
@@ -64,58 +71,74 @@ export const MedicationsList = () => {
   }
 
   return (
-    <div className="space-y-4">
-      {medications.map((medication) => (
-        <Card key={medication.id}>
-          <CardContent className="p-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-2 flex-wrap">
-                  <h3 className="font-semibold text-sm sm:text-base truncate max-w-full sm:max-w-md">
-                    {medication.medication_name}
-                  </h3>
-                  {medication.high_alert && (
-                    <Badge variant="destructive" className="flex items-center gap-1 shrink-0">
-                      <AlertTriangle className="h-3 w-3" />
-                      <span className="hidden sm:inline">High Alert</span>
-                      <span className="sm:hidden">Alert</span>
-                    </Badge>
-                  )}
-                </div>
-                {medication.classification && medication.classification.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    {medication.classification.slice(0, 3).map((cls, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs truncate max-w-24 sm:max-w-32">
-                        {cls}
-                      </Badge>
-                    ))}
-                    {medication.classification.length > 3 && (
-                      <Badge variant="secondary" className="text-xs">
-                        +{medication.classification.length - 3}
+    <>
+      <div className="space-y-4">
+        {medications.map((medication) => (
+          <Card key={medication.id}>
+            <CardContent className="p-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2 flex-wrap">
+                    <h3 className="font-semibold text-sm sm:text-base truncate max-w-full sm:max-w-md">
+                      {medication.medication_name}
+                    </h3>
+                    {medication.high_alert && (
+                      <Badge variant="destructive" className="flex items-center gap-1 shrink-0">
+                        <AlertTriangle className="h-3 w-3" />
+                        <span className="hidden sm:inline">High Alert</span>
+                        <span className="sm:hidden">Alert</span>
                       </Badge>
                     )}
                   </div>
-                )}
+                  {medication.classification && medication.classification.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {medication.classification.slice(0, 3).map((cls, index) => (
+                        <Badge key={index} variant="secondary" className="text-xs truncate max-w-24 sm:max-w-32">
+                          {cls}
+                        </Badge>
+                      ))}
+                      {medication.classification.length > 3 && (
+                        <Badge variant="secondary" className="text-xs">
+                          +{medication.classification.length - 3}
+                        </Badge>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="h-8 px-2 sm:px-3"
+                    onClick={() => setEditingMedicationId(medication.id)}
+                  >
+                    <Edit className="h-4 w-4" />
+                    <span className="hidden sm:ml-1 sm:inline">Edit</span>
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    className="h-8 px-2 sm:px-3"
+                    onClick={() => deleteMedication(medication.id, medication.medication_name)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    <span className="hidden sm:ml-1 sm:inline">Delete</span>
+                  </Button>
+                </div>
               </div>
-              <div className="flex gap-2 shrink-0">
-                <Button size="sm" variant="outline" className="h-8 px-2 sm:px-3">
-                  <Edit className="h-4 w-4" />
-                  <span className="hidden sm:ml-1 sm:inline">Edit</span>
-                </Button>
-                <Button 
-                  size="sm" 
-                  variant="outline"
-                  className="h-8 px-2 sm:px-3"
-                  onClick={() => deleteMedication(medication.id, medication.medication_name)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  <span className="hidden sm:ml-1 sm:inline">Delete</span>
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {editingMedicationId && (
+        <EditMedicationModal
+          medicationId={editingMedicationId}
+          isOpen={!!editingMedicationId}
+          onClose={() => setEditingMedicationId(null)}
+          onSuccess={handleEditSuccess}
+        />
+      )}
+    </>
   );
 };
