@@ -8,7 +8,6 @@ import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ArrowLeft, AlertTriangle, Pill, Stethoscope, FileWarning, ChevronDown } from 'lucide-react';
 import { PatientTypeTabs } from '@/components/medications/PatientTypeTabs';
-import { DosingCalculator } from '@/components/medications/DosingCalculator';
 import { BookmarkButton } from '@/components/medications/BookmarkButton';
 import { QuickReferenceCard } from '@/components/medications/QuickReferenceCard';
 import { toast } from '@/hooks/use-toast';
