@@ -104,7 +104,7 @@ export const IndicationsStep = ({ data, updateData }: WizardStepProps) => {
               <CardContent className="p-4">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <div className="font-medium text-blue-600 mb-1">
+                     <div className="font-medium text-primary mb-1"> {/* text-blue-600 to text-primary for theme consistency */}
                       {indication.indication_type}
                     </div>
                     <p className="text-gray-700">{indication.indication_text}</p>

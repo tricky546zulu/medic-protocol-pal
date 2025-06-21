@@ -113,7 +113,7 @@ export const AdministrationStep = ({ data, updateData }: WizardStepProps) => {
               <div className="space-y-2">
                 {data.administration[category.key].map((item, index) => (
                   <div key={index} className="flex justify-between items-start p-3 bg-gray-50 rounded-md">
-                    <p className="text-sm flex-1">{item}</p>
+                    <p className="text-sm flex-1 break-words min-w-0">{item}</p> {/* Added break-words and min-w-0 */}
                     <Button
                       variant="ghost"
                       size="sm"

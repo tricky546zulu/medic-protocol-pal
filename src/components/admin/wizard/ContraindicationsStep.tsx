@@ -49,7 +49,7 @@ export const ContraindicationsStep = ({ data, updateData }: WizardStepProps) => 
             <Card key={index}>
               <CardContent className="p-4">
                 <div className="flex justify-between items-center">
-                  <p className="text-gray-700">{contraindication}</p>
+                  <p className="text-gray-700 break-words flex-1 min-w-0">{contraindication}</p> {/* Added break-words and flex properties */}
                   <Button
                     variant="outline"
                     size="sm"

@@ -111,7 +111,9 @@ export const BulkImportManager = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   Import Preview
-                  <Badge variant="outline">{importFile.name}</Badge>
+                  <Badge variant="outline" className="truncate max-w-[250px] sm:max-w-xs md:max-w-sm">
+                    {importFile.name}
+                  </Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent>

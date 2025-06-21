@@ -225,15 +225,15 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
             <Card key={index}>
               <CardContent className="p-4">
                 <div className="flex justify-between items-start">
-                  <div className="flex-1 space-y-2">
+                  <div className="flex-1 space-y-2 min-w-0"> {/* Added min-w-0 */}
                     <div className="flex items-center gap-2">
                       <Badge variant="outline">{dosing.patient_type}</Badge>
                       {dosing.route && <Badge variant="secondary">{dosing.route}</Badge>}
                     </div>
-                    <div className="font-medium">{dosing.indication}</div>
-                    <div className="text-gray-700">{dosing.dose}</div>
+                    <div className="font-medium break-words">{dosing.indication}</div>
+                    <div className="text-gray-700 break-words">{dosing.dose}</div>
                     {dosing.concentration_supplied && (
-                      <div className="text-sm text-gray-600">
+                      <div className="text-sm text-gray-600 break-words">
                         Supplied: {dosing.concentration_supplied}
                       </div>
                     )}
