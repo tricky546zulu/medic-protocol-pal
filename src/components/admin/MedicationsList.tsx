@@ -69,7 +69,7 @@ export const MedicationsList = () => {
         <Card key={medication.id}>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
-              <div className="flex-1 min-w-0"> {/* Added min-w-0 for flex item shrink/wrap
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
                   <h3 className="font-semibold break-words">{medication.medication_name}</h3>
                   {medication.high_alert && (
