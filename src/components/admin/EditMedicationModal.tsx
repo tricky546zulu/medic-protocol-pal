@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -199,7 +198,11 @@ export const EditMedicationModal = ({ medicationId, isOpen, onClose, onSuccess }
 
       if (medicationData.dosing.length > 0) {
         const { error } = await supabase.from('medication_dosing').insert(
-          medicationData.dosing.map(dose => ({ ...dose, medication_id: medicationId }))
+          medicationData.dosing.map(dose => ({ 
+            ...dose, 
+            medication_id: medicationId,
+            infusion_pump_settings: dose.infusion_pump_settings as any
+          }))
         );
         if (error) throw error;
       }
