@@ -138,7 +138,7 @@ export const ReviewStep = ({ data }: WizardStepProps) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            <div><strong>Name:</strong> {data.basic.medication_name}</div>
+            <div><strong>Name:</strong> <span className="break-words">{data.basic.medication_name}</span></div>
             {data.basic.classification.length > 0 && (
               <div>
                 <strong>Classifications:</strong>
@@ -171,7 +171,7 @@ export const ReviewStep = ({ data }: WizardStepProps) => {
               {data.indications.map((indication, index) => (
                 <div key={index} className="p-2 bg-gray-50 rounded">
                   <Badge variant="outline" className="mb-1">{indication.indication_type}</Badge>
-                  <p className="text-sm">{indication.indication_text}</p>
+                  <p className="text-sm break-words">{indication.indication_text}</p>
                 </div>
               ))}
             </div>
@@ -190,7 +190,7 @@ export const ReviewStep = ({ data }: WizardStepProps) => {
           {data.contraindications.length > 0 ? (
             <ul className="space-y-1">
               {data.contraindications.map((contraindication, index) => (
-                <li key={index} className="text-sm">• {contraindication}</li>
+                <li key={index} className="text-sm break-words">• {contraindication}</li>
               ))}
             </ul>
           ) : (
@@ -220,10 +220,10 @@ export const ReviewStep = ({ data }: WizardStepProps) => {
                     <Badge variant="outline">{dosing.patient_type}</Badge>
                     {dosing.route && <Badge variant="secondary">{dosing.route}</Badge>}
                   </div>
-                  <div className="font-medium mb-1">{dosing.indication}</div>
-                  <div className="text-sm text-gray-700">{dosing.dose}</div>
+                  <div className="font-medium mb-1 break-words">{dosing.indication}</div>
+                  <div className="text-sm text-gray-700 break-words">{dosing.dose}</div>
                   {dosing.concentration_supplied && (
-                    <div className="text-sm text-gray-600 mt-1">
+                    <div className="text-sm text-gray-600 mt-1 break-words">
                       Supplied: {dosing.concentration_supplied}
                     </div>
                   )}
@@ -258,7 +258,7 @@ export const ReviewStep = ({ data }: WizardStepProps) => {
                   <h4 className="font-medium mb-2">{titles[key as keyof typeof titles]}</h4>
                   <ul className="space-y-1">
                     {items.map((item, index) => (
-                      <li key={index} className="text-sm">• {item}</li>
+                      <li key={index} className="text-sm break-words">• {item}</li>
                     ))}
                   </ul>
                 </div>
