@@ -15,7 +15,7 @@ const AdminPanel = () => {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
           <Shield className="h-8 w-8 text-primary" /> {/* Updated to use theme primary color */}
-          <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Panel</h1>
         </div>
         <p className="text-gray-600">
           Comprehensive medication data management for Saskatchewan EMS protocols
@@ -23,7 +23,7 @@ const AdminPanel = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
           <TabsTrigger value="add" className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
             Add Medication

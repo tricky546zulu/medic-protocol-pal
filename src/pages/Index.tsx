@@ -10,12 +10,12 @@ const Index = () => {
       {/* Hero Section */}
       <div className="text-center mb-16">
         <div className="flex justify-center mb-6">
-          <Pill className="h-16 w-16 text-blue-600" />
+          <Pill className="h-16 w-16 text-primary" />
         </div>
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
           Saskatchewan EMS Medications
         </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
           Comprehensive digital reference for provincial emergency medical services 
           medication protocols, dosing guidelines, and administration procedures.
         </p>
@@ -39,7 +39,7 @@ const Index = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         <Card className="text-center">
           <CardHeader>
-            <Pill className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+            <Pill className="h-12 w-12 text-primary mx-auto mb-4" />
             <CardTitle>Comprehensive Database</CardTitle>
           </CardHeader>
           <CardContent>
@@ -52,7 +52,7 @@ const Index = () => {
 
         <Card className="text-center">
           <CardHeader>
-            <Search className="h-12 w-12 text-green-600 mx-auto mb-4" />
+            <Search className="h-12 w-12 text-primary mx-auto mb-4" /> {/* Or another semantic color if appropriate */}
             <CardTitle>Quick Search</CardTitle>
           </CardHeader>
           <CardContent>
@@ -65,7 +65,7 @@ const Index = () => {
 
         <Card className="text-center">
           <CardHeader>
-            <AlertTriangle className="h-12 w-12 text-red-600 mx-auto mb-4" />
+            <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
             <CardTitle>Safety Alerts</CardTitle>
           </CardHeader>
           <CardContent>
@@ -79,7 +79,7 @@ const Index = () => {
 
       {/* Quick Stats */}
       <div className="bg-blue-50 rounded-lg p-8 text-center">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
           Provincial EMS Medication Protocols
         </h2>
         <p className="text-gray-700 mb-6">
@@ -88,15 +88,15 @@ const Index = () => {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white rounded-lg p-4">
-            <div className="text-3xl font-bold text-blue-600 mb-2">Adult</div>
+            <div className="text-3xl font-bold text-primary mb-2">Adult</div> {/* text-blue-600 -> text-primary */}
             <div className="text-gray-600">Patient Protocols</div>
           </div>
           <div className="bg-white rounded-lg p-4">
-            <div className="text-3xl font-bold text-green-600 mb-2">Pediatric</div>
+            <div className="text-3xl font-bold text-primary mb-2">Pediatric</div> {/* text-green-600 -> text-primary */}
             <div className="text-gray-600">Dosing Guidelines</div>
           </div>
           <div className="bg-white rounded-lg p-4">
-            <div className="text-3xl font-bold text-red-600 mb-2">High-Alert</div>
+            <div className="text-3xl font-bold text-destructive mb-2">High-Alert</div> {/* text-red-600 -> text-destructive */}
             <div className="text-gray-600">Safety Protocols</div>
           </div>
         </div>
