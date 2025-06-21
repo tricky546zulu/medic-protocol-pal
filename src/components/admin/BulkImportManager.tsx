@@ -83,20 +83,24 @@ export const BulkImportManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4"> {/* Updated for mobile stacking */}
+      <div className="flex flex-col xs:flex-row gap-2">
         <Button
           variant={activeTab === 'upload' ? 'default' : 'outline'}
           onClick={() => setActiveTab('upload')}
+          className="flex items-center gap-2 text-sm"
         >
-          <FileUp className="h-4 w-4 mr-2" />
-          Upload & Import
+          <FileUp className="h-4 w-4" />
+          <span className="hidden xs:inline">Upload & Import</span>
+          <span className="xs:hidden">Upload</span>
         </Button>
         <Button
           variant={activeTab === 'templates' ? 'default' : 'outline'}
           onClick={() => setActiveTab('templates')}
+          className="flex items-center gap-2 text-sm"
         >
-          <Download className="h-4 w-4 mr-2" />
-          Templates & Examples
+          <Download className="h-4 w-4" />
+          <span className="hidden xs:inline">Templates & Examples</span>
+          <span className="xs:hidden">Templates</span>
         </Button>
       </div>
 
@@ -109,9 +113,9 @@ export const BulkImportManager = () => {
           {importFile && !importResult && (
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  Import Preview
-                  <Badge variant="outline" className="truncate max-w-[250px] sm:max-w-xs md:max-w-sm">
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <span className="shrink-0">Import Preview</span>
+                  <Badge variant="outline" className="truncate max-w-32 sm:max-w-48 md:max-w-64">
                     {importFile.name}
                   </Badge>
                 </CardTitle>
@@ -126,13 +130,14 @@ export const BulkImportManager = () => {
                       validationResults={validationResults}
                       onDataChange={setImportData}
                     />
-                    <div className="flex justify-between mt-4">
-                      <Button variant="outline" onClick={resetImport}>
+                    <div className="flex flex-col sm:flex-row justify-between gap-4 mt-4">
+                      <Button variant="outline" onClick={resetImport} className="order-2 sm:order-1">
                         Cancel
                       </Button>
                       <Button 
                         onClick={processImport} 
                         disabled={importData.length === 0}
+                        className="order-1 sm:order-2"
                       >
                         Import {importData.length} Medications
                       </Button>

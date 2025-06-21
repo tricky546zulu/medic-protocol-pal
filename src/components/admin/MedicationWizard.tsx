@@ -13,12 +13,21 @@ import { ReviewStep } from './wizard/ReviewStep';
 import type { MedicationWizardData } from './wizard/types';
 
 const steps = [
-  { id: 'basic', title: 'Basic Information', component: BasicInfoStep },
-  { id: 'indications', title: 'Indications', component: IndicationsStep },
-  { id: 'contraindications', title: 'Contraindications', component: ContraindicationsStep },
-  { id: 'dosing', title: 'Dosing & Routes', component: DosingStep },
-  { id: 'administration', title: 'Administration', component: AdministrationStep },
-  { id: 'review', title: 'Review & Submit', component: ReviewStep },
+  { id: 'basic', title: 'Basic Information', shortTitle: 'Basic' },
+  { id: 'indications', title: 'Indications', shortTitle: 'Indications' },
+  { id: 'contraindications', title: 'Contraindications', shortTitle: 'Contra' },
+  { id: 'dosing', title: 'Dosing & Routes', shortTitle: 'Dosing' },
+  { id: 'administration', title: 'Administration', shortTitle: 'Admin' },
+  { id: 'review', title: 'Review & Submit', shortTitle: 'Review' },
+];
+
+const stepComponents = [
+  BasicInfoStep,
+  IndicationsStep,
+  ContraindicationsStep,
+  DosingStep,
+  AdministrationStep,
+  ReviewStep,
 ];
 
 export const MedicationWizard = () => {
@@ -78,45 +87,50 @@ export const MedicationWizard = () => {
     }
   };
 
-  const CurrentStepComponent = steps[currentStep].component;
+  const CurrentStepComponent = stepComponents[currentStep];
 
   return (
     <div className="space-y-6">
       {/* Progress Indicator */}
-      <div className="flex items-center justify-between">
-        {steps.map((step, index) => (
-          <div key={step.id} className="flex items-center">
-            <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
-              index < currentStep 
-                ? 'bg-green-600 text-white' // Completed step color
-                : index === currentStep 
-                ? 'bg-primary text-primary-foreground' // Active step uses theme primary
-                : 'bg-gray-200 text-gray-600' // Future step color
-            }`}>
-              {index < currentStep ? <Check className="h-4 w-4" /> : index + 1}
+      <div className="w-full overflow-x-auto">
+        <div className="flex items-center justify-between min-w-fit px-2">
+          {steps.map((step, index) => (
+            <div key={step.id} className="flex items-center">
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium shrink-0 ${
+                index < currentStep 
+                  ? 'bg-green-600 text-white'
+                  : index === currentStep 
+                  ? 'bg-primary text-primary-foreground'
+                  : 'bg-gray-200 text-gray-600'
+              }`}>
+                {index < currentStep ? <Check className="h-4 w-4" /> : index + 1}
+              </div>
+              <span className={`ml-2 text-sm whitespace-nowrap ${
+                index <= currentStep ? 'text-gray-900' : 'text-gray-500'
+              } hidden sm:inline`}>
+                {step.title}
+              </span>
+              <span className={`ml-2 text-xs whitespace-nowrap ${
+                index <= currentStep ? 'text-gray-900' : 'text-gray-500'
+              } sm:hidden`}>
+                {step.shortTitle}
+              </span>
+              {index < steps.length - 1 && (
+                <div className={`w-8 sm:w-12 h-px mx-2 sm:mx-4 shrink-0 ${
+                  index < currentStep ? 'bg-green-600' : 'bg-gray-200'
+                }`} />
+              )}
             </div>
-            {/* Hide step titles on very small screens */}
-            <span className={`ml-2 text-sm hidden sm:inline ${
-              index <= currentStep ? 'text-gray-900' : 'text-gray-500'
-            }`}>
-              {step.title}
-            </span>
-            {index < steps.length - 1 && (
-              // Hide connecting lines on very small screens if titles are hidden, or make them shorter
-              <div className={`w-12 h-px mx-2 sm:mx-4 ${
-                index < currentStep ? 'bg-green-600' : 'bg-gray-200'
-              }`} />
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Current Step Content */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Badge variant="outline">{currentStep + 1} of {steps.length}</Badge>
-            {steps[currentStep].title}
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+            <Badge variant="outline" className="shrink-0">{currentStep + 1} of {steps.length}</Badge>
+            <span className="truncate">{steps[currentStep].title}</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -136,14 +150,16 @@ export const MedicationWizard = () => {
           className="flex items-center gap-2"
         >
           <ChevronLeft className="h-4 w-4" />
-          Previous
+          <span className="hidden sm:inline">Previous</span>
+          <span className="sm:hidden">Prev</span>
         </Button>
         <Button
           onClick={nextStep}
           disabled={!canProceed() || currentStep === steps.length - 1}
           className="flex items-center gap-2"
         >
-          Next
+          <span className="hidden sm:inline">Next</span>
+          <span className="sm:hidden">Next</span>
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>

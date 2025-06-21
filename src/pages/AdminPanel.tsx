@@ -11,38 +11,40 @@ const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('add');
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <Shield className="h-8 w-8 text-primary" /> {/* Updated to use theme primary color */}
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Panel</h1>
+          <Shield className="h-8 w-8 text-primary shrink-0" />
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 break-words">
+            Admin Panel
+          </h1>
         </div>
-        <p className="text-gray-600">
+        <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
           Comprehensive medication data management for Saskatchewan EMS protocols
         </p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
-          <TabsTrigger value="add" className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            Add Medication
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto sm:h-10">
+          <TabsTrigger value="add" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
+            <Plus className="h-4 w-4 shrink-0" />
+            <span className="truncate">Add Medication</span>
           </TabsTrigger>
-          <TabsTrigger value="import" className="flex items-center gap-2">
-            <Upload className="h-4 w-4" />
-            Bulk Import
+          <TabsTrigger value="import" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
+            <Upload className="h-4 w-4 shrink-0" />
+            <span className="truncate">Bulk Import</span>
           </TabsTrigger>
-          <TabsTrigger value="manage" className="flex items-center gap-2">
-            <Database className="h-4 w-4" />
-            Manage Data
+          <TabsTrigger value="manage" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
+            <Database className="h-4 w-4 shrink-0" />
+            <span className="truncate">Manage Data</span>
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="add" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Add Complete Medication Profile</CardTitle>
-              <p className="text-sm text-gray-600">
+              <CardTitle className="text-lg sm:text-xl">Add Complete Medication Profile</CardTitle>
+              <p className="text-sm text-gray-600 leading-relaxed">
                 Use this comprehensive wizard to add all medication information including indications, 
                 contraindications, dosing protocols, and administration details.
               </p>
@@ -56,8 +58,8 @@ const AdminPanel = () => {
         <TabsContent value="import" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Bulk Import Medications</CardTitle>
-              <p className="text-sm text-gray-600">
+              <CardTitle className="text-lg sm:text-xl">Bulk Import Medications</CardTitle>
+              <p className="text-sm text-gray-600 leading-relaxed">
                 Import multiple medications at once using CSV or JSON files. Perfect for populating 
                 your database with data from existing medication manuals.
               </p>
@@ -71,8 +73,8 @@ const AdminPanel = () => {
         <TabsContent value="manage" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Existing Medications</CardTitle>
-              <p className="text-sm text-gray-600">
+              <CardTitle className="text-lg sm:text-xl">Existing Medications</CardTitle>
+              <p className="text-sm text-gray-600 leading-relaxed">
                 View and manage existing medication records in the database.
               </p>
             </CardHeader>
