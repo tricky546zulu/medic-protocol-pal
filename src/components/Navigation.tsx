@@ -1,24 +1,48 @@
 
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Pill, Shield, Home, Menu, X } from 'lucide-react'; // Added Menu and X icons
+import { Pill, Shield, Home, Menu, X, LogOut, User } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const Navigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, signOut, isLoading } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
   const navLinks = [
     { path: '/', label: 'Home', icon: Home },
     { path: '/medications', label: 'Medications', icon: Pill },
-    { path: '/admin', label: 'Admin', icon: Shield },
+    ...(user ? [{ path: '/admin', label: 'Admin', icon: Shield }] : []),
   ];
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
+
+  if (isLoading) {
+    return (
+      <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <Link to="/" className="flex items-center gap-2 font-bold text-xl text-primary">
+              <Pill className="h-6 w-6" />
+              SK EMS Meds
+            </Link>
+            <div>Loading...</div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
@@ -43,6 +67,23 @@ export const Navigation = () => {
                 </Link>
               </Button>
             ))}
+            
+            {user ? (
+              <div className="flex items-center gap-2 ml-4">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <User className="h-4 w-4" />
+                  {user.email}
+                </div>
+                <Button variant="outline" size="sm" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <Button asChild className="ml-4">
+                <Link to="/auth">Sign In</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -61,10 +102,10 @@ export const Navigation = () => {
             {navLinks.map(link => (
               <Button
                 key={link.path}
-                variant={isActive(link.path) ? 'secondary' : 'ghost'} // Use secondary for active on mobile for better UX
+                variant={isActive(link.path) ? 'secondary' : 'ghost'}
                 className="w-full justify-start"
                 asChild
-                onClick={() => setIsMobileMenuOpen(false)} // Close menu on link click
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 <Link to={link.path} className="flex items-center gap-3 py-2 text-base">
                   <link.icon className="h-5 w-5" />
@@ -72,6 +113,36 @@ export const Navigation = () => {
                 </Link>
               </Button>
             ))}
+            
+            {user ? (
+              <div className="pt-2 border-t">
+                <div className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600">
+                  <User className="h-4 w-4" />
+                  {user.email}
+                </div>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                  onClick={() => {
+                    handleSignOut();
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  <LogOut className="h-4 w-4 mr-3" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div className="pt-2 border-t">
+                <Button
+                  className="w-full"
+                  asChild
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Link to="/auth">Sign In</Link>
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       )}
