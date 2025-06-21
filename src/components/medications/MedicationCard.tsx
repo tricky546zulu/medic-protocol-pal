@@ -38,8 +38,8 @@ export const MedicationCard = ({ medication }: MedicationCardProps) => {
           <div className="mb-3">
             <p className="text-sm font-medium text-gray-700 mb-2">Classification:</p>
             <div className="flex flex-wrap gap-1">
-              {medication.classification.map((cls, index) => (
-                <Badge key={index} variant="secondary" className="text-xs">
+              {medication.classification.map((cls) => (
+                <Badge key={cls} variant="secondary" className="text-xs">
                   {cls}
                 </Badge>
               ))}
