@@ -88,20 +88,22 @@ export const MedicationWizard = () => {
           <div key={step.id} className="flex items-center">
             <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
               index < currentStep 
-                ? 'bg-green-600 text-white' 
+                ? 'bg-green-600 text-white' // Completed step color
                 : index === currentStep 
-                ? 'bg-blue-600 text-white' 
-                : 'bg-gray-200 text-gray-600'
+                ? 'bg-primary text-primary-foreground' // Active step uses theme primary
+                : 'bg-gray-200 text-gray-600' // Future step color
             }`}>
               {index < currentStep ? <Check className="h-4 w-4" /> : index + 1}
             </div>
-            <span className={`ml-2 text-sm ${
+            {/* Hide step titles on very small screens */}
+            <span className={`ml-2 text-sm hidden sm:inline ${
               index <= currentStep ? 'text-gray-900' : 'text-gray-500'
             }`}>
               {step.title}
             </span>
             {index < steps.length - 1 && (
-              <div className={`w-12 h-px mx-4 ${
+              // Hide connecting lines on very small screens if titles are hidden, or make them shorter
+              <div className={`w-12 h-px mx-2 sm:mx-4 ${
                 index < currentStep ? 'bg-green-600' : 'bg-gray-200'
               }`} />
             )}
