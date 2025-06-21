@@ -40,7 +40,7 @@ export const MedicationWizard = () => {
     },
   });
 
-  const updateData = (stepKey: keyof MedicationWizardData, data: any) => {
+  const updateData = <K extends keyof MedicationWizardData>(stepKey: K, data: MedicationWizardData[K]) => {
     setMedicationData(prev => ({
       ...prev,
       [stepKey]: data,
