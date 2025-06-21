@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -6,7 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, X } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Plus, Trash2, X, Syringe } from 'lucide-react';
 import type { WizardStepProps, MedicationDosing } from './types';
 
 const patientTypes = ['Adult', 'Pediatric', 'Neonate', 'Geriatric'];
@@ -22,11 +25,18 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
     concentration_supplied: '',
     compatibility_stability: [],
     notes: [],
+    requires_infusion_pump: false,
+    infusion_pump_settings: {
+      cca_setting: '',
+      line_option: 'A',
+      duration: '',
+      vtbi: '',
+      pump_instructions: '',
+    },
   });
 
   const [newRoute, setNewRoute] = useState('');
   const [newNote, setNewNote] = useState('');
-  const [newCompatibility, setNewCompatibility] = useState('');
 
   const addDosing = () => {
     if (currentDosing.patient_type && currentDosing.indication && currentDosing.dose) {
@@ -40,6 +50,14 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
         concentration_supplied: '',
         compatibility_stability: [],
         notes: [],
+        requires_infusion_pump: false,
+        infusion_pump_settings: {
+          cca_setting: '',
+          line_option: 'A',
+          duration: '',
+          vtbi: '',
+          pump_instructions: '',
+        },
       });
     }
   };
@@ -75,14 +93,14 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
     }
   };
 
-  const addCompatibility = () => {
-    if (newCompatibility.trim()) {
-      setCurrentDosing({
-        ...currentDosing,
-        compatibility_stability: [...(currentDosing.compatibility_stability || []), newCompatibility.trim()],
-      });
-      setNewCompatibility('');
-    }
+  const updateInfusionPumpSetting = (field: string, value: string) => {
+    setCurrentDosing({
+      ...currentDosing,
+      infusion_pump_settings: {
+        ...currentDosing.infusion_pump_settings,
+        [field]: value,
+      },
+    });
   };
 
   return (
@@ -180,6 +198,93 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
             />
           </div>
 
+          {/* IV Infusion Pump Section */}
+          <div className="space-y-4 border-t pt-4">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="requires_pump"
+                checked={currentDosing.requires_infusion_pump}
+                onCheckedChange={(checked) => setCurrentDosing({
+                  ...currentDosing,
+                  requires_infusion_pump: checked as boolean,
+                })}
+              />
+              <Label htmlFor="requires_pump" className="flex items-center gap-2">
+                <Syringe className="h-4 w-4" />
+                Requires IV Infusion Pump
+              </Label>
+            </div>
+
+            {currentDosing.requires_infusion_pump && (
+              <Card className="bg-blue-50 border-blue-200">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Syringe className="h-4 w-4" />
+                    Infusion Pump Settings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>CCA Setting</Label>
+                      <Input
+                        value={currentDosing.infusion_pump_settings?.cca_setting || ''}
+                        onChange={(e) => updateInfusionPumpSetting('cca_setting', e.target.value)}
+                        placeholder="e.g., 5 mcg/kg/min"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Line Selection</Label>
+                      <RadioGroup
+                        value={currentDosing.infusion_pump_settings?.line_option || 'A'}
+                        onValueChange={(value) => updateInfusionPumpSetting('line_option', value)}
+                        className="flex flex-row space-x-4"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="A" id="lineA" />
+                          <Label htmlFor="lineA">Line A</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="B" id="lineB" />
+                          <Label htmlFor="lineB">Line B</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>Duration</Label>
+                      <Input
+                        value={currentDosing.infusion_pump_settings?.duration || ''}
+                        onChange={(e) => updateInfusionPumpSetting('duration', e.target.value)}
+                        placeholder="e.g., 30 minutes"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>VTBI (Volume to be Infused)</Label>
+                      <Input
+                        value={currentDosing.infusion_pump_settings?.vtbi || ''}
+                        onChange={(e) => updateInfusionPumpSetting('vtbi', e.target.value)}
+                        placeholder="e.g., 250 mL"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>Additional Pump Instructions</Label>
+                    <Textarea
+                      value={currentDosing.infusion_pump_settings?.pump_instructions || ''}
+                      onChange={(e) => updateInfusionPumpSetting('pump_instructions', e.target.value)}
+                      placeholder="Any additional instructions for pump setup or monitoring"
+                      rows={2}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+
           {/* Provider Routes */}
           <div className="space-y-2">
             <Label>Additional Provider Routes</Label>
@@ -225,16 +330,39 @@ export const DosingStep = ({ data, updateData }: WizardStepProps) => {
             <Card key={index}>
               <CardContent className="p-4">
                 <div className="flex justify-between items-start">
-                  <div className="flex-1 space-y-2 min-w-0"> {/* Added min-w-0 */}
-                    <div className="flex items-center gap-2">
+                  <div className="flex-1 space-y-2 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <Badge variant="outline">{dosing.patient_type}</Badge>
                       {dosing.route && <Badge variant="secondary">{dosing.route}</Badge>}
+                      {dosing.requires_infusion_pump && (
+                        <Badge variant="outline" className="flex items-center gap-1 bg-blue-100 border-blue-300">
+                          <Syringe className="h-3 w-3" />
+                          IV Pump Required
+                        </Badge>
+                      )}
                     </div>
                     <div className="font-medium break-words">{dosing.indication}</div>
                     <div className="text-gray-700 break-words">{dosing.dose}</div>
                     {dosing.concentration_supplied && (
                       <div className="text-sm text-gray-600 break-words">
                         Supplied: {dosing.concentration_supplied}
+                      </div>
+                    )}
+                    {dosing.requires_infusion_pump && dosing.infusion_pump_settings && (
+                      <div className="text-xs text-blue-700 bg-blue-50 p-2 rounded border">
+                        <div className="font-medium mb-1">Pump Settings:</div>
+                        {dosing.infusion_pump_settings.cca_setting && (
+                          <div>CCA: {dosing.infusion_pump_settings.cca_setting}</div>
+                        )}
+                        {dosing.infusion_pump_settings.line_option && (
+                          <div>Line: {dosing.infusion_pump_settings.line_option}</div>
+                        )}
+                        {dosing.infusion_pump_settings.duration && (
+                          <div>Duration: {dosing.infusion_pump_settings.duration}</div>
+                        )}
+                        {dosing.infusion_pump_settings.vtbi && (
+                          <div>VTBI: {dosing.infusion_pump_settings.vtbi}</div>
+                        )}
                       </div>
                     )}
                   </div>

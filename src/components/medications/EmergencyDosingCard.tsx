@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, Syringe } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
 
 type MedicationDosing = Database['public']['Tables']['medication_dosing']['Row'];
@@ -13,6 +13,8 @@ interface EmergencyDosingCardProps {
 }
 
 export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCardProps) => {
+  const pumpSettings = dosing.infusion_pump_settings as any;
+
   return (
     <Card className={`border-2 ${isHighAlert ? 'border-red-500 bg-red-50' : 'border-blue-500 bg-blue-50'}`}>
       <CardHeader className="pb-3">
@@ -25,6 +27,12 @@ export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCard
             {dosing.route && (
               <Badge variant="secondary" className="font-semibold">
                 {dosing.route}
+              </Badge>
+            )}
+            {dosing.requires_infusion_pump && (
+              <Badge variant="outline" className="flex items-center gap-1 bg-blue-100 border-blue-400 text-blue-800">
+                <Syringe className="h-3 w-3" />
+                IV Pump
               </Badge>
             )}
           </div>
@@ -42,6 +50,47 @@ export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCard
             <div className="text-center p-3 bg-gray-100 rounded-lg">
               <p className="text-xs font-medium text-gray-600 mb-1">CONCENTRATION</p>
               <p className="text-lg font-semibold text-gray-800">{dosing.concentration_supplied}</p>
+            </div>
+          )}
+
+          {dosing.requires_infusion_pump && pumpSettings && (
+            <div className="bg-blue-100 border border-blue-300 rounded-lg p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Syringe className="h-4 w-4 text-blue-700" />
+                <p className="text-xs font-bold text-blue-700 uppercase">IV PUMP SETTINGS</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                {pumpSettings.cca_setting && (
+                  <div>
+                    <span className="font-medium text-blue-700">CCA:</span>
+                    <span className="text-blue-800 ml-1">{pumpSettings.cca_setting}</span>
+                  </div>
+                )}
+                {pumpSettings.line_option && (
+                  <div>
+                    <span className="font-medium text-blue-700">Line:</span>
+                    <span className="text-blue-800 ml-1">{pumpSettings.line_option}</span>
+                  </div>
+                )}
+                {pumpSettings.duration && (
+                  <div>
+                    <span className="font-medium text-blue-700">Duration:</span>
+                    <span className="text-blue-800 ml-1">{pumpSettings.duration}</span>
+                  </div>
+                )}
+                {pumpSettings.vtbi && (
+                  <div>
+                    <span className="font-medium text-blue-700">VTBI:</span>
+                    <span className="text-blue-800 ml-1">{pumpSettings.vtbi}</span>
+                  </div>
+                )}
+              </div>
+              {pumpSettings.pump_instructions && (
+                <div className="mt-2 pt-2 border-t border-blue-200">
+                  <p className="text-xs font-medium text-blue-700 mb-1">INSTRUCTIONS:</p>
+                  <p className="text-xs text-blue-800">{pumpSettings.pump_instructions}</p>
+                </div>
+              )}
             </div>
           )}
 

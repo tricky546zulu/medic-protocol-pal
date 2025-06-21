@@ -77,10 +77,12 @@ export type Database = {
           dose: string
           id: string
           indication: string
+          infusion_pump_settings: Json | null
           medication_id: string | null
           notes: string[] | null
           patient_type: string
           provider_routes: string[] | null
+          requires_infusion_pump: boolean | null
           route: string | null
         }
         Insert: {
@@ -89,10 +91,12 @@ export type Database = {
           dose: string
           id?: string
           indication: string
+          infusion_pump_settings?: Json | null
           medication_id?: string | null
           notes?: string[] | null
           patient_type: string
           provider_routes?: string[] | null
+          requires_infusion_pump?: boolean | null
           route?: string | null
         }
         Update: {
@@ -101,10 +105,12 @@ export type Database = {
           dose?: string
           id?: string
           indication?: string
+          infusion_pump_settings?: Json | null
           medication_id?: string | null
           notes?: string[] | null
           patient_type?: string
           provider_routes?: string[] | null
+          requires_infusion_pump?: boolean | null
           route?: string | null
         }
         Relationships: [

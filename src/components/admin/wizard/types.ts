@@ -10,6 +10,14 @@ export interface MedicationIndication {
   indication_text: string;
 }
 
+export interface InfusionPumpSettings {
+  cca_setting?: string;
+  line_option?: 'A' | 'B';
+  duration?: string;
+  vtbi?: string;
+  pump_instructions?: string;
+}
+
 export interface MedicationDosing {
   patient_type: string;
   indication: string;
@@ -19,6 +27,8 @@ export interface MedicationDosing {
   concentration_supplied?: string;
   compatibility_stability?: string[];
   notes?: string[];
+  requires_infusion_pump?: boolean;
+  infusion_pump_settings?: InfusionPumpSettings;
 }
 
 export interface MedicationAdministration {
