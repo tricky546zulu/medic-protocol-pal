@@ -22,7 +22,7 @@ export const MedicationCard = ({ medication }: MedicationCardProps) => {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
-            <Pill className="h-5 w-5 text-blue-600" />
+            <Pill className="h-5 w-5 text-primary" /> {/* Updated to use theme primary color */}
             {medication.medication_name}
           </CardTitle>
           {medication.high_alert && (

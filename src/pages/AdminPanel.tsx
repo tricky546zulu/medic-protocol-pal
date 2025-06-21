@@ -14,7 +14,7 @@ const AdminPanel = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
-          <Shield className="h-8 w-8 text-blue-600" />
+          <Shield className="h-8 w-8 text-primary" /> {/* Updated to use theme primary color */}
           <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
         </div>
         <p className="text-gray-600">
