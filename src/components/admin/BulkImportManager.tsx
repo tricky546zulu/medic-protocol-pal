@@ -83,7 +83,7 @@ export const BulkImportManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex space-x-4">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-4"> {/* Updated for mobile stacking */}
         <Button
           variant={activeTab === 'upload' ? 'default' : 'outline'}
           onClick={() => setActiveTab('upload')}
