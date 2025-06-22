@@ -58,17 +58,9 @@ const Medications = () => {
     setShowFavoritesOnly(false);
   };
 
+  // Simplified filter change handler that directly passes to the hook
   const handleFilterChange = (key: string, value: string | boolean) => {
-    // Create type-safe filter change handler with explicit type checking
-    if (key === 'highAlert' && typeof value === 'boolean') {
-      filtersHook.handleFilterChange('highAlert', value);
-    } else if (key === 'patientType' && typeof value === 'string') {
-      filtersHook.handleFilterChange('patientType', value);
-    } else if (key === 'classification' && typeof value === 'string') {
-      filtersHook.handleFilterChange('classification', value);
-    } else if (key === 'route' && typeof value === 'string') {
-      filtersHook.handleFilterChange('route', value);
-    }
+    filtersHook.handleFilterChange(key, value);
   };
 
   const totalActiveFilters = filtersHook.activeFiltersCount + (showFavoritesOnly ? 1 : 0);
