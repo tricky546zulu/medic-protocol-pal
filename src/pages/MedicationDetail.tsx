@@ -92,16 +92,16 @@ const MedicationDetail = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
         <div className="container mx-auto px-4 py-8">
-          <div className="animate-pulse space-y-6">
-            <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+          <div className="animate-pulse space-y-4">
+            <div className="h-6 bg-gray-200 rounded w-1/3"></div>
             <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {[...Array(4)].map((_, i) => (
-                <Card key={i} className="border-0 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
-                  <CardHeader className="p-6">
-                    <div className="h-6 bg-gray-200 rounded"></div>
+                <Card key={i} className="border-0 shadow-lg bg-white rounded-xl">
+                  <CardHeader className="p-4">
+                    <div className="h-5 bg-gray-200 rounded"></div>
                   </CardHeader>
-                  <CardContent className="p-6">
+                  <CardContent className="p-4">
                     <div className="space-y-2">
                       <div className="h-4 bg-gray-200 rounded"></div>
                       <div className="h-4 bg-gray-200 rounded w-3/4"></div>
@@ -120,10 +120,10 @@ const MedicationDetail = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
         <div className="container mx-auto px-4 py-8 text-center">
-          <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl py-12">
-            <CardContent className="p-6">
+          <Card className="border-0 shadow-lg bg-white rounded-xl py-8">
+            <CardContent className="p-4">
               <p className="text-gray-500 mb-4">Medication not found.</p>
-              <Button onClick={() => navigate('/medications')} className="rounded-xl">
+              <Button onClick={() => navigate('/medications')} className="rounded-lg">
                 Back to Medications
               </Button>
             </CardContent>
@@ -139,25 +139,25 @@ const MedicationDetail = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate('/medications')}
-          className="mb-6 flex items-center gap-2 hover:bg-white/50 rounded-xl transition-all duration-200"
+          className="mb-4 flex items-center gap-2 hover:bg-white/50 rounded-lg transition-all duration-200"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Medications
         </Button>
 
         {/* Emergency Header */}
-        <div className={`mb-8 p-6 rounded-2xl shadow-xl bg-white/95 backdrop-blur-sm border-0 ${medication.high_alert ? 'border-l-4 border-l-red-500' : 'border-l-4 border-l-primary'}`}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className={`mb-6 p-4 rounded-xl shadow-lg bg-white border-0 ${medication.high_alert ? 'border-l-4 border-l-red-500' : 'border-l-4 border-l-primary'}`}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0 flex-1">
-              <div className="flex-shrink-0 p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl">
-                <Pill className="h-10 w-10 text-primary" />
+              <div className="flex-shrink-0 p-2 bg-primary/10 rounded-lg">
+                <Pill className="h-6 w-6 text-primary" />
               </div>
               <div className="min-w-0 flex-1">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 break-words">{medication.medication_name}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 break-words">{medication.medication_name}</h1>
                 {medication.classification && medication.classification.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {medication.classification.map((cls, index) => (
-                      <Badge key={index} variant="secondary" className="text-sm bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg border border-gray-200">
+                      <Badge key={index} variant="secondary" className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-md border border-gray-200">
                         {cls}
                       </Badge>
                     ))}
@@ -166,10 +166,10 @@ const MedicationDetail = () => {
               </div>
             </div>
             
-            <div className="flex flex-col gap-3 flex-shrink-0">
+            <div className="flex flex-col gap-2 flex-shrink-0">
               {medication.high_alert && (
-                <Badge variant="destructive" className="flex items-center gap-2 text-lg p-2 rounded-xl shadow-lg bg-red-500 hover:bg-red-600">
-                  <AlertTriangle className="h-5 w-5" />
+                <Badge variant="destructive" className="flex items-center gap-2 text-sm p-2 rounded-lg shadow-md bg-red-500 hover:bg-red-600">
+                  <AlertTriangle className="h-4 w-4" />
                   HIGH ALERT MEDICATION
                 </Badge>
               )}
@@ -183,30 +183,30 @@ const MedicationDetail = () => {
 
         {/* Emergency Dosing Section */}
         {dosing && dosing.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">EMERGENCY DOSING</h2>
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold mb-4 text-center">EMERGENCY DOSING</h2>
             <PatientTypeTabs dosing={dosing} isHighAlert={medication.high_alert} />
           </div>
         )}
 
         {/* Quick Reference Section */}
-        <div className="mb-8">
+        <div className="mb-6">
           <QuickReferenceCard medication={medication} dosing={dosing || []} />
         </div>
 
         {/* Contraindications - Always Visible if Present */}
         {contraindications && contraindications.length > 0 && (
-          <Card className="mb-6 border-0 shadow-xl bg-red-50/95 backdrop-blur-sm border-l-4 border-l-red-500 rounded-2xl">
-            <CardHeader className="p-6">
-              <CardTitle className="flex items-center gap-2 text-red-700 text-xl">
-                <FileWarning className="h-6 w-6" />
+          <Card className="mb-4 border-0 shadow-lg bg-red-50 border-l-4 border-l-red-500 rounded-xl">
+            <CardHeader className="p-4">
+              <CardTitle className="flex items-center gap-2 text-red-700 text-base">
+                <FileWarning className="h-5 w-5" />
                 ⚠️ CONTRAINDICATIONS & PRECAUTIONS
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CardContent className="p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {contraindications.map((contraindication) => (
-                  <div key={contraindication.id} className="bg-white/95 backdrop-blur-sm p-4 rounded-2xl border-0 shadow-xl">
+                  <div key={contraindication.id} className="bg-white p-3 rounded-lg">
                     <p className="text-sm text-red-800 font-medium break-words">
                       • {contraindication.contraindication}
                     </p>
@@ -218,25 +218,25 @@ const MedicationDetail = () => {
         )}
 
         {/* Collapsible Detailed Information */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Indications */}
           {indications && indications.length > 0 && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/95 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl">
-                  <span className="flex items-center gap-2 text-lg font-semibold">
-                    <Stethoscope className="h-5 w-5" />
+                <Button variant="outline" className="w-full flex items-center justify-between p-4 h-auto bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl">
+                  <span className="flex items-center gap-2 text-sm font-semibold">
+                    <Stethoscope className="h-4 w-4" />
                     Indications & Clinical Uses
                   </span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <Card className="mt-2 border-0 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
-                  <CardContent className="p-6">
+                <Card className="mt-2 border-0 shadow-lg bg-white rounded-xl">
+                  <CardContent className="p-4">
                     {indications.map((indication, index) => (
-                      <div key={indication.id} className="mb-4 last:mb-0">
-                        <Badge variant="outline" className="mb-2 bg-primary/10 text-primary border-primary/20">
+                      <div key={indication.id} className="mb-3 last:mb-0">
+                        <Badge variant="outline" className="mb-2 bg-primary/10 text-primary border-primary/20 text-xs">
                           {indication.indication_type}
                         </Badge>
                         <p className="text-sm text-gray-700 break-words">{indication.indication_text}</p>
@@ -252,20 +252,20 @@ const MedicationDetail = () => {
           {administration && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/95 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl">
-                  <span className="text-lg font-semibold">
+                <Button variant="outline" className="w-full flex items-center justify-between p-4 h-auto bg-white border-0 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl">
+                  <span className="text-sm font-semibold">
                     Administration & Preparation Details
                   </span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <Card className="mt-2 border-0 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="mt-2 border-0 shadow-lg bg-white rounded-xl">
+                  <CardContent className="p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {administration.preparation && administration.preparation.length > 0 && (
                         <div>
-                          <h4 className="font-medium text-gray-900 mb-2">Preparation:</h4>
+                          <h4 className="font-medium text-gray-900 mb-2 text-sm">Preparation:</h4>
                           <ul className="space-y-1">
                             {administration.preparation.map((prep, index) => (
                               <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
@@ -279,7 +279,7 @@ const MedicationDetail = () => {
 
                       {administration.administration_notes && administration.administration_notes.length > 0 && (
                         <div>
-                          <h4 className="font-medium text-gray-900 mb-2">Administration:</h4>
+                          <h4 className="font-medium text-gray-900 mb-2 text-sm">Administration:</h4>
                           <ul className="space-y-1">
                             {administration.administration_notes.map((note, index) => (
                               <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
@@ -293,7 +293,7 @@ const MedicationDetail = () => {
 
                       {administration.monitoring && administration.monitoring.length > 0 && (
                         <div>
-                          <h4 className="font-medium text-gray-900 mb-2">Monitoring:</h4>
+                          <h4 className="font-medium text-gray-900 mb-2 text-sm">Monitoring:</h4>
                           <ul className="space-y-1">
                             {administration.monitoring.map((monitor, index) => (
                               <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
@@ -307,7 +307,7 @@ const MedicationDetail = () => {
 
                       {administration.adverse_effects && administration.adverse_effects.length > 0 && (
                         <div>
-                          <h4 className="font-medium text-gray-900 mb-2">Adverse Effects:</h4>
+                          <h4 className="font-medium text-gray-900 mb-2 text-sm">Adverse Effects:</h4>
                           <ul className="space-y-1">
                             {administration.adverse_effects.map((effect, index) => (
                               <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
