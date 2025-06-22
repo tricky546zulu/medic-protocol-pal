@@ -2,180 +2,101 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { AlertTriangle, Syringe, Baby, User, Heart } from 'lucide-react';
+import { Syringe, AlertTriangle } from 'lucide-react';
+import { PumpSettingsDisplay } from './PumpSettingsDisplay';
 import type { Database } from '@/integrations/supabase/types';
 
 type MedicationDosing = Database['public']['Tables']['medication_dosing']['Row'];
 
 interface EmergencyDosingCardProps {
   dosing: MedicationDosing;
-  isHighAlert: boolean;
+  isHighAlert?: boolean;
 }
 
 export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCardProps) => {
-  const pumpSettings = dosing.infusion_pump_settings as any;
-  
-  const getPatientTypeConfig = (patientType: string) => {
-    switch (patientType.toLowerCase()) {
-      case 'pediatric':
-        return {
-          headerBg: 'bg-gradient-to-r from-rose-400 to-pink-500 backdrop-blur-lg shadow-2xl shadow-rose-300/60',
-          icon: Baby,
-          badgeColor: 'bg-gradient-to-r from-rose-100/95 to-pink-200/90 border-rose-300/70 text-rose-800 hover:from-rose-200/95 hover:to-pink-300/90 transition-all duration-200 hover:scale-105',
-          pumpBg: 'bg-gradient-to-br from-rose-50/95 to-pink-100/90 border-rose-300/60 backdrop-blur-lg shadow-xl shadow-rose-200/60',
-          pumpText: 'text-rose-800',
-          accentColor: 'text-rose-700',
-          ringColor: 'ring-rose-400/60 shadow-rose-300/50'
-        };
-      case 'neonatal':
-        return {
-          headerBg: 'bg-gradient-to-r from-violet-400 to-purple-500 backdrop-blur-lg shadow-2xl shadow-violet-300/60',
-          icon: Baby,
-          badgeColor: 'bg-gradient-to-r from-violet-100/95 to-purple-200/90 border-violet-300/70 text-violet-800 hover:from-violet-200/95 hover:to-purple-300/90 transition-all duration-200 hover:scale-105',
-          pumpBg: 'bg-gradient-to-br from-violet-50/95 to-purple-100/90 border-violet-300/60 backdrop-blur-lg shadow-xl shadow-violet-200/60',
-          pumpText: 'text-violet-800',
-          accentColor: 'text-violet-700',
-          ringColor: 'ring-violet-400/60 shadow-violet-300/50'
-        };
-      case 'geriatric':
-        return {
-          headerBg: 'bg-gradient-to-r from-amber-400 to-orange-500 backdrop-blur-lg shadow-2xl shadow-amber-300/60',
-          icon: Heart,
-          badgeColor: 'bg-gradient-to-r from-amber-100/95 to-orange-200/90 border-amber-300/70 text-amber-800 hover:from-amber-200/95 hover:to-orange-300/90 transition-all duration-200 hover:scale-105',
-          pumpBg: 'bg-gradient-to-br from-amber-50/95 to-orange-100/90 border-amber-300/60 backdrop-blur-lg shadow-xl shadow-amber-200/60',
-          pumpText: 'text-amber-800',
-          accentColor: 'text-amber-700',
-          ringColor: 'ring-amber-400/60 shadow-amber-300/50'
-        };
-      default:
-        return {
-          headerBg: 'bg-gradient-to-r from-sky-400 to-blue-500 backdrop-blur-lg shadow-2xl shadow-sky-300/60',
-          icon: User,
-          badgeColor: 'bg-gradient-to-r from-sky-100/95 to-blue-200/90 border-sky-300/70 text-sky-800 hover:from-sky-200/95 hover:to-blue-300/90 transition-all duration-200 hover:scale-105',
-          pumpBg: 'bg-gradient-to-br from-sky-50/95 to-blue-100/90 border-sky-300/60 backdrop-blur-lg shadow-xl shadow-sky-200/60',
-          pumpText: 'text-sky-800',
-          accentColor: 'text-sky-700',
-          ringColor: 'ring-sky-400/60 shadow-sky-300/50'
-        };
-    }
-  };
-
-  const config = getPatientTypeConfig(dosing.patient_type);
-  const PatientIcon = config.icon;
-
   return (
-    <Card className={`bg-white/98 backdrop-blur-xl border-2 border-white/80 rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl shadow-2xl hover:scale-[1.01] ring-2 ${config.ringColor} ${isHighAlert ? 'ring-4 ring-red-500/70 shadow-red-400/50' : ''}`}>
-      <CardHeader className={`p-6 sm:p-8 ${config.headerBg} text-white border-b-2 border-white/30`}>
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <CardTitle className="text-base sm:text-lg font-semibold flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 min-w-0 flex-1">
-            <div className="flex items-center gap-3 sm:gap-5 min-w-0 flex-1">
-              {isHighAlert && <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-300 flex-shrink-0 shadow-2xl drop-shadow-lg" />}
-              <div className="flex-shrink-0 p-3 sm:p-4 bg-white/30 rounded-2xl backdrop-blur-lg border-2 border-white/50 hover:bg-white/40 transition-all duration-200 shadow-xl shadow-black/30">
-                <PatientIcon className="h-5 w-5 sm:h-6 sm:w-6" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-base sm:text-lg font-bold uppercase tracking-wide break-words leading-tight">
-                  {dosing.patient_type} Patient
-                </div>
-              </div>
-            </div>
-          </CardTitle>
+    <Card className="bg-white/98 backdrop-blur-xl border-3 border-white/90 rounded-3xl shadow-2xl shadow-violet-400/80 hover:shadow-2xl hover:shadow-violet-500/90 transition-all duration-300 group overflow-hidden ring-3 ring-violet-400/70 hover:ring-violet-500/80 hover:scale-[1.01]">
+      <CardHeader className="p-6 sm:p-8 bg-gradient-to-br from-white/98 to-violet-50/95 backdrop-blur-xl border-b-3 border-violet-200/70">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <CardTitle className="text-lg sm:text-xl font-bold break-words flex-1">{dosing.indication}</CardTitle>
           <div className="flex flex-wrap gap-2 sm:gap-3 flex-shrink-0">
             {dosing.route && (
-              <Badge variant="secondary" className="text-xs sm:text-sm px-3 sm:px-4 py-2 bg-white/95 text-gray-800 rounded-2xl border-2 border-white/70 backdrop-blur-lg font-semibold hover:bg-white transition-all duration-200 hover:scale-105 shadow-xl shadow-black/30 min-h-[36px] whitespace-nowrap">
-                {dosing.route}
-              </Badge>
+              <Badge variant="outline" className="bg-white/98 border-3 border-gray-300/80 text-gray-800 text-xs sm:text-sm px-3 py-2 rounded-2xl backdrop-blur-xl hover:bg-white hover:scale-105 transition-all duration-200 font-semibold min-h-[32px] whitespace-nowrap shadow-xl shadow-gray-300/60">{dosing.route}</Badge>
             )}
             {dosing.requires_infusion_pump && (
-              <Badge variant="outline" className={`flex items-center gap-2 ${config.badgeColor} text-xs sm:text-sm px-3 sm:px-4 py-2 rounded-2xl border-2 backdrop-blur-lg font-semibold shadow-xl shadow-black/30 min-h-[36px] whitespace-nowrap`}>
+              <Badge variant="outline" className="flex items-center gap-2 text-blue-800 border-3 border-blue-300/80 bg-gradient-to-r from-blue-100/98 to-sky-200/95 text-xs sm:text-sm px-3 py-2 rounded-2xl backdrop-blur-xl hover:scale-105 transition-all duration-200 font-semibold min-h-[32px] whitespace-nowrap shadow-xl shadow-blue-300/60">
                 <Syringe className="h-3 w-3 sm:h-4 sm:w-4" />
-                <span className="hidden sm:inline">IV Pump</span>
-                <span className="sm:hidden">Pump</span>
+                <span className="hidden sm:inline">IV Pump Required</span>
+                <span className="sm:hidden">IV Pump</span>
+              </Badge>
+            )}
+            {isHighAlert && (
+              <Badge variant="destructive" className="flex items-center gap-2 text-xs sm:text-sm px-3 py-2 rounded-2xl font-semibold bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition-all duration-200 backdrop-blur-xl border-3 border-red-400/70 shadow-2xl shadow-red-400/80 ring-2 ring-red-500/60 min-h-[32px] whitespace-nowrap">
+                <AlertTriangle className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">HIGH ALERT</span>
+                <span className="sm:hidden">ALERT</span>
               </Badge>
             )}
           </div>
         </div>
-        <div className="mt-6 bg-white/30 rounded-2xl p-4 sm:p-5 backdrop-blur-lg border-2 border-white/30 hover:bg-white/35 transition-all duration-200 shadow-xl shadow-black/30">
-          <p className="text-sm font-semibold text-white/98 leading-relaxed break-words">{dosing.indication}</p>
-        </div>
       </CardHeader>
+      
       <CardContent className="p-6 sm:p-8 bg-white/98">
-        <div className="space-y-6 sm:space-y-8">
-          <div className="text-center p-6 sm:p-8 bg-gradient-to-br from-gray-50/98 to-gray-100/95 rounded-3xl backdrop-blur-lg border-2 border-gray-200/70 hover:shadow-xl transition-all duration-200 hover:scale-[1.01] shadow-xl shadow-gray-300/60">
-            <p className="text-xs sm:text-sm font-bold text-gray-700 mb-4 uppercase tracking-wide">Emergency Dose</p>
-            <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 leading-tight break-words">{dosing.dose}</p>
-            <div className="mt-4 h-1 bg-gradient-to-r from-transparent via-gray-400/70 to-transparent rounded-full"></div>
+        <div className="space-y-6">
+          {/* Emergency Dose */}
+          <div className="p-6 sm:p-8 bg-gradient-to-br from-red-50/98 to-rose-100/95 rounded-3xl border-3 border-red-200/80 backdrop-blur-xl hover:shadow-xl transition-all duration-200 shadow-2xl shadow-red-300/70">
+            <h4 className="text-sm sm:text-base font-bold text-red-800 mb-4 uppercase tracking-wide">🚨 Emergency Dose</h4>
+            <p className="font-bold text-xl sm:text-2xl lg:text-3xl break-words text-center text-red-900 bg-white/95 p-4 sm:p-6 rounded-2xl border-2 border-red-200/70 shadow-xl shadow-red-200/60">{dosing.dose}</p>
           </div>
-          
+
+          {/* Concentration */}
           {dosing.concentration_supplied && (
-            <div className="text-center p-5 sm:p-6 bg-gradient-to-br from-gray-50/95 to-white/98 rounded-2xl backdrop-blur-lg border-2 border-gray-200/60 hover:shadow-xl transition-all duration-200 shadow-xl shadow-gray-300/50">
-              <p className="text-xs sm:text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">Concentration Supplied</p>
-              <p className="text-base sm:text-lg font-semibold text-gray-800 break-words leading-relaxed">{dosing.concentration_supplied}</p>
+            <div className="p-5 sm:p-6 bg-gradient-to-br from-blue-50/98 to-sky-100/95 rounded-3xl text-sm sm:text-base backdrop-blur-xl border-3 border-blue-200/80 hover:shadow-xl transition-all duration-200 shadow-xl shadow-blue-300/60">
+              <span className="font-bold text-blue-800">Concentration Supplied:</span> <span className="break-words font-semibold text-blue-900">{dosing.concentration_supplied}</span>
             </div>
           )}
 
-          {dosing.requires_infusion_pump && pumpSettings && (
-            <div className={`${config.pumpBg} rounded-3xl p-6 sm:p-8 border-2 transition-all duration-200`}>
-              <div className="flex items-center gap-4 mb-6 sm:mb-8">
-                <div className="p-3 bg-white/95 rounded-2xl backdrop-blur-lg border-2 border-white/70 hover:bg-white transition-all duration-200 shadow-xl shadow-black/20">
-                  <Syringe className={`h-5 w-5 sm:h-6 sm:w-6 ${config.accentColor} flex-shrink-0`} />
-                </div>
-                <p className={`text-base sm:text-lg font-bold ${config.pumpText} uppercase tracking-wide break-words flex-1`}>
-                  ⚠️ IV Pump Settings
-                </p>
-              </div>
-              
-              {pumpSettings.medication_selection && (
-                <div className="mb-6 p-5 sm:p-6 bg-white/98 rounded-2xl backdrop-blur-lg border-2 border-white/60 hover:bg-white transition-all duration-200 shadow-xl shadow-black/20">
-                  <p className={`text-xs sm:text-sm font-bold ${config.pumpText} uppercase mb-3 tracking-wide`}>Pump Medication:</p>
-                  <p className="text-base sm:text-lg font-semibold text-gray-900 break-words leading-relaxed">{pumpSettings.medication_selection}</p>
-                </div>
-              )}
+          {/* Pump Settings */}
+          <PumpSettingsDisplay dosing={dosing} />
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 text-sm sm:text-base">
-                {pumpSettings.cca_setting && (
-                  <div className="bg-white/98 p-4 sm:p-5 rounded-2xl backdrop-blur-lg border-2 border-white/60 hover:bg-white hover:shadow-lg transition-all duration-200 shadow-lg shadow-black/20">
-                    <span className={`font-bold ${config.pumpText} text-xs sm:text-sm uppercase block mb-3`}>CCA:</span>
-                    <span className="text-gray-900 font-semibold text-sm sm:text-base break-words">{pumpSettings.cca_setting}</span>
-                  </div>
-                )}
-                {pumpSettings.line_option && (
-                  <div className="bg-white/98 p-4 sm:p-5 rounded-2xl backdrop-blur-lg border-2 border-white/60 hover:bg-white hover:shadow-lg transition-all duration-200 shadow-lg shadow-black/20">
-                    <span className={`font-bold ${config.pumpText} text-xs sm:text-sm uppercase block mb-3`}>Line:</span>
-                    <span className="text-gray-900 font-semibold text-sm sm:text-base break-words">{pumpSettings.line_option}</span>
-                  </div>
-                )}
-                {pumpSettings.duration && (
-                  <div className="bg-white/98 p-4 sm:p-5 rounded-2xl backdrop-blur-lg border-2 border-white/60 hover:bg-white hover:shadow-lg transition-all duration-200 shadow-lg shadow-black/20">
-                    <span className={`font-bold ${config.pumpText} text-xs sm:text-sm uppercase block mb-3`}>Duration:</span>
-                    <span className="text-gray-900 font-semibold text-sm sm:text-base break-words">{pumpSettings.duration}</span>
-                  </div>
-                )}
-                {pumpSettings.vtbi && (
-                  <div className="bg-white/98 p-4 sm:p-5 rounded-2xl backdrop-blur-lg border-2 border-white/60 hover:bg-white hover:shadow-lg transition-all duration-200 shadow-lg shadow-black/20">
-                    <span className={`font-bold ${config.pumpText} text-xs sm:text-sm uppercase block mb-3`}>VTBI:</span>
-                    <span className="text-gray-900 font-semibold text-sm sm:text-base break-words">{pumpSettings.vtbi}</span>
-                  </div>
-                )}
+          {/* Provider Routes */}
+          {dosing.provider_routes && dosing.provider_routes.length > 0 && (
+            <div className="p-5 sm:p-6 bg-gradient-to-br from-green-50/98 to-emerald-100/95 rounded-3xl backdrop-blur-xl border-3 border-green-200/80 hover:shadow-xl transition-all duration-200 shadow-xl shadow-green-300/60">
+              <h4 className="font-bold text-green-800 mb-4 text-sm sm:text-base uppercase tracking-wide">Provider Routes:</h4>
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                {dosing.provider_routes.map((route, index) => (
+                  <Badge key={index} variant="secondary" className="text-xs sm:text-sm bg-white/98 text-green-800 px-3 sm:px-4 py-2 rounded-2xl border-2 border-green-300/70 backdrop-blur-xl hover:scale-105 hover:shadow-lg hover:bg-white transition-all duration-200 font-semibold break-words max-w-full shadow-lg shadow-green-200/60">
+                    <span className="truncate">{route}</span>
+                  </Badge>
+                ))}
               </div>
-              
-              {pumpSettings.pump_instructions && (
-                <div className="mt-6 sm:mt-8 pt-6 border-t-2 border-white/60">
-                  <p className={`text-xs sm:text-sm font-bold ${config.pumpText} mb-4 uppercase tracking-wide`}>Pump Instructions:</p>
-                  <p className="text-sm sm:text-base text-gray-800 font-semibold bg-white/98 p-4 sm:p-5 rounded-2xl leading-relaxed break-words backdrop-blur-lg border-2 border-white/60 hover:bg-white transition-all duration-200 shadow-lg shadow-black/20">{pumpSettings.pump_instructions}</p>
-                </div>
-              )}
             </div>
           )}
 
+          {/* Compatibility & Stability */}
+          {dosing.compatibility_stability && dosing.compatibility_stability.length > 0 && (
+            <div className="p-5 sm:p-6 bg-gradient-to-br from-purple-50/98 to-violet-100/95 rounded-3xl backdrop-blur-xl border-3 border-purple-200/80 hover:shadow-xl transition-all duration-200 shadow-xl shadow-purple-300/60">
+              <h4 className="font-bold text-purple-800 mb-4 text-sm sm:text-base uppercase tracking-wide">Compatibility & Stability:</h4>
+              <ul className="space-y-3">
+                {dosing.compatibility_stability.map((item, index) => (
+                  <li key={index} className="text-sm sm:text-base text-purple-800 flex items-start gap-3 sm:gap-4 bg-white/98 p-4 rounded-2xl backdrop-blur-xl hover:shadow-md transition-all duration-200 shadow-md shadow-purple-200/50">
+                    <span className="text-purple-600 mt-1 flex-shrink-0 font-bold text-base sm:text-lg">•</span>
+                    <span className="break-words leading-relaxed font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Notes */}
           {dosing.notes && dosing.notes.length > 0 && (
-            <div className="border-t-2 border-gray-300/70 pt-6 sm:pt-8">
-              <p className="text-xs sm:text-sm font-bold text-gray-700 mb-4 sm:mb-5 uppercase tracking-wide">Important Notes</p>
-              <ul className="space-y-3 sm:space-y-4">
+            <div className="p-5 sm:p-6 bg-gradient-to-br from-amber-50/98 to-orange-100/95 rounded-3xl backdrop-blur-xl border-3 border-amber-200/80 hover:shadow-xl transition-all duration-200 shadow-xl shadow-amber-300/60">
+              <h4 className="font-bold text-amber-800 mb-4 text-sm sm:text-base uppercase tracking-wide">⚠️ Important Notes:</h4>
+              <ul className="space-y-3">
                 {dosing.notes.map((note, index) => (
-                  <li key={index} className="text-sm sm:text-base text-gray-700 flex items-start gap-3 sm:gap-4 bg-gradient-to-r from-gray-50/98 to-white/95 p-4 sm:p-5 rounded-2xl backdrop-blur-lg border-2 border-gray-200/60 hover:shadow-xl transition-all duration-200 shadow-lg shadow-gray-300/50">
-                    <span className={`${config.accentColor} mt-1 text-base sm:text-lg font-bold flex-shrink-0`}>•</span>
-                    <span className="font-semibold leading-relaxed break-words">{note}</span>
+                  <li key={index} className="text-sm sm:text-base text-amber-800 flex items-start gap-3 sm:gap-4 bg-white/98 p-4 rounded-2xl backdrop-blur-xl hover:shadow-md transition-all duration-200 shadow-md shadow-amber-200/50">
+                    <span className="text-amber-600 mt-1 flex-shrink-0 font-bold text-base sm:text-lg">•</span>
+                    <span className="break-words leading-relaxed font-medium">{note}</span>
                   </li>
                 ))}
               </ul>
