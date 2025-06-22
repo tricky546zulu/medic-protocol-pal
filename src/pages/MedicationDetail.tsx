@@ -91,18 +91,23 @@ const MedicationDetail = () => {
 
   if (medicationLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/50">
-        <div className="container mx-auto px-4 py-8">
-          <div className="animate-pulse space-y-6">
-            <div className="h-4 bg-white/60 rounded-xl w-1/3"></div>
-            <div className="h-3 bg-white/40 rounded-xl w-1/2"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100 relative overflow-hidden">
+        {/* Enhanced background texture */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-transparent to-blue-50/40"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,182,193,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(221,214,254,0.1),transparent_50%)]"></div>
+        
+        <div className="relative container mx-auto px-4 py-8">
+          <div className="animate-pulse space-y-8">
+            <div className="h-6 bg-white/70 rounded-2xl w-1/3"></div>
+            <div className="h-4 bg-white/50 rounded-2xl w-1/2"></div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-white/60 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-                  <div className="h-4 bg-white/60 rounded-xl mb-4"></div>
-                  <div className="space-y-3">
-                    <div className="h-3 bg-white/40 rounded-xl"></div>
-                    <div className="h-3 bg-white/40 rounded-xl w-3/4"></div>
+                <div key={i} className="bg-white/70 backdrop-blur-lg border border-white/30 rounded-3xl p-8">
+                  <div className="h-6 bg-white/70 rounded-2xl mb-5"></div>
+                  <div className="space-y-4">
+                    <div className="h-4 bg-white/50 rounded-2xl"></div>
+                    <div className="h-4 bg-white/50 rounded-2xl w-3/4"></div>
                   </div>
                 </div>
               ))}
@@ -115,12 +120,16 @@ const MedicationDetail = () => {
 
   if (!medication) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/50">
-        <div className="container mx-auto px-4 py-8 text-center">
-          <Card className="bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl py-8">
-            <CardContent className="p-6">
-              <p className="text-gray-600 mb-4 text-sm">Medication not found.</p>
-              <Button onClick={() => navigate('/medications')} className="rounded-xl">
+      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100 relative overflow-hidden">
+        {/* Enhanced background texture */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-transparent to-blue-50/40"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,182,193,0.1),transparent_50%)]"></div>
+        
+        <div className="relative container mx-auto px-4 py-8 text-center">
+          <Card className="bg-white/85 backdrop-blur-lg border border-white/30 rounded-3xl py-12 shadow-2xl shadow-violet-200/60 ring-1 ring-violet-200/30">
+            <CardContent className="p-8">
+              <p className="text-gray-700 mb-6 text-lg font-medium">Medication not found.</p>
+              <Button onClick={() => navigate('/medications')} className="rounded-2xl bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 shadow-lg shadow-violet-300/50 hover:shadow-xl hover:shadow-violet-400/60 transition-all duration-300 hover:scale-105">
                 Back to Medications
               </Button>
             </CardContent>
@@ -131,30 +140,35 @@ const MedicationDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/50">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100 relative overflow-hidden">
+      {/* Enhanced background texture */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-transparent to-blue-50/40"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,182,193,0.1),transparent_50%)]"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(221,214,254,0.1),transparent_50%)]"></div>
+      
+      <div className="relative container mx-auto px-4 py-8 max-w-6xl">
         <Button 
           variant="ghost" 
           onClick={() => navigate('/medications')}
-          className="mb-6 flex items-center gap-2 bg-white/60 backdrop-blur-md border border-white/20 hover:bg-white/80 rounded-xl transition-all duration-300 hover:scale-105"
+          className="mb-8 flex items-center gap-3 bg-white/70 backdrop-blur-lg border border-white/30 hover:bg-white/80 rounded-2xl transition-all duration-300 hover:scale-105 shadow-lg shadow-violet-200/40 hover:shadow-xl hover:shadow-violet-300/50 h-12 px-6"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-5 w-5" />
           Back to Medications
         </Button>
 
-        {/* Enhanced Header with Glass Morphism */}
-        <div className={`mb-8 p-6 rounded-2xl bg-white/80 backdrop-blur-md border border-white/20 shadow-xl transition-all duration-300 hover:shadow-2xl ${medication.high_alert ? 'ring-2 ring-red-400/50 shadow-red-200/30' : 'ring-1 ring-blue-200/30'}`}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-4 min-w-0 flex-1">
-              <div className="flex-shrink-0 p-3 bg-gradient-to-br from-blue-500/20 to-indigo-600/20 backdrop-blur-sm rounded-xl border border-blue-200/40 hover:scale-105 transition-transform duration-300">
-                <Pill className="h-6 w-6 text-blue-600" />
+        {/* Enhanced Header with Pastel Glass Morphism */}
+        <div className={`mb-10 p-8 rounded-3xl bg-white/85 backdrop-blur-lg border border-white/30 shadow-2xl transition-all duration-300 hover:shadow-2xl ring-1 ${medication.high_alert ? 'ring-red-400/60 shadow-red-300/50' : 'ring-violet-200/40 shadow-violet-200/60'}`}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-center gap-5 min-w-0 flex-1">
+              <div className="flex-shrink-0 p-4 bg-gradient-to-br from-violet-100/90 to-purple-200/80 backdrop-blur-lg rounded-2xl border border-violet-200/50 hover:scale-105 transition-transform duration-300 shadow-lg shadow-violet-200/50">
+                <Pill className="h-7 w-7 text-violet-700" />
               </div>
               <div className="min-w-0 flex-1">
-                <h1 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 break-words leading-tight">{medication.medication_name}</h1>
+                <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 break-words leading-tight">{medication.medication_name}</h1>
                 {medication.classification && medication.classification.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-3">
                     {medication.classification.map((cls, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 backdrop-blur-sm hover:scale-105 hover:shadow-sm hover:bg-gradient-to-r hover:from-blue-50/80 hover:to-blue-100/70 hover:border-blue-200/60 hover:text-blue-700 transition-all duration-200">
+                      <Badge key={index} variant="secondary" className="text-sm bg-gradient-to-r from-violet-100/90 to-purple-200/80 text-violet-800 px-4 py-2 rounded-2xl border border-violet-200/60 backdrop-blur-lg hover:scale-105 hover:shadow-md hover:from-violet-200/90 hover:to-purple-300/80 transition-all duration-200 font-semibold">
                         {cls}
                       </Badge>
                     ))}
@@ -163,10 +177,10 @@ const MedicationDetail = () => {
               </div>
             </div>
             
-            <div className="flex flex-col gap-3 flex-shrink-0">
+            <div className="flex flex-col gap-4 flex-shrink-0">
               {medication.high_alert && (
-                <Badge variant="destructive" className="flex items-center gap-2 text-sm px-4 py-2 rounded-xl shadow-lg bg-gradient-to-r from-red-500 to-red-600 backdrop-blur-sm hover:from-red-600 hover:to-red-700 border border-red-300/40 ring-2 ring-red-400/30">
-                  <AlertTriangle className="h-4 w-4" />
+                <Badge variant="destructive" className="flex items-center gap-3 text-lg px-6 py-3 rounded-2xl shadow-2xl bg-gradient-to-r from-red-500 to-red-600 backdrop-blur-lg hover:from-red-600 hover:to-red-700 border border-red-300/50 ring-2 ring-red-400/40 font-bold">
+                  <AlertTriangle className="h-5 w-5" />
                   HIGH ALERT MEDICATION
                 </Badge>
               )}
@@ -180,33 +194,33 @@ const MedicationDetail = () => {
 
         {/* Emergency Dosing Section */}
         {dosing && dosing.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-base font-semibold mb-6 text-center uppercase tracking-wide text-gray-700">Emergency Dosing</h2>
+          <div className="mb-10">
+            <h2 className="text-lg font-bold mb-8 text-center uppercase tracking-wide text-gray-800">Emergency Dosing</h2>
             <PatientTypeTabs dosing={dosing} isHighAlert={medication.high_alert} />
           </div>
         )}
 
         {/* Quick Reference Section */}
-        <div className="mb-8">
+        <div className="mb-10">
           <QuickReferenceCard medication={medication} dosing={dosing || []} />
         </div>
 
-        {/* Contraindications - Enhanced Translucent Style */}
+        {/* Enhanced Contraindications */}
         {contraindications && contraindications.length > 0 && (
-          <Card className="mb-6 bg-gradient-to-br from-red-50/90 to-red-100/70 backdrop-blur-md border border-red-200/40 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
-            <CardHeader className="p-6">
-              <CardTitle className="flex items-center gap-3 text-red-700 text-base font-semibold">
-                <div className="p-2 bg-red-100/80 rounded-xl backdrop-blur-sm border border-red-200/50">
-                  <FileWarning className="h-5 w-5" />
+          <Card className="mb-8 bg-gradient-to-br from-red-50/90 to-rose-100/80 backdrop-blur-lg border border-red-200/50 rounded-3xl shadow-2xl hover:shadow-2xl transition-all duration-300 ring-1 ring-red-200/40">
+            <CardHeader className="p-8">
+              <CardTitle className="flex items-center gap-4 text-red-800 text-lg font-bold">
+                <div className="p-3 bg-red-100/90 rounded-2xl backdrop-blur-lg border border-red-200/60 shadow-lg shadow-red-200/50">
+                  <FileWarning className="h-6 w-6" />
                 </div>
                 ⚠️ Contraindications & Precautions
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CardContent className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 {contraindications.map((contraindication) => (
-                  <div key={contraindication.id} className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-red-100/60 hover:bg-white/90 hover:shadow-sm transition-all duration-200">
-                    <p className="text-sm text-red-800 font-medium break-words leading-relaxed">
+                  <div key={contraindication.id} className="bg-white/90 backdrop-blur-lg p-5 rounded-2xl border border-red-100/70 hover:bg-white/95 hover:shadow-md transition-all duration-200 shadow-lg shadow-red-200/40">
+                    <p className="text-base text-red-800 font-semibold break-words leading-relaxed">
                       • {contraindication.contraindication}
                     </p>
                   </div>
@@ -217,30 +231,30 @@ const MedicationDetail = () => {
         )}
 
         {/* Enhanced Collapsible Sections */}
-        <div className="space-y-4">
+        <div className="space-y-5">
           {/* Indications */}
           {indications && indications.length > 0 && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/80 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:bg-white/90 transition-all duration-300 rounded-2xl hover:scale-[1.01]">
-                  <span className="flex items-center gap-3 text-sm font-semibold text-gray-700">
-                    <div className="p-2 bg-gradient-to-br from-blue-100/80 to-blue-200/60 rounded-xl backdrop-blur-sm border border-blue-200/50">
-                      <Stethoscope className="h-4 w-4 text-blue-600" />
+                <Button variant="outline" className="w-full flex items-center justify-between p-8 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-2xl hover:shadow-2xl hover:bg-white/90 transition-all duration-300 rounded-3xl hover:scale-[1.01] ring-1 ring-violet-200/30 hover:ring-violet-300/50">
+                  <span className="flex items-center gap-4 text-lg font-bold text-gray-800">
+                    <div className="p-3 bg-gradient-to-br from-sky-100/90 to-blue-200/80 rounded-2xl backdrop-blur-lg border border-sky-200/60 shadow-lg shadow-sky-200/50">
+                      <Stethoscope className="h-5 w-5 text-sky-700" />
                     </div>
                     Indications & Clinical Uses
                   </span>
-                  <ChevronDown className="h-4 w-4 text-gray-500 transition-transform duration-200" />
+                  <ChevronDown className="h-5 w-5 text-gray-600 transition-transform duration-200" />
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <Card className="mt-3 bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg">
-                  <CardContent className="p-6">
+                <Card className="mt-4 bg-white/85 backdrop-blur-lg border border-white/30 rounded-3xl shadow-2xl ring-1 ring-sky-200/30">
+                  <CardContent className="p-8">
                     {indications.map((indication, index) => (
-                      <div key={indication.id} className="mb-4 last:mb-0">
-                        <Badge variant="outline" className="mb-3 bg-gradient-to-r from-blue-50/80 to-blue-100/70 text-blue-700 border-blue-200/60 text-xs px-3 py-1 rounded-xl backdrop-blur-sm hover:scale-105 transition-all duration-200">
+                      <div key={indication.id} className="mb-6 last:mb-0">
+                        <Badge variant="outline" className="mb-4 bg-gradient-to-r from-sky-100/90 to-blue-200/80 text-sky-800 border-sky-200/60 text-sm px-4 py-2 rounded-2xl backdrop-blur-lg hover:scale-105 transition-all duration-200 font-semibold shadow-lg shadow-sky-200/40">
                           {indication.indication_type}
                         </Badge>
-                        <p className="text-sm text-gray-700 break-words leading-relaxed">{indication.indication_text}</p>
+                        <p className="text-base text-gray-800 break-words leading-relaxed font-medium">{indication.indication_text}</p>
                       </div>
                     ))}
                   </CardContent>
@@ -253,25 +267,25 @@ const MedicationDetail = () => {
           {administration && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/80 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:bg-white/90 transition-all duration-300 rounded-2xl hover:scale-[1.01]">
-                  <span className="text-sm font-semibold text-gray-700">
+                <Button variant="outline" className="w-full flex items-center justify-between p-8 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-2xl hover:shadow-2xl hover:bg-white/90 transition-all duration-300 rounded-3xl hover:scale-[1.01] ring-1 ring-violet-200/30 hover:ring-violet-300/50">
+                  <span className="text-lg font-bold text-gray-800">
                     Administration & Preparation Details
                   </span>
-                  <ChevronDown className="h-4 w-4 text-gray-500 transition-transform duration-200" />
+                  <ChevronDown className="h-5 w-5 text-gray-600 transition-transform duration-200" />
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <Card className="mt-3 bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg">
-                  <CardContent className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="mt-4 bg-white/85 backdrop-blur-lg border border-white/30 rounded-3xl shadow-2xl ring-1 ring-emerald-200/30">
+                  <CardContent className="p-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {administration.preparation && administration.preparation.length > 0 && (
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Preparation:</h4>
-                          <ul className="space-y-2">
+                          <h4 className="font-bold text-gray-900 mb-4 text-lg uppercase tracking-wide">Preparation:</h4>
+                          <ul className="space-y-3">
                             {administration.preparation.map((prep, index) => (
-                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gradient-to-r from-gray-50/80 to-white/90 p-3 rounded-xl backdrop-blur-sm hover:shadow-sm transition-all duration-200">
-                                <span className="text-blue-500 mt-0.5 flex-shrink-0 font-semibold">•</span>
-                                <span className="break-words leading-relaxed">{prep}</span>
+                              <li key={index} className="text-base text-gray-800 flex items-start gap-4 bg-gradient-to-r from-emerald-50/90 to-green-100/80 p-4 rounded-2xl backdrop-blur-lg hover:shadow-md transition-all duration-200 shadow-md shadow-emerald-200/40">
+                                <span className="text-emerald-600 mt-1 flex-shrink-0 font-bold text-lg">•</span>
+                                <span className="break-words leading-relaxed font-medium">{prep}</span>
                               </li>
                             ))}
                           </ul>
@@ -280,12 +294,12 @@ const MedicationDetail = () => {
 
                       {administration.administration_notes && administration.administration_notes.length > 0 && (
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Administration:</h4>
-                          <ul className="space-y-2">
+                          <h4 className="font-bold text-gray-900 mb-4 text-lg uppercase tracking-wide">Administration:</h4>
+                          <ul className="space-y-3">
                             {administration.administration_notes.map((note, index) => (
-                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gradient-to-r from-blue-50/80 to-blue-100/70 p-3 rounded-xl backdrop-blur-sm hover:shadow-sm transition-all duration-200">
-                                <span className="text-blue-600 mt-0.5 flex-shrink-0 font-semibold">•</span>
-                                <span className="break-words leading-relaxed">{note}</span>
+                              <li key={index} className="text-base text-gray-800 flex items-start gap-4 bg-gradient-to-r from-blue-50/90 to-sky-100/80 p-4 rounded-2xl backdrop-blur-lg hover:shadow-md transition-all duration-200 shadow-md shadow-blue-200/40">
+                                <span className="text-blue-600 mt-1 flex-shrink-0 font-bold text-lg">•</span>
+                                <span className="break-words leading-relaxed font-medium">{note}</span>
                               </li>
                             ))}
                           </ul>
@@ -294,12 +308,12 @@ const MedicationDetail = () => {
 
                       {administration.monitoring && administration.monitoring.length > 0 && (
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Monitoring:</h4>
-                          <ul className="space-y-2">
+                          <h4 className="font-bold text-gray-900 mb-4 text-lg uppercase tracking-wide">Monitoring:</h4>
+                          <ul className="space-y-3">
                             {administration.monitoring.map((monitor, index) => (
-                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gradient-to-r from-green-50/80 to-green-100/70 p-3 rounded-xl backdrop-blur-sm hover:shadow-sm transition-all duration-200">
-                                <span className="text-green-600 mt-0.5 flex-shrink-0 font-semibold">•</span>
-                                <span className="break-words leading-relaxed">{monitor}</span>
+                              <li key={index} className="text-base text-gray-800 flex items-start gap-4 bg-gradient-to-r from-green-50/90 to-emerald-100/80 p-4 rounded-2xl backdrop-blur-lg hover:shadow-md transition-all duration-200 shadow-md shadow-green-200/40">
+                                <span className="text-green-600 mt-1 flex-shrink-0 font-bold text-lg">•</span>
+                                <span className="break-words leading-relaxed font-medium">{monitor}</span>
                               </li>
                             ))}
                           </ul>
@@ -308,12 +322,12 @@ const MedicationDetail = () => {
 
                       {administration.adverse_effects && administration.adverse_effects.length > 0 && (
                         <div>
-                          <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Adverse Effects:</h4>
-                          <ul className="space-y-2">
+                          <h4 className="font-bold text-gray-900 mb-4 text-lg uppercase tracking-wide">Adverse Effects:</h4>
+                          <ul className="space-y-3">
                             {administration.adverse_effects.map((effect, index) => (
-                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gradient-to-r from-red-50/80 to-red-100/70 p-3 rounded-xl backdrop-blur-sm hover:shadow-sm transition-all duration-200">
-                                <span className="text-red-600 mt-0.5 flex-shrink-0 font-semibold">•</span>
-                                <span className="break-words leading-relaxed">{effect}</span>
+                              <li key={index} className="text-base text-gray-800 flex items-start gap-4 bg-gradient-to-r from-red-50/90 to-rose-100/80 p-4 rounded-2xl backdrop-blur-lg hover:shadow-md transition-all duration-200 shadow-md shadow-red-200/40">
+                                <span className="text-red-600 mt-1 flex-shrink-0 font-bold text-lg">•</span>
+                                <span className="break-words leading-relaxed font-medium">{effect}</span>
                               </li>
                             ))}
                           </ul>

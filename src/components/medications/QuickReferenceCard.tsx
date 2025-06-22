@@ -20,12 +20,12 @@ export const QuickReferenceCard = ({ medication, dosing }: QuickReferenceCardPro
   };
 
   return (
-    <Card className="bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl shadow-lg print:shadow-none print:border-2 print:border-black hover:shadow-xl transition-all duration-300">
-      <CardHeader className="p-6">
+    <Card className="bg-white/85 backdrop-blur-lg border border-white/30 rounded-3xl shadow-2xl shadow-violet-200/60 print:shadow-none print:border-2 print:border-black hover:shadow-2xl hover:shadow-violet-300/70 transition-all duration-300 ring-1 ring-violet-200/30 hover:ring-violet-300/50">
+      <CardHeader className="p-8">
         <div className="flex items-center justify-between gap-4">
-          <CardTitle className="text-lg font-semibold flex items-center gap-3 min-w-0 flex-1">
+          <CardTitle className="text-xl font-bold flex items-center gap-4 min-w-0 flex-1">
             {medication.high_alert && (
-              <AlertTriangle className="h-4 w-4 text-red-600 flex-shrink-0 shadow-lg drop-shadow-md" />
+              <AlertTriangle className="h-5 w-5 text-red-600 flex-shrink-0 shadow-2xl drop-shadow-lg" />
             )}
             <span className="break-words leading-tight">{medication.medication_name}</span>
           </CardTitle>
@@ -33,17 +33,17 @@ export const QuickReferenceCard = ({ medication, dosing }: QuickReferenceCardPro
             variant="outline" 
             size="sm" 
             onClick={handlePrint}
-            className="print:hidden flex-shrink-0 h-10 rounded-xl bg-white/80 border border-gray-200/60 hover:border-blue-400/60 hover:bg-gradient-to-r hover:from-blue-50/80 hover:to-blue-100/60 transition-all duration-300 backdrop-blur-sm hover:scale-105 hover:shadow-md"
+            className="print:hidden flex-shrink-0 h-12 rounded-2xl bg-white/80 backdrop-blur-lg border border-violet-200/60 hover:border-violet-400/70 hover:bg-gradient-to-r hover:from-violet-50/90 hover:to-purple-100/80 transition-all duration-300 hover:scale-105 hover:shadow-lg shadow-violet-200/40"
           >
-            <Printer className="h-3 w-3 mr-2" />
+            <Printer className="h-4 w-4 mr-2" />
             Print
           </Button>
         </div>
         
         {medication.classification && medication.classification.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-4">
+          <div className="flex flex-wrap gap-3 mt-5">
             {medication.classification.map((cls, index) => (
-              <Badge key={index} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 backdrop-blur-sm hover:scale-105 hover:shadow-sm hover:bg-gradient-to-r hover:from-blue-50/80 hover:to-blue-100/70 hover:border-blue-200/60 hover:text-blue-700 transition-all duration-200">
+              <Badge key={index} variant="secondary" className="text-sm bg-gradient-to-r from-violet-100/90 to-purple-200/80 text-violet-800 px-4 py-2 rounded-2xl border border-violet-200/60 backdrop-blur-lg hover:scale-105 hover:shadow-md hover:from-violet-200/90 hover:to-purple-300/80 transition-all duration-200 font-semibold">
                 {cls}
               </Badge>
             ))}
@@ -51,75 +51,75 @@ export const QuickReferenceCard = ({ medication, dosing }: QuickReferenceCardPro
         )}
       </CardHeader>
       
-      <CardContent className="p-6">
-        <div className="space-y-6">
+      <CardContent className="p-8">
+        <div className="space-y-8">
           {dosing.map((dose) => {
             const pumpSettings = dose.infusion_pump_settings as any;
             
             return (
-              <div key={dose.id} className="bg-gradient-to-br from-gray-50/90 to-white/80 rounded-2xl p-5 backdrop-blur-sm border border-gray-100/60 hover:shadow-md transition-all duration-200">
-                <div className="flex items-center justify-between mb-4 gap-4">
-                  <h4 className="text-sm font-semibold break-words flex-1">{dose.patient_type}</h4>
-                  <div className="flex gap-2 flex-shrink-0">
+              <div key={dose.id} className="bg-gradient-to-br from-gray-50/90 to-white/80 rounded-3xl p-6 backdrop-blur-lg border border-gray-100/60 hover:shadow-lg transition-all duration-200 shadow-lg shadow-gray-200/50">
+                <div className="flex items-center justify-between mb-5 gap-4">
+                  <h4 className="text-lg font-bold break-words flex-1">{dose.patient_type}</h4>
+                  <div className="flex gap-3 flex-shrink-0">
                     {dose.route && (
-                      <Badge variant="outline" className="bg-white/80 border-gray-300/60 text-gray-700 text-xs px-2 py-1 rounded-lg backdrop-blur-sm hover:bg-white hover:scale-105 transition-all duration-200">{dose.route}</Badge>
+                      <Badge variant="outline" className="bg-white/80 border-gray-300/60 text-gray-800 text-sm px-3 py-2 rounded-2xl backdrop-blur-lg hover:bg-white hover:scale-105 transition-all duration-200 font-semibold">{dose.route}</Badge>
                     )}
                     {dose.requires_infusion_pump && (
-                      <Badge variant="outline" className="flex items-center gap-1 text-blue-700 border-blue-300/60 bg-gradient-to-r from-blue-50/80 to-blue-100/70 text-xs px-2 py-1 rounded-lg backdrop-blur-sm hover:scale-105 transition-all duration-200">
-                        <Syringe className="h-3 w-3" />
+                      <Badge variant="outline" className="flex items-center gap-2 text-blue-800 border-blue-300/60 bg-gradient-to-r from-blue-100/90 to-sky-200/80 text-sm px-3 py-2 rounded-2xl backdrop-blur-lg hover:scale-105 transition-all duration-200 font-semibold">
+                        <Syringe className="h-4 w-4" />
                         IV Pump
                       </Badge>
                     )}
                   </div>
                 </div>
-                <p className="text-xs mb-3 break-words text-gray-600 leading-relaxed">{dose.indication}</p>
-                <div className="p-3 bg-white/90 rounded-xl border border-white/50 mb-3">
-                  <p className="font-bold text-lg break-words text-center">{dose.dose}</p>
+                <p className="text-sm mb-4 break-words text-gray-700 leading-relaxed font-medium">{dose.indication}</p>
+                <div className="p-4 bg-white/90 rounded-2xl border border-white/60 mb-4 backdrop-blur-lg shadow-md shadow-gray-200/40">
+                  <p className="font-bold text-xl break-words text-center">{dose.dose}</p>
                 </div>
                 {dose.concentration_supplied && (
-                  <p className="text-xs text-gray-600 break-words mb-3 bg-white/60 p-2 rounded-lg">
+                  <p className="text-sm text-gray-700 break-words mb-4 bg-white/70 p-3 rounded-2xl font-medium">
                     Concentration: {dose.concentration_supplied}
                   </p>
                 )}
                 {dose.requires_infusion_pump && pumpSettings && (
-                  <div className="mt-4 p-4 bg-gradient-to-br from-blue-50/90 to-blue-100/70 rounded-2xl text-xs backdrop-blur-sm border border-blue-100/60 hover:shadow-md transition-all duration-200">
-                    <div className="font-semibold text-blue-700 mb-3 flex items-center gap-2">
-                      <Syringe className="h-3 w-3" />
+                  <div className="mt-5 p-6 bg-gradient-to-br from-blue-50/90 to-sky-100/80 rounded-3xl text-sm backdrop-blur-lg border border-blue-100/60 hover:shadow-lg transition-all duration-200 shadow-lg shadow-blue-200/50">
+                    <div className="font-bold text-blue-800 mb-4 flex items-center gap-3">
+                      <Syringe className="h-4 w-4" />
                       ⚠️ IV PUMP SETTINGS:
                     </div>
                     
                     {pumpSettings.medication_selection && (
-                      <div className="mb-3 p-3 bg-gradient-to-r from-blue-100/90 to-blue-200/70 rounded-lg backdrop-blur-sm border border-blue-200/40">
-                        <span className="font-semibold text-blue-800 text-xs">PUMP MEDICATION:</span>
-                        <div className="font-semibold text-blue-900 break-words text-xs mt-1">{pumpSettings.medication_selection}</div>
+                      <div className="mb-4 p-4 bg-gradient-to-r from-blue-100/90 to-sky-200/80 rounded-2xl backdrop-blur-lg border border-blue-200/50 shadow-md shadow-blue-200/40">
+                        <span className="font-bold text-blue-900 text-sm">PUMP MEDICATION:</span>
+                        <div className="font-bold text-blue-900 break-words text-sm mt-2">{pumpSettings.medication_selection}</div>
                       </div>
                     )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {pumpSettings.cca_setting && (
-                        <div className="bg-white/90 p-3 rounded-lg backdrop-blur-sm border border-white/40 hover:bg-white transition-all duration-200">
-                          <span className="font-medium text-xs">CCA:</span> <span className="break-words text-xs">{pumpSettings.cca_setting}</span>
+                        <div className="bg-white/90 p-4 rounded-2xl backdrop-blur-lg border border-white/50 hover:bg-white transition-all duration-200 shadow-md shadow-blue-200/30">
+                          <span className="font-semibold text-sm">CCA:</span> <span className="break-words text-sm font-medium">{pumpSettings.cca_setting}</span>
                         </div>
                       )}
                       {pumpSettings.line_option && (
-                        <div className="bg-white/90 p-3 rounded-lg backdrop-blur-sm border border-white/40 hover:bg-white transition-all duration-200">
-                          <span className="font-medium text-xs">Line:</span> <span className="break-words text-xs">{pumpSettings.line_option}</span>
+                        <div className="bg-white/90 p-4 rounded-2xl backdrop-blur-lg border border-white/50 hover:bg-white transition-all duration-200 shadow-md shadow-blue-200/30">
+                          <span className="font-semibold text-sm">Line:</span> <span className="break-words text-sm font-medium">{pumpSettings.line_option}</span>
                         </div>
                       )}
                       {pumpSettings.duration && (
-                        <div className="bg-white/90 p-3 rounded-lg backdrop-blur-sm border border-white/40 hover:bg-white transition-all duration-200">
-                          <span className="font-medium text-xs">Duration:</span> <span className="break-words text-xs">{pumpSettings.duration}</span>
+                        <div className="bg-white/90 p-4 rounded-2xl backdrop-blur-lg border border-white/50 hover:bg-white transition-all duration-200 shadow-md shadow-blue-200/30">
+                          <span className="font-semibold text-sm">Duration:</span> <span className="break-words text-sm font-medium">{pumpSettings.duration}</span>
                         </div>
                       )}
                       {pumpSettings.vtbi && (
-                        <div className="bg-white/90 p-3 rounded-lg backdrop-blur-sm border border-white/40 hover:bg-white transition-all duration-200">
-                          <span className="font-medium text-xs">VTBI:</span> <span className="break-words text-xs">{pumpSettings.vtbi}</span>
+                        <div className="bg-white/90 p-4 rounded-2xl backdrop-blur-lg border border-white/50 hover:bg-white transition-all duration-200 shadow-md shadow-blue-200/30">
+                          <span className="font-semibold text-sm">VTBI:</span> <span className="break-words text-sm font-medium">{pumpSettings.vtbi}</span>
                         </div>
                       )}
                     </div>
                     {pumpSettings.pump_instructions && (
-                      <div className="mt-3 pt-3 border-t border-blue-200/50">
-                        <span className="font-medium text-xs">Instructions:</span> <span className="break-words text-xs">{pumpSettings.pump_instructions}</span>
+                      <div className="mt-4 pt-4 border-t border-blue-200/60">
+                        <span className="font-semibold text-sm">Instructions:</span> <span className="break-words text-sm font-medium">{pumpSettings.pump_instructions}</span>
                       </div>
                     )}
                   </div>
