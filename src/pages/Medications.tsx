@@ -59,7 +59,7 @@ const Medications = () => {
   };
 
   const totalActiveFilters = filtersHook.activeFiltersCount + (showFavoritesOnly ? 1 : 0);
-  const hasActiveFilters = searchTerm || totalActiveFilters > 0;
+  const hasActiveFilters = Boolean(searchTerm) || totalActiveFilters > 0;
 
   return (
     <div className="container mx-auto px-4 py-8">
