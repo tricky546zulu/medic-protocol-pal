@@ -8,6 +8,7 @@ import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { AlertTriangle, X } from 'lucide-react';
 
+// Explicit type definitions for props
 interface MedicationFiltersProps {
   filters: {
     patientType: string;
