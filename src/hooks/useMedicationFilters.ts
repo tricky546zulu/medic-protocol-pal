@@ -23,16 +23,12 @@ interface UseMedicationFiltersProps {
   userFavorites?: string[];
 }
 
-// Explicit type definitions for handlers
-type StringFilterHandler = (key: 'patientType' | 'classification' | 'route', value: string) => void;
-type BooleanFilterHandler = (key: 'highAlert', value: boolean) => void;
-
 interface UseMedicationFiltersReturn {
   filters: FilterState;
   filteredMedications: Medication[];
   activeFiltersCount: number;
-  handleStringFilterChange: StringFilterHandler;
-  handleBooleanFilterChange: BooleanFilterHandler;
+  handleStringFilterChange: (key: 'patientType' | 'classification' | 'route', value: string) => void;
+  handleHighAlertToggle: (value: boolean) => void;
   clearFilters: () => void;
   handleCategorySelect: (categoryId: string) => void;
 }
@@ -98,13 +94,13 @@ export const useMedicationFilters = ({
     return filtered;
   }, [medications, searchTerm, filters, dosingData, indicationData, showFavoritesOnly, userFavorites]);
 
-  // Explicitly typed handlers
-  const handleStringFilterChange: StringFilterHandler = (key, value) => {
+  // Separate handlers with explicit signatures
+  const handleStringFilterChange = (key: 'patientType' | 'classification' | 'route', value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleBooleanFilterChange: BooleanFilterHandler = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+  const handleHighAlertToggle = (value: boolean) => {
+    setFilters(prev => ({ ...prev, highAlert: value }));
   };
 
   const clearFilters = () => {
@@ -148,7 +144,7 @@ export const useMedicationFilters = ({
     filteredMedications,
     activeFiltersCount,
     handleStringFilterChange,
-    handleBooleanFilterChange,
+    handleHighAlertToggle,
     clearFilters,
     handleCategorySelect,
   };

@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Heart } from 'lucide-react';
@@ -99,7 +98,7 @@ const Medications = () => {
       <MedicationFilters
         filters={filtersHook.filters}
         onStringFilterChange={filtersHook.handleStringFilterChange}
-        onBooleanFilterChange={filtersHook.handleBooleanFilterChange}
+        onHighAlertToggle={filtersHook.handleHighAlertToggle}
         onClearFilters={handleClearFilters}
         activeFiltersCount={totalActiveFilters}
       />

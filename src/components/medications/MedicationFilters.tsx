@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -17,7 +16,7 @@ interface MedicationFiltersProps {
     route: string;
   };
   onStringFilterChange: (key: 'patientType' | 'classification' | 'route', value: string) => void;
-  onBooleanFilterChange: (key: 'highAlert', value: boolean) => void;
+  onHighAlertToggle: (value: boolean) => void;
   onClearFilters: () => void;
   activeFiltersCount: number;
 }
@@ -55,7 +54,7 @@ const ROUTES = [
 export const MedicationFilters = ({ 
   filters, 
   onStringFilterChange,
-  onBooleanFilterChange,
+  onHighAlertToggle,
   onClearFilters, 
   activeFiltersCount 
 }: MedicationFiltersProps) => {
@@ -131,7 +130,7 @@ export const MedicationFilters = ({
             <Switch
               id="high-alert"
               checked={filters.highAlert}
-              onCheckedChange={(checked) => onBooleanFilterChange('highAlert', checked)}
+              onCheckedChange={onHighAlertToggle}
             />
             <Label htmlFor="high-alert" className="flex items-center gap-2 text-sm">
               <AlertTriangle className="h-4 w-4 text-red-500" />
