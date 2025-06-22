@@ -136,17 +136,17 @@ const MedicationDetail = () => {
         <Button 
           variant="ghost" 
           onClick={() => navigate('/medications')}
-          className="mb-6 flex items-center gap-2 bg-white/60 backdrop-blur-md border border-white/20 hover:bg-white/80 rounded-xl transition-all duration-200"
+          className="mb-6 flex items-center gap-2 bg-white/60 backdrop-blur-md border border-white/20 hover:bg-white/80 rounded-xl transition-all duration-300 hover:scale-105"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Medications
         </Button>
 
         {/* Enhanced Header with Glass Morphism */}
-        <div className={`mb-8 p-6 rounded-2xl bg-white/80 backdrop-blur-md border border-white/20 shadow-xl ${medication.high_alert ? 'ring-2 ring-red-200/50' : 'ring-1 ring-blue-200/30'}`}>
+        <div className={`mb-8 p-6 rounded-2xl bg-white/80 backdrop-blur-md border border-white/20 shadow-xl transition-all duration-300 hover:shadow-2xl ${medication.high_alert ? 'ring-2 ring-red-200/50' : 'ring-1 ring-blue-200/30'}`}>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-4 min-w-0 flex-1">
-              <div className="flex-shrink-0 p-3 bg-blue-500/10 backdrop-blur-sm rounded-xl border border-blue-200/30">
+              <div className="flex-shrink-0 p-3 bg-gradient-to-br from-blue-500/20 to-indigo-600/20 backdrop-blur-sm rounded-xl border border-blue-200/40 hover:scale-105 transition-transform duration-300">
                 <Pill className="h-6 w-6 text-blue-600" />
               </div>
               <div className="min-w-0 flex-1">
@@ -154,7 +154,7 @@ const MedicationDetail = () => {
                 {medication.classification && medication.classification.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {medication.classification.map((cls, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs bg-white/70 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/50 backdrop-blur-sm">
+                      <Badge key={index} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 backdrop-blur-sm hover:scale-105 hover:shadow-sm transition-all duration-200">
                         {cls}
                       </Badge>
                     ))}
@@ -165,7 +165,7 @@ const MedicationDetail = () => {
             
             <div className="flex flex-col gap-3 flex-shrink-0">
               {medication.high_alert && (
-                <Badge variant="destructive" className="flex items-center gap-2 text-sm px-4 py-2 rounded-xl shadow-lg bg-red-500/90 backdrop-blur-sm hover:bg-red-600/90 border border-red-300/30">
+                <Badge variant="destructive" className="flex items-center gap-2 text-sm px-4 py-2 rounded-xl shadow-lg bg-gradient-to-r from-red-500 to-red-600 backdrop-blur-sm hover:from-red-600 hover:to-red-700 border border-red-300/40 animate-pulse">
                   <AlertTriangle className="h-4 w-4" />
                   HIGH ALERT MEDICATION
                 </Badge>
@@ -193,10 +193,10 @@ const MedicationDetail = () => {
 
         {/* Contraindications - Enhanced Translucent Style */}
         {contraindications && contraindications.length > 0 && (
-          <Card className="mb-6 bg-red-50/80 backdrop-blur-md border border-red-200/30 rounded-2xl shadow-xl">
+          <Card className="mb-6 bg-gradient-to-br from-red-50/90 to-red-100/70 backdrop-blur-md border border-red-200/40 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
             <CardHeader className="p-6">
               <CardTitle className="flex items-center gap-3 text-red-700 text-base font-semibold">
-                <div className="p-2 bg-red-100/70 rounded-xl">
+                <div className="p-2 bg-red-100/80 rounded-xl backdrop-blur-sm border border-red-200/50">
                   <FileWarning className="h-5 w-5" />
                 </div>
                 ⚠️ Contraindications & Precautions
@@ -205,7 +205,7 @@ const MedicationDetail = () => {
             <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {contraindications.map((contraindication) => (
-                  <div key={contraindication.id} className="bg-white/70 backdrop-blur-sm p-4 rounded-xl border border-red-100/50">
+                  <div key={contraindication.id} className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-red-100/60 hover:bg-white/90 hover:shadow-sm transition-all duration-200">
                     <p className="text-sm text-red-800 font-medium break-words leading-relaxed">
                       • {contraindication.contraindication}
                     </p>
@@ -222,14 +222,14 @@ const MedicationDetail = () => {
           {indications && indications.length > 0 && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/80 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:bg-white/90 transition-all duration-200 rounded-2xl">
+                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/80 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:bg-white/90 transition-all duration-300 rounded-2xl hover:scale-[1.01]">
                   <span className="flex items-center gap-3 text-sm font-semibold text-gray-700">
-                    <div className="p-2 bg-blue-100/70 rounded-xl">
+                    <div className="p-2 bg-gradient-to-br from-blue-100/80 to-blue-200/60 rounded-xl backdrop-blur-sm border border-blue-200/50">
                       <Stethoscope className="h-4 w-4 text-blue-600" />
                     </div>
                     Indications & Clinical Uses
                   </span>
-                  <ChevronDown className="h-4 w-4 text-gray-500" />
+                  <ChevronDown className="h-4 w-4 text-gray-500 transition-transform duration-200" />
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -237,7 +237,7 @@ const MedicationDetail = () => {
                   <CardContent className="p-6">
                     {indications.map((indication, index) => (
                       <div key={indication.id} className="mb-4 last:mb-0">
-                        <Badge variant="outline" className="mb-3 bg-blue-50/70 text-blue-700 border-blue-200/50 text-xs px-3 py-1 rounded-xl backdrop-blur-sm">
+                        <Badge variant="outline" className="mb-3 bg-gradient-to-r from-blue-50/80 to-blue-100/70 text-blue-700 border-blue-200/60 text-xs px-3 py-1 rounded-xl backdrop-blur-sm hover:scale-105 transition-all duration-200">
                           {indication.indication_type}
                         </Badge>
                         <p className="text-sm text-gray-700 break-words leading-relaxed">{indication.indication_text}</p>
@@ -253,11 +253,11 @@ const MedicationDetail = () => {
           {administration && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/80 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:bg-white/90 transition-all duration-200 rounded-2xl">
+                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/80 backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:bg-white/90 transition-all duration-300 rounded-2xl hover:scale-[1.01]">
                   <span className="text-sm font-semibold text-gray-700">
                     Administration & Preparation Details
                   </span>
-                  <ChevronDown className="h-4 w-4 text-gray-500" />
+                  <ChevronDown className="h-4 w-4 text-gray-500 transition-transform duration-200" />
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -269,7 +269,7 @@ const MedicationDetail = () => {
                           <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Preparation:</h4>
                           <ul className="space-y-2">
                             {administration.preparation.map((prep, index) => (
-                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gray-50/70 p-3 rounded-xl backdrop-blur-sm">
+                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gradient-to-r from-gray-50/80 to-white/90 p-3 rounded-xl backdrop-blur-sm hover:shadow-sm transition-all duration-200">
                                 <span className="text-blue-500 mt-0.5 flex-shrink-0 font-semibold">•</span>
                                 <span className="break-words leading-relaxed">{prep}</span>
                               </li>
@@ -283,7 +283,7 @@ const MedicationDetail = () => {
                           <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Administration:</h4>
                           <ul className="space-y-2">
                             {administration.administration_notes.map((note, index) => (
-                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-blue-50/70 p-3 rounded-xl backdrop-blur-sm">
+                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gradient-to-r from-blue-50/80 to-blue-100/70 p-3 rounded-xl backdrop-blur-sm hover:shadow-sm transition-all duration-200">
                                 <span className="text-blue-600 mt-0.5 flex-shrink-0 font-semibold">•</span>
                                 <span className="break-words leading-relaxed">{note}</span>
                               </li>
@@ -297,7 +297,7 @@ const MedicationDetail = () => {
                           <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Monitoring:</h4>
                           <ul className="space-y-2">
                             {administration.monitoring.map((monitor, index) => (
-                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-green-50/70 p-3 rounded-xl backdrop-blur-sm">
+                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gradient-to-r from-green-50/80 to-green-100/70 p-3 rounded-xl backdrop-blur-sm hover:shadow-sm transition-all duration-200">
                                 <span className="text-green-600 mt-0.5 flex-shrink-0 font-semibold">•</span>
                                 <span className="break-words leading-relaxed">{monitor}</span>
                               </li>
@@ -311,7 +311,7 @@ const MedicationDetail = () => {
                           <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">Adverse Effects:</h4>
                           <ul className="space-y-2">
                             {administration.adverse_effects.map((effect, index) => (
-                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-red-50/70 p-3 rounded-xl backdrop-blur-sm">
+                              <li key={index} className="text-sm text-gray-700 flex items-start gap-3 bg-gradient-to-r from-red-50/80 to-red-100/70 p-3 rounded-xl backdrop-blur-sm hover:shadow-sm transition-all duration-200">
                                 <span className="text-red-600 mt-0.5 flex-shrink-0 font-semibold">•</span>
                                 <span className="break-words leading-relaxed">{effect}</span>
                               </li>

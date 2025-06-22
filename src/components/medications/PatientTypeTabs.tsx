@@ -42,19 +42,19 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
   const getPatientTypeColors = (type: string) => {
     switch (type.toLowerCase()) {
       case 'pediatric':
-        return 'data-[state=active]:bg-pink-400/90 data-[state=active]:text-white data-[state=active]:backdrop-blur-md hover:bg-pink-100/70 border-pink-200/30 text-pink-700 data-[state=active]:shadow-lg data-[state=active]:border-pink-300/50';
+        return 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:backdrop-blur-md hover:bg-pink-50/80 border-pink-200/40 text-pink-700 data-[state=active]:shadow-lg data-[state=active]:border-pink-300/60 data-[state=active]:shadow-pink-200/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-md';
       case 'neonatal':
-        return 'data-[state=active]:bg-purple-400/90 data-[state=active]:text-white data-[state=active]:backdrop-blur-md hover:bg-purple-100/70 border-purple-200/30 text-purple-700 data-[state=active]:shadow-lg data-[state=active]:border-purple-300/50';
+        return 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:backdrop-blur-md hover:bg-purple-50/80 border-purple-200/40 text-purple-700 data-[state=active]:shadow-lg data-[state=active]:border-purple-300/60 data-[state=active]:shadow-purple-200/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-md';
       case 'geriatric':
-        return 'data-[state=active]:bg-amber-400/90 data-[state=active]:text-white data-[state=active]:backdrop-blur-md hover:bg-amber-100/70 border-amber-200/30 text-amber-700 data-[state=active]:shadow-lg data-[state=active]:border-amber-300/50';
+        return 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-amber-600 data-[state=active]:text-white data-[state=active]:backdrop-blur-md hover:bg-amber-50/80 border-amber-200/40 text-amber-700 data-[state=active]:shadow-lg data-[state=active]:border-amber-300/60 data-[state=active]:shadow-amber-200/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-md';
       default:
-        return 'data-[state=active]:bg-slate-500/90 data-[state=active]:text-white data-[state=active]:backdrop-blur-md hover:bg-slate-100/70 border-slate-200/30 text-slate-700 data-[state=active]:shadow-lg data-[state=active]:border-slate-300/50';
+        return 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:backdrop-blur-md hover:bg-blue-50/80 border-blue-200/40 text-blue-700 data-[state=active]:shadow-lg data-[state=active]:border-blue-300/60 data-[state=active]:shadow-blue-200/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-md';
     }
   };
 
   return (
     <Tabs defaultValue={defaultType} className="w-full">
-      <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/80 backdrop-blur-md shadow-xl border border-white/20 h-auto p-3 rounded-2xl">
+      <TabsList className={`grid w-full mb-8 bg-white/80 backdrop-blur-md shadow-xl border border-white/20 h-auto p-3 rounded-2xl ${patientTypes.length === 1 ? 'grid-cols-1' : patientTypes.length === 2 ? 'grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'} gap-2`}>
         {patientTypes.map((type) => {
           const Icon = getPatientTypeIcon(type);
           const colors = getPatientTypeColors(type);
@@ -63,10 +63,10 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
             <TabsTrigger 
               key={type} 
               value={type}
-              className={`font-semibold text-sm py-4 px-5 rounded-xl transition-all duration-200 flex items-center gap-3 h-14 border bg-white/60 backdrop-blur-sm ${colors} min-w-0`}
+              className={`font-semibold py-4 px-3 sm:px-5 rounded-xl flex items-center gap-2 sm:gap-3 border bg-white/60 backdrop-blur-sm min-h-[3.5rem] ${colors}`}
             >
               <Icon className="h-4 w-4 flex-shrink-0" />
-              <span className="font-semibold tracking-wide truncate">{type}</span>
+              <span className="font-semibold tracking-wide text-xs sm:text-sm leading-tight text-center">{type}</span>
             </TabsTrigger>
           );
         })}
