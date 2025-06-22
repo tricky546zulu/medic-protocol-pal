@@ -54,7 +54,7 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
 
   return (
     <Tabs defaultValue={defaultType} className="w-full">
-      <TabsList className={`grid w-full mb-10 bg-white/85 backdrop-blur-lg shadow-2xl shadow-violet-200/60 border border-white/30 h-auto p-4 rounded-3xl ${patientTypes.length === 1 ? 'grid-cols-1' : patientTypes.length === 2 ? 'grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'} gap-3 ring-1 ring-violet-200/30`}>
+      <TabsList className={`grid w-full mb-10 bg-white/85 backdrop-blur-lg shadow-2xl shadow-violet-200/60 border border-white/30 h-auto p-4 rounded-3xl ${patientTypes.length === 1 ? 'grid-cols-1' : patientTypes.length === 2 ? 'grid-cols-2' : patientTypes.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'} gap-4 ring-1 ring-violet-200/30`}>
         {patientTypes.map((type) => {
           const Icon = getPatientTypeIcon(type);
           const colors = getPatientTypeColors(type);
@@ -63,10 +63,10 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
             <TabsTrigger 
               key={type} 
               value={type}
-              className={`font-bold py-5 px-4 sm:px-6 rounded-2xl flex items-center gap-3 sm:gap-4 border bg-white/70 backdrop-blur-lg min-h-[4rem] ${colors}`}
+              className={`font-bold py-3 px-3 sm:py-4 sm:px-4 lg:py-5 lg:px-6 rounded-2xl flex flex-col sm:flex-row items-center gap-2 sm:gap-3 lg:gap-4 border bg-white/70 backdrop-blur-lg min-h-[3rem] sm:min-h-[4rem] ${colors} whitespace-normal text-center sm:text-left`}
             >
-              <Icon className="h-5 w-5 flex-shrink-0" />
-              <span className="font-bold tracking-wide text-sm sm:text-base leading-tight text-center">{type}</span>
+              <Icon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+              <span className="font-bold tracking-wide text-xs sm:text-sm lg:text-base leading-tight break-words">{type}</span>
             </TabsTrigger>
           );
         })}

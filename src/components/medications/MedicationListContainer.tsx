@@ -21,8 +21,8 @@ export const MedicationListContainer = ({
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {[...Array(6)].map((_, i) => (
-          <Card key={i} className="animate-pulse">
-            <div className="h-48 bg-gray-200 rounded"></div>
+          <Card key={i} className="animate-pulse bg-white/70 backdrop-blur-lg border border-white/30 rounded-3xl">
+            <div className="h-48 bg-gray-200/60 rounded-3xl"></div>
           </Card>
         ))}
       </div>
@@ -31,7 +31,7 @@ export const MedicationListContainer = ({
 
   return (
     <>
-      <div className="mb-4 text-sm text-gray-600">
+      <div className="mb-4 text-sm text-gray-600 font-medium">
         Showing {medications.length} medication{medications.length !== 1 ? 's' : ''}
         {activeFiltersCount > 0 && ` (${activeFiltersCount} filter${activeFiltersCount !== 1 ? 's' : ''} applied)`}
       </div>
