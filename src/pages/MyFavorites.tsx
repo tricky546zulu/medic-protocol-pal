@@ -1,41 +1,17 @@
 
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { MedicationCard } from '@/components/medications/MedicationCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { Heart, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import type { Database } from '@/integrations/supabase/types';
-
-type Medication = Database['public']['Tables']['medications']['Row'];
+import { useFavorites } from '@/hooks/useFavorites';
 
 const MyFavorites = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  const { data: favoriteMedications, isLoading } = useQuery({
-    queryKey: ['user-favorites', user?.id],
-    queryFn: async () => {
-      if (!user) return [];
-
-      const { data, error } = await supabase
-        .from('user_favorites')
-        .select(`
-          id,
-          created_at,
-          medications (*)
-        `)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      return data?.map(fav => fav.medications).filter(Boolean) as Medication[];
-    },
-    enabled: !!user,
-  });
+  const { favoriteMedications, isLoading } = useFavorites();
 
   if (!user) {
     return (
@@ -78,7 +54,7 @@ const MyFavorites = () => {
             </Card>
           ))}
         </div>
-      ) : favoriteMedications && favoriteMedications.length > 0 ? (
+      ) : favoriteMedications.length > 0 ? (
         <>
           <div className="mb-4 text-sm text-gray-600">
             {favoriteMedications.length} bookmarked medication{favoriteMedications.length !== 1 ? 's' : ''}
