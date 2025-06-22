@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { MedicationSearch } from './MedicationSearch';
 import { MedicalDisclaimer } from '@/components/MedicalDisclaimer';
 
@@ -18,6 +18,22 @@ export const MedicationSearchContainer = ({
 }: MedicationSearchContainerProps) => {
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Memoize filtered suggestions for performance
+  const filteredMedicationSuggestions = useMemo(() => {
+    if (!searchTerm) return medicationSuggestions.slice(0, 10); // Limit initial suggestions
+    return medicationSuggestions.filter(suggestion =>
+      suggestion.toLowerCase().includes(searchTerm.toLowerCase())
+    ).slice(0, 20); // Limit filtered suggestions
+  }, [medicationSuggestions, searchTerm]);
+
+  const filteredIndicationSuggestions = useMemo(() => {
+    if (!searchTerm) return indicationSuggestions.slice(0, 10);
+    return indicationSuggestions.filter(suggestion =>
+      suggestion.text.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      suggestion.medicationName.toLowerCase().includes(searchTerm.toLowerCase())
+    ).slice(0, 20);
+  }, [indicationSuggestions, searchTerm]);
+
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
     onSearchChange(value);
@@ -30,9 +46,9 @@ export const MedicationSearchContainer = ({
       <MedicationSearch
         value={searchTerm}
         onChange={handleSearchChange}
-        suggestions={medicationSuggestions}
+        suggestions={filteredMedicationSuggestions}
         isLoading={isLoading}
-        indicationSuggestions={indicationSuggestions}
+        indicationSuggestions={filteredIndicationSuggestions}
       />
     </div>
   );
