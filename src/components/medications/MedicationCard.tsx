@@ -31,7 +31,7 @@ export const MedicationCard = ({ medication }: MedicationCardProps) => {
             <span className="text-gray-900 leading-tight break-words">{medication.medication_name}</span>
           </CardTitle>
           {medication.high_alert && (
-            <Badge variant="destructive" className="flex items-center gap-1 flex-shrink-0 px-3 py-1 rounded-xl text-xs font-medium bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition-all duration-200 backdrop-blur-sm border border-red-300/40 shadow-red-200/50 animate-pulse">
+            <Badge variant="destructive" className="flex items-center gap-1 flex-shrink-0 px-3 py-1 rounded-xl text-xs font-medium bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 transition-all duration-200 backdrop-blur-sm border border-red-300/40 shadow-lg shadow-red-200/50 ring-2 ring-red-400/30">
               <AlertTriangle className="h-3 w-3" />
               Alert
             </Badge>
@@ -44,7 +44,7 @@ export const MedicationCard = ({ medication }: MedicationCardProps) => {
             <p className="text-xs font-medium text-gray-600 mb-3 uppercase tracking-wide">Classification</p>
             <div className="flex flex-wrap gap-2">
               {medication.classification.slice(0, 3).map((cls) => (
-                <Badge key={cls} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 font-normal backdrop-blur-sm hover:scale-105 hover:shadow-sm transition-all duration-200">
+                <Badge key={cls} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 font-normal backdrop-blur-sm hover:scale-105 hover:shadow-sm hover:bg-gradient-to-r hover:from-blue-50/80 hover:to-blue-100/70 hover:border-blue-200/60 hover:text-blue-700 transition-all duration-200">
                   {cls}
                 </Badge>
               ))}

@@ -60,11 +60,11 @@ export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCard
   const PatientIcon = config.icon;
 
   return (
-    <Card className={`bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl shadow-lg hover:scale-[1.01] ${isHighAlert ? 'ring-2 ring-red-200/50' : ''}`}>
+    <Card className={`bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl shadow-lg hover:scale-[1.01] ${isHighAlert ? 'ring-2 ring-red-400/50 shadow-red-200/30' : ''}`}>
       <CardHeader className={`p-6 ${config.headerBg} text-white border-b border-white/10 shadow-lg`}>
         <div className="flex items-center justify-between gap-4">
           <CardTitle className="text-base font-semibold flex items-center gap-4 min-w-0 flex-1">
-            {isHighAlert && <AlertTriangle className="h-4 w-4 text-yellow-300 flex-shrink-0 animate-pulse" />}
+            {isHighAlert && <AlertTriangle className="h-4 w-4 text-yellow-300 flex-shrink-0 shadow-lg drop-shadow-md" />}
             <div className="flex-shrink-0 p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all duration-200">
               <PatientIcon className="h-5 w-5" />
             </div>

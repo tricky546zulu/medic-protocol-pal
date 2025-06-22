@@ -25,7 +25,7 @@ export const QuickReferenceCard = ({ medication, dosing }: QuickReferenceCardPro
         <div className="flex items-center justify-between gap-4">
           <CardTitle className="text-lg font-semibold flex items-center gap-3 min-w-0 flex-1">
             {medication.high_alert && (
-              <AlertTriangle className="h-4 w-4 text-red-600 flex-shrink-0 animate-pulse" />
+              <AlertTriangle className="h-4 w-4 text-red-600 flex-shrink-0 shadow-lg drop-shadow-md" />
             )}
             <span className="break-words leading-tight">{medication.medication_name}</span>
           </CardTitle>
@@ -43,7 +43,7 @@ export const QuickReferenceCard = ({ medication, dosing }: QuickReferenceCardPro
         {medication.classification && medication.classification.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
             {medication.classification.map((cls, index) => (
-              <Badge key={index} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 backdrop-blur-sm hover:scale-105 hover:shadow-sm transition-all duration-200">
+              <Badge key={index} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 backdrop-blur-sm hover:scale-105 hover:shadow-sm hover:bg-gradient-to-r hover:from-blue-50/80 hover:to-blue-100/70 hover:border-blue-200/60 hover:text-blue-700 transition-all duration-200">
                 {cls}
               </Badge>
             ))}

@@ -143,7 +143,7 @@ const MedicationDetail = () => {
         </Button>
 
         {/* Enhanced Header with Glass Morphism */}
-        <div className={`mb-8 p-6 rounded-2xl bg-white/80 backdrop-blur-md border border-white/20 shadow-xl transition-all duration-300 hover:shadow-2xl ${medication.high_alert ? 'ring-2 ring-red-200/50' : 'ring-1 ring-blue-200/30'}`}>
+        <div className={`mb-8 p-6 rounded-2xl bg-white/80 backdrop-blur-md border border-white/20 shadow-xl transition-all duration-300 hover:shadow-2xl ${medication.high_alert ? 'ring-2 ring-red-400/50 shadow-red-200/30' : 'ring-1 ring-blue-200/30'}`}>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-4 min-w-0 flex-1">
               <div className="flex-shrink-0 p-3 bg-gradient-to-br from-blue-500/20 to-indigo-600/20 backdrop-blur-sm rounded-xl border border-blue-200/40 hover:scale-105 transition-transform duration-300">
@@ -154,7 +154,7 @@ const MedicationDetail = () => {
                 {medication.classification && medication.classification.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {medication.classification.map((cls, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 backdrop-blur-sm hover:scale-105 hover:shadow-sm transition-all duration-200">
+                      <Badge key={index} variant="secondary" className="text-xs bg-gradient-to-r from-white/80 to-gray-50/90 text-gray-700 px-3 py-1 rounded-xl border border-gray-200/60 backdrop-blur-sm hover:scale-105 hover:shadow-sm hover:bg-gradient-to-r hover:from-blue-50/80 hover:to-blue-100/70 hover:border-blue-200/60 hover:text-blue-700 transition-all duration-200">
                         {cls}
                       </Badge>
                     ))}
@@ -165,7 +165,7 @@ const MedicationDetail = () => {
             
             <div className="flex flex-col gap-3 flex-shrink-0">
               {medication.high_alert && (
-                <Badge variant="destructive" className="flex items-center gap-2 text-sm px-4 py-2 rounded-xl shadow-lg bg-gradient-to-r from-red-500 to-red-600 backdrop-blur-sm hover:from-red-600 hover:to-red-700 border border-red-300/40 animate-pulse">
+                <Badge variant="destructive" className="flex items-center gap-2 text-sm px-4 py-2 rounded-xl shadow-lg bg-gradient-to-r from-red-500 to-red-600 backdrop-blur-sm hover:from-red-600 hover:to-red-700 border border-red-300/40 ring-2 ring-red-400/30">
                   <AlertTriangle className="h-4 w-4" />
                   HIGH ALERT MEDICATION
                 </Badge>
