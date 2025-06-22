@@ -5,7 +5,6 @@ import { Heart } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { MedicationSearchContainer } from '@/components/medications/MedicationSearchContainer';
 import { MedicationFilters } from '@/components/medications/MedicationFilters';
-import { EmergencyCategories } from '@/components/medications/EmergencyCategories';
 import { MedicationListContainer } from '@/components/medications/MedicationListContainer';
 import { MedicationEmptyState } from '@/components/medications/MedicationEmptyState';
 import { useMedicationData } from '@/hooks/useMedicationData';
@@ -52,12 +51,6 @@ const Medications = () => {
     setShowFavoritesOnly(false);
   };
 
-  const handleCategorySelect = (categoryId: string) => {
-    setSearchTerm('');
-    filtersHook.handleCategorySelect(categoryId);
-    setShowFavoritesOnly(false);
-  };
-
   const totalActiveFilters = filtersHook.activeFiltersCount + (showFavoritesOnly ? 1 : 0);
   const hasActiveFilters = Boolean(searchTerm) || totalActiveFilters > 0;
 
@@ -97,11 +90,6 @@ const Medications = () => {
               </div>
             )}
           </div>
-        </div>
-
-        {/* Emergency Categories */}
-        <div className="mb-8">
-          <EmergencyCategories onCategorySelect={handleCategorySelect} />
         </div>
 
         {/* Filters */}
