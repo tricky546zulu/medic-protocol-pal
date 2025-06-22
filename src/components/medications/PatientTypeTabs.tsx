@@ -2,6 +2,7 @@
 import React from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { EmergencyDosingCard } from './EmergencyDosingCard';
+import { Baby, User, Heart } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
 
 type MedicationDosing = Database['public']['Tables']['medication_dosing']['Row'];
@@ -26,22 +27,53 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
 
   if (patientTypes.length === 0) return null;
 
+  const getPatientTypeIcon = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'pediatric':
+      case 'neonatal':
+        return Baby;
+      case 'geriatric':
+        return Heart;
+      default:
+        return User;
+    }
+  };
+
+  const getPatientTypeColors = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'pediatric':
+        return 'data-[state=active]:bg-green-500 data-[state=active]:text-white hover:bg-green-100 border-green-200 text-green-700';
+      case 'neonatal':
+        return 'data-[state=active]:bg-purple-500 data-[state=active]:text-white hover:bg-purple-100 border-purple-200 text-purple-700';
+      case 'geriatric':
+        return 'data-[state=active]:bg-orange-500 data-[state=active]:text-white hover:bg-orange-100 border-orange-200 text-orange-700';
+      default:
+        return 'data-[state=active]:bg-blue-500 data-[state=active]:text-white hover:bg-blue-100 border-blue-200 text-blue-700';
+    }
+  };
+
   return (
     <Tabs defaultValue={defaultType} className="w-full">
-      <TabsList className="grid w-full grid-cols-3 mb-6">
-        {patientTypes.map((type) => (
-          <TabsTrigger 
-            key={type} 
-            value={type}
-            className="font-semibold text-sm"
-          >
-            {type}
-          </TabsTrigger>
-        ))}
+      <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/80 backdrop-blur-sm shadow-xl border-0 h-auto p-2 rounded-2xl">
+        {patientTypes.map((type) => {
+          const Icon = getPatientTypeIcon(type);
+          const colors = getPatientTypeColors(type);
+          
+          return (
+            <TabsTrigger 
+              key={type} 
+              value={type}
+              className={`font-bold text-lg py-4 px-6 rounded-xl transition-all duration-300 flex items-center gap-3 min-h-[60px] ${colors}`}
+            >
+              <Icon className="h-6 w-6" />
+              <span>{type}</span>
+            </TabsTrigger>
+          );
+        })}
       </TabsList>
       
       {patientTypes.map((type) => (
-        <TabsContent key={type} value={type} className="space-y-4">
+        <TabsContent key={type} value={type} className="space-y-6">
           {dosingByType[type].map((dose) => (
             <EmergencyDosingCard 
               key={dose.id} 

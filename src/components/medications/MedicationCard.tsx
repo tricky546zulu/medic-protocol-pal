@@ -18,48 +18,50 @@ export const MedicationCard = ({ medication }: MedicationCardProps) => {
   const navigate = useNavigate();
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
-      <CardHeader className="pb-3">
+    <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group rounded-2xl overflow-hidden">
+      <CardHeader className="pb-4 bg-gradient-to-r from-slate-50 to-white">
         <div className="flex items-center justify-between">
           <CardTitle 
-            className="text-lg font-semibold flex items-center gap-2 cursor-pointer flex-1"
+            className="text-xl font-bold flex items-center gap-3 cursor-pointer flex-1 hover:text-primary transition-colors duration-200"
             onClick={() => navigate(`/medications/${medication.id}`)}
           >
-            <Pill className="h-5 w-5 text-primary" />
-            {medication.medication_name}
+            <div className="p-2 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl group-hover:scale-110 transition-transform duration-300">
+              <Pill className="h-5 w-5 text-primary" />
+            </div>
+            <span className="text-gray-900">{medication.medication_name}</span>
           </CardTitle>
           {medication.high_alert && (
-            <Badge variant="destructive" className="flex items-center gap-1 ml-2">
-              <AlertTriangle className="h-3 w-3" />
-              <span className="hidden sm:inline">High Alert</span>
-              <span className="sm:hidden">Alert</span>
+            <Badge variant="destructive" className="flex items-center gap-2 ml-3 px-3 py-1 rounded-xl shadow-lg">
+              <AlertTriangle className="h-4 w-4" />
+              <span className="hidden sm:inline font-semibold">High Alert</span>
+              <span className="sm:hidden font-semibold">Alert</span>
             </Badge>
           )}
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-6">
         {medication.classification && medication.classification.length > 0 && (
-          <div className="mb-3">
-            <p className="text-sm font-medium text-gray-700 mb-2">Classification:</p>
-            <div className="flex flex-wrap gap-1">
+          <div className="mb-6">
+            <p className="text-sm font-semibold text-gray-700 mb-3">Classification:</p>
+            <div className="flex flex-wrap gap-2">
               {medication.classification.slice(0, 3).map((cls) => (
-                <Badge key={cls} variant="secondary" className="text-xs">
+                <Badge key={cls} variant="secondary" className="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-lg border border-gray-200 hover:bg-gray-200 transition-colors">
                   {cls}
                 </Badge>
               ))}
               {medication.classification.length > 3 && (
-                <Badge variant="secondary" className="text-xs">
-                  +{medication.classification.length - 3}
+                <Badge variant="secondary" className="text-sm bg-primary/10 text-primary px-3 py-1 rounded-lg border border-primary/20">
+                  +{medication.classification.length - 3} more
                 </Badge>
               )}
             </div>
           </div>
         )}
-        <div className="flex gap-2 mt-3">
+        <div className="flex gap-3 mt-4">
           <Button 
             variant="outline" 
             size="sm" 
-            className="flex-1 touch-manipulation min-h-[44px]"
+            className="flex-1 touch-manipulation min-h-[48px] rounded-xl border-2 border-gray-200 hover:border-primary hover:bg-primary/5 transition-all duration-200 font-semibold"
             onClick={() => navigate(`/medications/${medication.id}`)}
           >
             View Details
