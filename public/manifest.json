@@ -2,11 +2,15 @@
 {
   "name": "Saskatchewan EMS Medications",
   "short_name": "SK EMS Meds",
-  "description": "Provincial medication protocols and dosing guidelines for emergency medical services",
+  "description": "Official Saskatchewan Emergency Medical Services medication protocols and dosing guidelines for EMS professionals",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#3b82f6",
   "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-CA",
+  "categories": ["medical", "reference", "education"],
   "icons": [
     {
       "src": "/placeholder.svg",

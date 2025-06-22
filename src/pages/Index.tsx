@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Pill, Search, Shield, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer";
 
 const Index = () => {
   return (
@@ -10,6 +11,11 @@ const Index = () => {
       {/* Subtle background pattern */}
       <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-blue-50/30"></div>
       <div className="relative container mx-auto px-4 py-16">
+        {/* Medical Disclaimer */}
+        <div className="max-w-4xl mx-auto mb-12">
+          <MedicalDisclaimer />
+        </div>
+
         {/* Hero Section */}
         <div className="text-center mb-20 max-w-4xl mx-auto">
           <div className="flex justify-center mb-8">
@@ -22,7 +28,7 @@ const Index = () => {
             <span className="bg-gradient-to-r from-sky-600 via-violet-600 to-rose-600 bg-clip-text text-transparent"> Medications</span>
           </h1>
           <p className="text-xl text-gray-700 mb-10 max-w-2xl mx-auto leading-relaxed font-medium">
-            Quick access to provincial emergency medical services protocols and dosing guidelines
+            Official provincial emergency medical services protocols and dosing guidelines for EMS professionals
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button asChild size="lg" className="text-lg px-8 py-6 rounded-2xl shadow-2xl shadow-sky-300/50 hover:shadow-2xl hover:shadow-sky-400/60 transition-all duration-300 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 border-0 hover:scale-105">
@@ -66,6 +72,17 @@ const Index = () => {
               </p>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Footer Notice */}
+        <div className="mt-16 text-center text-sm text-gray-600 max-w-2xl mx-auto">
+          <p className="mb-2 font-medium">
+            © 2024 Saskatchewan Emergency Medical Services
+          </p>
+          <p className="text-xs">
+            This application contains official provincial protocols. For the most current information, 
+            always consult your local medical director and current protocol publications.
+          </p>
         </div>
       </div>
     </div>
