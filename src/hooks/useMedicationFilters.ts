@@ -84,17 +84,23 @@ export const useMedicationFilters = ({
     return filtered;
   }, [medications, searchTerm, filters, dosingData, indicationData, showFavoritesOnly, userFavorites]);
 
+  // Updated to accept union type and handle it properly
   const handleFilterChange = (key: string, value: string | boolean) => {
-    // Type-safe filter change handler with explicit type checking for each key
-    if (key === 'highAlert' && typeof value === 'boolean') {
-      setFilters(prev => ({ ...prev, highAlert: value }));
-    } else if (key === 'patientType' && typeof value === 'string') {
-      setFilters(prev => ({ ...prev, patientType: value }));
-    } else if (key === 'classification' && typeof value === 'string') {
-      setFilters(prev => ({ ...prev, classification: value }));
-    } else if (key === 'route' && typeof value === 'string') {
-      setFilters(prev => ({ ...prev, route: value }));
-    }
+    setFilters(prev => {
+      // Type-safe updates based on the key
+      switch (key) {
+        case 'highAlert':
+          return { ...prev, highAlert: value as boolean };
+        case 'patientType':
+          return { ...prev, patientType: value as string };
+        case 'classification':
+          return { ...prev, classification: value as string };
+        case 'route':
+          return { ...prev, route: value as string };
+        default:
+          return prev;
+      }
+    });
   };
 
   const clearFilters = () => {
