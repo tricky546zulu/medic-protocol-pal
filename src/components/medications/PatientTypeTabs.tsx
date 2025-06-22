@@ -54,7 +54,7 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
 
   return (
     <Tabs defaultValue={defaultType} className="w-full">
-      <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/95 backdrop-blur-sm shadow-2xl border-0 h-auto p-3 rounded-2xl">
+      <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/95 backdrop-blur-sm shadow-xl border-0 h-auto p-3 rounded-2xl">
         {patientTypes.map((type) => {
           const Icon = getPatientTypeIcon(type);
           const colors = getPatientTypeColors(type);
@@ -63,10 +63,10 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
             <TabsTrigger 
               key={type} 
               value={type}
-              className={`font-bold text-lg py-5 px-8 rounded-xl transition-all duration-300 flex items-center gap-4 min-h-[70px] border-2 ${colors}`}
+              className={`font-bold text-lg py-5 px-8 rounded-xl transition-all duration-300 flex items-center gap-4 min-h-[70px] border-2 ${colors} min-w-0`}
             >
-              <Icon className="h-7 w-7" />
-              <span className="font-black tracking-wide">{type}</span>
+              <Icon className="h-7 w-7 flex-shrink-0" />
+              <span className="font-black tracking-wide truncate">{type}</span>
             </TabsTrigger>
           );
         })}

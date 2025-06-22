@@ -18,23 +18,22 @@ export const MedicationCard = ({ medication }: MedicationCardProps) => {
   const navigate = useNavigate();
 
   return (
-    <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group rounded-2xl overflow-hidden hover:bg-white">
-      <CardHeader className="pb-4 bg-gradient-to-r from-slate-50/90 to-white/90 border-b border-gray-100">
-        <div className="flex items-center justify-between">
+    <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group rounded-2xl overflow-hidden">
+      <CardHeader className="p-6 bg-gradient-to-r from-slate-50/90 to-white/90 border-b border-gray-100">
+        <div className="flex items-center justify-between gap-4">
           <CardTitle 
-            className="text-xl font-bold flex items-center gap-3 cursor-pointer flex-1 hover:text-blue-600 transition-colors duration-200"
+            className="text-xl md:text-2xl font-bold flex items-center gap-3 cursor-pointer flex-1 hover:text-blue-600 transition-colors duration-200 min-w-0"
             onClick={() => navigate(`/medications/${medication.id}`)}
           >
-            <div className="p-2.5 bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-xl group-hover:scale-110 transition-transform duration-300 border border-blue-200/50">
+            <div className="flex-shrink-0 p-2.5 bg-gradient-to-br from-blue-500/10 to-blue-600/5 rounded-xl group-hover:scale-110 transition-transform duration-300 border border-blue-200/50">
               <Pill className="h-5 w-5 text-blue-600" />
             </div>
-            <span className="text-gray-900 leading-tight">{medication.medication_name}</span>
+            <span className="text-gray-900 leading-tight truncate">{medication.medication_name}</span>
           </CardTitle>
           {medication.high_alert && (
-            <Badge variant="destructive" className="flex items-center gap-2 ml-3 px-3 py-1.5 rounded-xl shadow-md bg-red-500 hover:bg-red-600 transition-colors">
+            <Badge variant="destructive" className="flex items-center gap-2 flex-shrink-0 px-3 py-1.5 rounded-xl shadow-md bg-red-500 hover:bg-red-600 transition-colors">
               <AlertTriangle className="h-4 w-4" />
-              <span className="hidden sm:inline font-semibold text-sm">High Alert</span>
-              <span className="sm:hidden font-semibold text-sm">Alert</span>
+              <span className="font-semibold text-sm">Alert</span>
             </Badge>
           )}
         </div>
@@ -61,7 +60,7 @@ export const MedicationCard = ({ medication }: MedicationCardProps) => {
           <Button 
             variant="outline" 
             size="sm" 
-            className="flex-1 touch-manipulation min-h-[48px] rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 font-semibold text-gray-700 hover:text-blue-700"
+            className="flex-1 min-h-[48px] rounded-xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 font-semibold text-gray-700 hover:text-blue-700"
             onClick={() => navigate(`/medications/${medication.id}`)}
           >
             View Details

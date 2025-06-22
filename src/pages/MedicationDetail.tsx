@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -98,11 +97,11 @@ const MedicationDetail = () => {
             <div className="h-4 bg-gray-200 rounded w-1/2"></div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {[...Array(4)].map((_, i) => (
-                <Card key={i} className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
-                  <CardHeader>
+                <Card key={i} className="border-0 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
+                  <CardHeader className="p-6">
                     <div className="h-6 bg-gray-200 rounded"></div>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-6">
                     <div className="space-y-2">
                       <div className="h-4 bg-gray-200 rounded"></div>
                       <div className="h-4 bg-gray-200 rounded w-3/4"></div>
@@ -120,11 +119,11 @@ const MedicationDetail = () => {
   if (!medication) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-        <div className="container mx-auto px-4 py-8">
-          <Card className="text-center py-12 border-0 shadow-xl bg-white/80 backdrop-blur-sm">
-            <CardContent>
-              <p className="text-gray-500">Medication not found.</p>
-              <Button onClick={() => navigate('/medications')} className="mt-4 rounded-xl">
+        <div className="container mx-auto px-4 py-8 text-center">
+          <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl py-12">
+            <CardContent className="p-6">
+              <p className="text-gray-500 mb-4">Medication not found.</p>
+              <Button onClick={() => navigate('/medications')} className="rounded-xl">
                 Back to Medications
               </Button>
             </CardContent>
@@ -147,18 +146,18 @@ const MedicationDetail = () => {
         </Button>
 
         {/* Emergency Header */}
-        <div className={`mb-8 p-6 rounded-2xl shadow-xl bg-white/80 backdrop-blur-sm border-0 ${medication.high_alert ? 'border-l-4 border-l-red-500' : 'border-l-4 border-l-primary'}`}>
+        <div className={`mb-8 p-6 rounded-2xl shadow-xl bg-white/95 backdrop-blur-sm border-0 ${medication.high_alert ? 'border-l-4 border-l-red-500' : 'border-l-4 border-l-primary'}`}>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl">
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <div className="flex-shrink-0 p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl">
                 <Pill className="h-10 w-10 text-primary" />
               </div>
-              <div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">{medication.medication_name}</h1>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 break-words">{medication.medication_name}</h1>
                 {medication.classification && medication.classification.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {medication.classification.map((cls, index) => (
-                      <Badge key={index} variant="secondary" className="text-sm bg-gray-100 text-gray-700">
+                      <Badge key={index} variant="secondary" className="text-sm bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg border border-gray-200">
                         {cls}
                       </Badge>
                     ))}
@@ -167,9 +166,9 @@ const MedicationDetail = () => {
               </div>
             </div>
             
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 flex-shrink-0">
               {medication.high_alert && (
-                <Badge variant="destructive" className="flex items-center gap-2 text-lg p-2 rounded-xl">
+                <Badge variant="destructive" className="flex items-center gap-2 text-lg p-2 rounded-xl shadow-lg bg-red-500 hover:bg-red-600">
                   <AlertTriangle className="h-5 w-5" />
                   HIGH ALERT MEDICATION
                 </Badge>
@@ -185,7 +184,7 @@ const MedicationDetail = () => {
         {/* Emergency Dosing Section */}
         {dosing && dosing.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-6 text-center">EMERGENCY DOSING</h2>
+            <h2 className="text-xl md:text-2xl font-bold mb-6 text-center">EMERGENCY DOSING</h2>
             <PatientTypeTabs dosing={dosing} isHighAlert={medication.high_alert} />
           </div>
         )}
@@ -197,18 +196,18 @@ const MedicationDetail = () => {
 
         {/* Contraindications - Always Visible if Present */}
         {contraindications && contraindications.length > 0 && (
-          <Card className="mb-6 border-0 shadow-xl bg-red-50/80 backdrop-blur-sm border-l-4 border-l-red-500">
-            <CardHeader>
+          <Card className="mb-6 border-0 shadow-xl bg-red-50/95 backdrop-blur-sm border-l-4 border-l-red-500 rounded-2xl">
+            <CardHeader className="p-6">
               <CardTitle className="flex items-center gap-2 text-red-700 text-xl">
                 <FileWarning className="h-6 w-6" />
                 ⚠️ CONTRAINDICATIONS & PRECAUTIONS
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {contraindications.map((contraindication) => (
-                  <div key={contraindication.id} className="bg-white/80 p-3 rounded-lg border border-red-200">
-                    <p className="text-sm text-red-800 font-medium">
+                  <div key={contraindication.id} className="bg-white/95 backdrop-blur-sm p-4 rounded-2xl border-0 shadow-xl">
+                    <p className="text-sm text-red-800 font-medium break-words">
                       • {contraindication.contraindication}
                     </p>
                   </div>
@@ -224,7 +223,7 @@ const MedicationDetail = () => {
           {indications && indications.length > 0 && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-4 h-auto bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl">
+                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/95 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl">
                   <span className="flex items-center gap-2 text-lg font-semibold">
                     <Stethoscope className="h-5 w-5" />
                     Indications & Clinical Uses
@@ -233,14 +232,14 @@ const MedicationDetail = () => {
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <Card className="mt-2 border-0 shadow-xl bg-white/80 backdrop-blur-sm">
-                  <CardContent className="p-4">
+                <Card className="mt-2 border-0 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
+                  <CardContent className="p-6">
                     {indications.map((indication, index) => (
                       <div key={indication.id} className="mb-4 last:mb-0">
                         <Badge variant="outline" className="mb-2 bg-primary/10 text-primary border-primary/20">
                           {indication.indication_type}
                         </Badge>
-                        <p className="text-sm text-gray-700">{indication.indication_text}</p>
+                        <p className="text-sm text-gray-700 break-words">{indication.indication_text}</p>
                       </div>
                     ))}
                   </CardContent>
@@ -253,7 +252,7 @@ const MedicationDetail = () => {
           {administration && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-4 h-auto bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl">
+                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/95 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl">
                   <span className="text-lg font-semibold">
                     Administration & Preparation Details
                   </span>
@@ -261,8 +260,8 @@ const MedicationDetail = () => {
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <Card className="mt-2 border-0 shadow-xl bg-white/80 backdrop-blur-sm">
-                  <CardContent className="p-4">
+                <Card className="mt-2 border-0 shadow-xl bg-white/95 backdrop-blur-sm rounded-2xl">
+                  <CardContent className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {administration.preparation && administration.preparation.length > 0 && (
                         <div>
@@ -270,8 +269,8 @@ const MedicationDetail = () => {
                           <ul className="space-y-1">
                             {administration.preparation.map((prep, index) => (
                               <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                                <span className="text-primary mt-1">•</span>
-                                {prep}
+                                <span className="text-primary mt-1 flex-shrink-0">•</span>
+                                <span className="break-words">{prep}</span>
                               </li>
                             ))}
                           </ul>
@@ -284,8 +283,8 @@ const MedicationDetail = () => {
                           <ul className="space-y-1">
                             {administration.administration_notes.map((note, index) => (
                               <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                                <span className="text-blue-500 mt-1">•</span>
-                                {note}
+                                <span className="text-blue-500 mt-1 flex-shrink-0">•</span>
+                                <span className="break-words">{note}</span>
                               </li>
                             ))}
                           </ul>
@@ -298,8 +297,8 @@ const MedicationDetail = () => {
                           <ul className="space-y-1">
                             {administration.monitoring.map((monitor, index) => (
                               <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                                <span className="text-green-500 mt-1">•</span>
-                                {monitor}
+                                <span className="text-green-500 mt-1 flex-shrink-0">•</span>
+                                <span className="break-words">{monitor}</span>
                               </li>
                             ))}
                           </ul>
@@ -312,8 +311,8 @@ const MedicationDetail = () => {
                           <ul className="space-y-1">
                             {administration.adverse_effects.map((effect, index) => (
                               <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
-                                <span className="text-red-500 mt-1">•</span>
-                                {effect}
+                                <span className="text-red-500 mt-1 flex-shrink-0">•</span>
+                                <span className="break-words">{effect}</span>
                               </li>
                             ))}
                           </ul>
