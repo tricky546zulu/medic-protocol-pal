@@ -237,16 +237,16 @@ const MedicationDetail = () => {
             <Collapsible>
               <CollapsibleTrigger asChild>
                 <Button variant="outline" className="w-full p-4 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
-                  <div className="flex items-center justify-between w-full gap-3">
-                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className="flex flex-col items-center justify-center w-full gap-3 relative">
+                    <div className="flex items-center gap-3">
                       <div className="p-2 bg-gradient-to-br from-sky-100 to-blue-200 rounded-lg border border-sky-200/60 shadow-lg flex-shrink-0">
                         <Stethoscope className="h-4 w-4 text-sky-700" />
                       </div>
-                      <span className="text-sm sm:text-base font-bold text-gray-800 text-left break-words leading-tight">
+                      <span className="text-sm sm:text-base font-bold text-gray-800 text-center break-words leading-tight">
                         Indications & Clinical Uses
                       </span>
                     </div>
-                    <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200 flex-shrink-0" />
+                    <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200 absolute right-2 top-1/2 transform -translate-y-1/2" />
                   </div>
                 </Button>
               </CollapsibleTrigger>
@@ -272,16 +272,16 @@ const MedicationDetail = () => {
             <Collapsible>
               <CollapsibleTrigger asChild>
                 <Button variant="outline" className="w-full p-4 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
-                  <div className="flex items-center justify-between w-full gap-3">
-                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className="flex flex-col items-center justify-center w-full gap-3 relative">
+                    <div className="flex items-center gap-3">
                       <div className="p-2 bg-gradient-to-br from-emerald-100 to-green-200 rounded-lg border border-emerald-200/60 shadow-lg flex-shrink-0">
                         <Pill className="h-4 w-4 text-emerald-700" />
                       </div>
-                      <span className="text-sm sm:text-base font-bold text-gray-800 text-left break-words leading-tight">
+                      <span className="text-sm sm:text-base font-bold text-gray-800 text-center break-words leading-tight">
                         Administration & Preparation Details
                       </span>
                     </div>
-                    <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200 flex-shrink-0" />
+                    <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200 absolute right-2 top-1/2 transform -translate-y-1/2" />
                   </div>
                 </Button>
               </CollapsibleTrigger>
