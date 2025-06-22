@@ -42,19 +42,19 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
   const getPatientTypeColors = (type: string) => {
     switch (type.toLowerCase()) {
       case 'pediatric':
-        return 'data-[state=active]:bg-green-500 data-[state=active]:text-white hover:bg-green-100 border-green-200 text-green-700';
+        return 'data-[state=active]:bg-pink-500 data-[state=active]:text-white hover:bg-pink-100 border-pink-200 text-pink-700 data-[state=active]:shadow-xl';
       case 'neonatal':
-        return 'data-[state=active]:bg-purple-500 data-[state=active]:text-white hover:bg-purple-100 border-purple-200 text-purple-700';
+        return 'data-[state=active]:bg-purple-500 data-[state=active]:text-white hover:bg-purple-100 border-purple-200 text-purple-700 data-[state=active]:shadow-xl';
       case 'geriatric':
-        return 'data-[state=active]:bg-orange-500 data-[state=active]:text-white hover:bg-orange-100 border-orange-200 text-orange-700';
+        return 'data-[state=active]:bg-amber-500 data-[state=active]:text-white hover:bg-amber-100 border-amber-200 text-amber-700 data-[state=active]:shadow-xl';
       default:
-        return 'data-[state=active]:bg-blue-500 data-[state=active]:text-white hover:bg-blue-100 border-blue-200 text-blue-700';
+        return 'data-[state=active]:bg-blue-500 data-[state=active]:text-white hover:bg-blue-100 border-blue-200 text-blue-700 data-[state=active]:shadow-xl';
     }
   };
 
   return (
     <Tabs defaultValue={defaultType} className="w-full">
-      <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/80 backdrop-blur-sm shadow-xl border-0 h-auto p-2 rounded-2xl">
+      <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/95 backdrop-blur-sm shadow-2xl border-0 h-auto p-3 rounded-2xl">
         {patientTypes.map((type) => {
           const Icon = getPatientTypeIcon(type);
           const colors = getPatientTypeColors(type);
@@ -63,17 +63,17 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
             <TabsTrigger 
               key={type} 
               value={type}
-              className={`font-bold text-lg py-4 px-6 rounded-xl transition-all duration-300 flex items-center gap-3 min-h-[60px] ${colors}`}
+              className={`font-bold text-lg py-5 px-8 rounded-xl transition-all duration-300 flex items-center gap-4 min-h-[70px] border-2 ${colors}`}
             >
-              <Icon className="h-6 w-6" />
-              <span>{type}</span>
+              <Icon className="h-7 w-7" />
+              <span className="font-black tracking-wide">{type}</span>
             </TabsTrigger>
           );
         })}
       </TabsList>
       
       {patientTypes.map((type) => (
-        <TabsContent key={type} value={type} className="space-y-6">
+        <TabsContent key={type} value={type} className="space-y-8">
           {dosingByType[type].map((dose) => (
             <EmergencyDosingCard 
               key={dose.id} 
