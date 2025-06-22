@@ -1,53 +1,54 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { MedicationSearch } from './MedicationSearch';
 import { MedicationFilters } from './MedicationFilters';
 import { EmergencyCategories } from './EmergencyCategories';
 import { MedicalDisclaimer } from '@/components/MedicalDisclaimer';
-import { useMedicationSearch } from '@/hooks/useMedicationSearch';
-import { useMedicationFilters } from '@/hooks/useMedicationFilters';
 
-export const MedicationSearchContainer = () => {
-  const {
-    searchTerm,
-    setSearchTerm,
-    searchResults,
-    isSearchActive,
-    clearSearch
-  } = useMedicationSearch();
+interface MedicationSearchContainerProps {
+  medicationSuggestions: string[];
+  indicationSuggestions: Array<{ text: string; medicationId: string; medicationName: string }>;
+  isLoading?: boolean;
+  onSearchChange: (value: string) => void;
+}
 
-  const {
-    filters,
-    updateFilter,
-    clearFilters,
-    hasActiveFilters
-  } = useMedicationFilters();
+export const MedicationSearchContainer = ({
+  medicationSuggestions,
+  indicationSuggestions,
+  isLoading,
+  onSearchChange
+}: MedicationSearchContainerProps) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    onSearchChange(value);
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    onSearchChange('');
+  };
+
+  const handleCategorySelect = (categoryId: string) => {
+    // This could trigger filter changes in the parent component
+    console.log('Category selected:', categoryId);
+  };
 
   return (
     <div className="space-y-6">
       <MedicalDisclaimer />
       
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-1">
-          <MedicationFilters
-            filters={filters}
-            onFilterChange={updateFilter}
-            onClearFilters={clearFilters}
-            hasActiveFilters={hasActiveFilters}
-          />
-        </div>
+      <div className="space-y-6">
+        <MedicationSearch
+          value={searchTerm}
+          onChange={handleSearchChange}
+          suggestions={medicationSuggestions}
+          isLoading={isLoading}
+          indicationSuggestions={indicationSuggestions}
+        />
         
-        <div className="lg:col-span-3 space-y-6">
-          <MedicationSearch
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            onClearSearch={clearSearch}
-            searchResults={searchResults}
-            isSearchActive={isSearchActive}
-          />
-          
-          {!isSearchActive && !hasActiveFilters && <EmergencyCategories />}
-        </div>
+        {!searchTerm && <EmergencyCategories onCategorySelect={handleCategorySelect} />}
       </div>
     </div>
   );
