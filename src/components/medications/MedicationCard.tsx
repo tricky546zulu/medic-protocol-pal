@@ -17,73 +17,70 @@ interface MedicationCardProps {
 export const MedicationCard = ({ medication }: MedicationCardProps) => {
   const navigate = useNavigate();
 
-  // Get color based on classification
   const getClassificationColor = (index: number) => {
     const colors = [
-      'bg-blue-100 text-blue-800 border-blue-200',
-      'bg-rose-100 text-rose-800 border-rose-200',
-      'bg-violet-100 text-violet-800 border-violet-200',
-      'bg-amber-100 text-amber-800 border-amber-200',
-      'bg-emerald-100 text-emerald-800 border-emerald-200',
+      'bg-blue-50 text-blue-700',
+      'bg-rose-50 text-rose-700',
+      'bg-violet-50 text-violet-700',
+      'bg-amber-50 text-amber-700',
+      'bg-emerald-50 text-emerald-700',
     ];
     return colors[index % colors.length];
   };
 
   return (
-    <Card className="bg-white border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200 group overflow-hidden">
+    <Card className="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
       <CardHeader className="p-4 border-b border-gray-100">
-        <div className="flex items-start justify-between gap-3">
-          <CardTitle 
-            className="text-base font-semibold flex items-center gap-3 cursor-pointer flex-1 hover:text-violet-700 transition-colors duration-200 min-w-0"
-            onClick={() => navigate(`/medications/${medication.id}`)}
-          >
-            <div className="flex-shrink-0 p-2 bg-violet-100 rounded-lg border border-violet-200">
-              <Pill className="h-4 w-4 text-violet-700" />
-            </div>
-            <span className="text-gray-900 leading-tight truncate">{medication.medication_name}</span>
-          </CardTitle>
-          {medication.high_alert && (
-            <Badge variant="destructive" className="flex items-center gap-1 flex-shrink-0 px-2 py-1 rounded-lg text-xs font-medium bg-red-500 text-white border-red-500 whitespace-nowrap">
-              <AlertTriangle className="h-3 w-3" />
-              <span className="hidden sm:inline">HIGH ALERT</span>
-              <span className="sm:hidden">ALERT</span>
-            </Badge>
-          )}
-        </div>
+        <CardTitle 
+          className="text-base font-semibold flex items-center gap-3 cursor-pointer hover:text-violet-600 transition-colors"
+          onClick={() => navigate(`/medications/${medication.id}`)}
+        >
+          <div className="flex-shrink-0 p-2 bg-violet-50 rounded-lg">
+            <Pill className="h-4 w-4 text-violet-600" />
+          </div>
+          <span className="text-gray-900 truncate">{medication.medication_name}</span>
+        </CardTitle>
       </CardHeader>
-      <CardContent className="p-4">
+      
+      <CardContent className="p-4 space-y-4">
         {medication.classification && medication.classification.length > 0 && (
-          <div className="mb-4">
-            <p className="text-xs font-medium text-gray-600 mb-2 uppercase tracking-wide">Classification</p>
+          <div>
+            <p className="text-xs font-medium text-gray-500 mb-2">Classification</p>
             <div className="flex flex-wrap gap-1">
               {medication.classification.slice(0, 3).map((cls, index) => (
-                <Badge key={cls} variant="secondary" className={`text-xs px-2 py-1 rounded-lg border font-medium max-w-full ${getClassificationColor(index)}`}>
-                  <span className="truncate">{cls}</span>
+                <Badge key={cls} variant="secondary" className={`text-xs px-2 py-1 rounded ${getClassificationColor(index)}`}>
+                  <span className="truncate max-w-24">{cls}</span>
                 </Badge>
               ))}
               {medication.classification.length > 3 && (
-                <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-lg border border-gray-200 font-medium">
+                <Badge variant="secondary" className="text-xs bg-gray-50 text-gray-600 px-2 py-1 rounded">
                   +{medication.classification.length - 3}
                 </Badge>
               )}
             </div>
           </div>
         )}
-        <div className="flex flex-col sm:flex-row gap-2">
+
+        {medication.high_alert && (
+          <Badge variant="destructive" className="flex items-center gap-1 w-fit bg-red-500 text-white text-xs px-2 py-1 rounded">
+            <AlertTriangle className="h-3 w-3" />
+            HIGH ALERT
+          </Badge>
+        )}
+
+        <div className="flex gap-2">
           <Button 
             variant="outline" 
             size="sm" 
-            className="flex-1 h-9 rounded-lg border-gray-200 hover:border-violet-300 hover:bg-violet-50 transition-colors text-sm font-medium text-gray-700 hover:text-violet-700"
+            className="flex-1 h-8 rounded border-gray-200 hover:border-violet-300 hover:bg-violet-50 text-sm text-gray-700 hover:text-violet-700"
             onClick={() => navigate(`/medications/${medication.id}`)}
           >
             View Details
           </Button>
-          <div className="flex-shrink-0">
-            <BookmarkButton 
-              medicationId={medication.id} 
-              medicationName={medication.medication_name}
-            />
-          </div>
+          <BookmarkButton 
+            medicationId={medication.id} 
+            medicationName={medication.medication_name}
+          />
         </div>
       </CardContent>
     </Card>

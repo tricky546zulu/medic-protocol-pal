@@ -7,6 +7,7 @@ import { MedicationSearchContainer } from '@/components/medications/MedicationSe
 import { MedicationFilters } from '@/components/medications/MedicationFilters';
 import { MedicationListContainer } from '@/components/medications/MedicationListContainer';
 import { MedicationEmptyState } from '@/components/medications/MedicationEmptyState';
+import { MedicalDisclaimer } from '@/components/MedicalDisclaimer';
 import { useMedicationData } from '@/hooks/useMedicationData';
 import { useMedicationFilters } from '@/hooks/useMedicationFilters';
 import { useFavorites } from '@/hooks/useFavorites';
@@ -55,19 +56,19 @@ const Medications = () => {
   const hasActiveFilters = Boolean(searchTerm) || totalActiveFilters > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100">
-      <div className="container mx-auto px-4 py-6">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100 flex flex-col">
+      <div className="container mx-auto px-4 py-6 flex-1">
         {/* Header Section */}
-        <div className="mb-6 text-center lg:text-left">
+        <div className="mb-6">
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
             Medication Database
           </h1>
-          <p className="text-base text-gray-700 mb-6 max-w-2xl font-medium">
+          <p className="text-base text-gray-600 mb-6 max-w-2xl">
             Provincial emergency medical services protocols and dosing guidelines
           </p>
           
           {/* Search Section */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
             <div className="max-w-2xl mx-auto lg:mx-0 mb-4">
               <MedicationSearchContainer
                 medicationSuggestions={medicationSuggestions}
@@ -82,10 +83,10 @@ const Medications = () => {
                 <Button
                   variant={showFavoritesOnly ? "default" : "outline"}
                   onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-                  className={`flex items-center gap-2 h-9 rounded-lg shadow-sm transition-all duration-200 ${
+                  className={`flex items-center gap-2 h-9 rounded-lg transition-colors ${
                     showFavoritesOnly 
-                      ? 'bg-rose-500 hover:bg-rose-600 text-white border-rose-500' 
-                      : 'bg-white border-rose-200 hover:border-rose-300 text-rose-700 hover:text-rose-800 hover:bg-rose-50'
+                      ? 'bg-rose-500 hover:bg-rose-600 text-white' 
+                      : 'bg-white border-rose-200 hover:bg-rose-50 text-rose-700'
                   }`}
                 >
                   <Heart className={`h-4 w-4 ${showFavoritesOnly ? 'fill-current' : ''}`} />
@@ -120,6 +121,11 @@ const Medications = () => {
           />
         )}
       </div>
+
+      {/* Footer with Disclaimer */}
+      <footer className="py-8 bg-white border-t border-gray-200">
+        <MedicalDisclaimer />
+      </footer>
     </div>
   );
 };
