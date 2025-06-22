@@ -73,12 +73,6 @@ const Medications = () => {
           filtersHook.handleFilterChange(key, value);
         }
         break;
-      default:
-        // Handle any other cases by checking the type
-        if (typeof value === 'string' || typeof value === 'boolean') {
-          filtersHook.handleFilterChange(key, value);
-        }
-        break;
     }
   };
 
