@@ -7,18 +7,23 @@ import { MedicationCard } from '@/components/medications/MedicationCard';
 import { MedicationSearch } from '@/components/medications/MedicationSearch';
 import { MedicationFilters } from '@/components/medications/MedicationFilters';
 import { EmergencyCategories } from '@/components/medications/EmergencyCategories';
+import { Button } from '@/components/ui/button';
+import { Heart } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import type { Database } from '@/integrations/supabase/types';
 
 type Medication = Database['public']['Tables']['medications']['Row'];
 
 const Medications = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [filters, setFilters] = useState({
     patientType: 'all',
     classification: 'all',
     highAlert: false,
     route: 'all',
   });
+  const { user } = useAuth();
 
   const { data: medications, isLoading } = useQuery({
     queryKey: ['medications'],
@@ -46,20 +51,78 @@ const Medications = () => {
     },
   });
 
+  // Get indication data for enhanced search
+  const { data: indicationData } = useQuery({
+    queryKey: ['all-indications'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('medication_indications')
+        .select('medication_id, indication_text');
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  // Get user favorites
+  const { data: userFavorites } = useQuery({
+    queryKey: ['user-favorites', user?.id],
+    queryFn: async () => {
+      if (!user) return [];
+      
+      const { data, error } = await supabase
+        .from('user_favorites')
+        .select('medication_id')
+        .eq('user_id', user.id);
+      
+      if (error) throw error;
+      return data?.map(fav => fav.medication_id) || [];
+    },
+    enabled: !!user,
+  });
+
   const medicationSuggestions = useMemo(() => {
     return medications?.map(med => med.medication_name) || [];
   }, [medications]);
+
+  const indicationSuggestions = useMemo(() => {
+    if (!indicationData || !medications) return [];
+    
+    return indicationData.map(indication => {
+      const medication = medications.find(med => med.id === indication.medication_id);
+      return {
+        text: indication.indication_text,
+        medicationId: indication.medication_id,
+        medicationName: medication?.medication_name || ''
+      };
+    });
+  }, [indicationData, medications]);
 
   const filteredMedications = useMemo(() => {
     if (!medications) return [];
 
     let filtered = medications;
 
-    // Search filter
+    // Favorites filter
+    if (showFavoritesOnly && userFavorites) {
+      filtered = filtered.filter(med => userFavorites.includes(med.id));
+    }
+
+    // Search filter - now includes indications
     if (searchTerm) {
-      filtered = filtered.filter(med =>
-        med.medication_name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      const searchLower = searchTerm.toLowerCase();
+      filtered = filtered.filter(med => {
+        // Search by medication name
+        const nameMatch = med.medication_name.toLowerCase().includes(searchLower);
+        
+        // Search by indications
+        const medicationIndications = indicationData?.filter(ind => ind.medication_id === med.id) || [];
+        const indicationMatch = medicationIndications.some(ind => 
+          ind.indication_text.toLowerCase().includes(searchLower)
+        );
+        
+        return nameMatch || indicationMatch;
+      });
     }
 
     // High alert filter
@@ -93,7 +156,7 @@ const Medications = () => {
     }
 
     return filtered;
-  }, [medications, searchTerm, filters, dosingData]);
+  }, [medications, searchTerm, filters, dosingData, indicationData, showFavoritesOnly, userFavorites]);
 
   const handleFilterChange = (key: string, value: string | boolean) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -107,6 +170,7 @@ const Medications = () => {
       route: 'all',
     });
     setSearchTerm('');
+    setShowFavoritesOnly(false);
   };
 
   const handleCategorySelect = (categoryId: string) => {
@@ -136,11 +200,12 @@ const Medications = () => {
         setFilters(prev => ({ ...prev, highAlert: true }));
         break;
     }
+    setShowFavoritesOnly(false);
   };
 
   const activeFiltersCount = Object.values(filters).filter(value => 
     value !== 'all' && value !== false
-  ).length;
+  ).length + (showFavoritesOnly ? 1 : 0);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -157,9 +222,23 @@ const Medications = () => {
             value={searchTerm}
             onChange={setSearchTerm}
             suggestions={medicationSuggestions}
+            indicationSuggestions={indicationSuggestions}
             isLoading={isLoading}
           />
         </div>
+
+        {user && (
+          <div className="mb-4">
+            <Button
+              variant={showFavoritesOnly ? "default" : "outline"}
+              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+              className="flex items-center gap-2 touch-manipulation min-h-[44px]"
+            >
+              <Heart className={`h-4 w-4 ${showFavoritesOnly ? 'fill-current' : ''}`} />
+              My Favorites {userFavorites && userFavorites.length > 0 && `(${userFavorites.length})`}
+            </Button>
+          </div>
+        )}
       </div>
 
       <EmergencyCategories onCategorySelect={handleCategorySelect} />
@@ -201,7 +280,7 @@ const Medications = () => {
             {(searchTerm || activeFiltersCount > 0) && (
               <button
                 onClick={handleClearFilters}
-                className="text-blue-600 hover:text-blue-800 underline"
+                className="text-blue-600 hover:text-blue-800 underline touch-manipulation"
               >
                 Clear all filters and search
               </button>

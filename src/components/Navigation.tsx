@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Pill, Shield, Home, Menu, X, LogOut, User } from 'lucide-react';
+import { Pill, Shield, Home, Menu, X, LogOut, User, Heart } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 export const Navigation = () => {
@@ -16,7 +16,10 @@ export const Navigation = () => {
   const navLinks = [
     { path: '/', label: 'Home', icon: Home },
     { path: '/medications', label: 'Medications', icon: Pill },
-    ...(user ? [{ path: '/admin', label: 'Admin', icon: Shield }] : []),
+    ...(user ? [
+      { path: '/favorites', label: 'My Favorites', icon: Heart },
+      { path: '/admin', label: 'Admin', icon: Shield }
+    ] : []),
   ];
 
   const toggleMobileMenu = () => {
@@ -88,7 +91,12 @@ export const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={toggleMobileMenu}>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={toggleMobileMenu}
+              className="min-h-[44px] min-w-[44px] touch-manipulation"
+            >
               {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
@@ -103,7 +111,7 @@ export const Navigation = () => {
               <Button
                 key={link.path}
                 variant={isActive(link.path) ? 'secondary' : 'ghost'}
-                className="w-full justify-start"
+                className="w-full justify-start min-h-[48px] touch-manipulation"
                 asChild
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -122,7 +130,7 @@ export const Navigation = () => {
                 </div>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                  className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 min-h-[48px] touch-manipulation"
                   onClick={() => {
                     handleSignOut();
                     setIsMobileMenuOpen(false);
@@ -135,7 +143,7 @@ export const Navigation = () => {
             ) : (
               <div className="pt-2 border-t">
                 <Button
-                  className="w-full"
+                  className="w-full min-h-[48px] touch-manipulation"
                   asChild
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
