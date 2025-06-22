@@ -54,7 +54,7 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
 
   return (
     <Tabs defaultValue={defaultType} className="w-full">
-      <TabsList className={`grid w-full mb-6 bg-white border shadow-sm rounded-xl h-auto p-2 ${patientTypes.length === 1 ? 'grid-cols-1' : patientTypes.length === 2 ? 'grid-cols-2' : patientTypes.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'} gap-1`}>
+      <TabsList className={`grid w-full mb-6 bg-white border shadow-sm rounded-lg h-auto p-2 ${patientTypes.length === 1 ? 'grid-cols-1' : patientTypes.length === 2 ? 'grid-cols-2' : patientTypes.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'} gap-1`}>
         {patientTypes.map((type) => {
           const Icon = getPatientTypeIcon(type);
           const colors = getPatientTypeColors(type);
@@ -63,10 +63,10 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
             <TabsTrigger 
               key={type} 
               value={type}
-              className={`font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border transition-colors min-h-[2.5rem] ${colors}`}
+              className={`font-medium py-2 px-2 rounded-lg flex items-center justify-center gap-2 border transition-colors min-h-[2.5rem] ${colors}`}
             >
               <Icon className="h-4 w-4 flex-shrink-0" />
-              <span className="text-sm font-medium truncate">{type}</span>
+              <span className="text-sm font-medium truncate min-w-0">{type}</span>
             </TabsTrigger>
           );
         })}
