@@ -59,18 +59,26 @@ const Medications = () => {
   };
 
   const handleFilterChange = (key: string, value: string | boolean) => {
-    // Type-safe filter change handler with explicit key-value type mapping
+    // Create type-safe filter change handler with explicit casting
     switch (key) {
       case 'highAlert':
         if (typeof value === 'boolean') {
-          filtersHook.handleFilterChange(key, value);
+          filtersHook.handleFilterChange('highAlert', value);
         }
         break;
       case 'patientType':
+        if (typeof value === 'string') {
+          filtersHook.handleFilterChange('patientType', value);
+        }
+        break;
       case 'classification':
+        if (typeof value === 'string') {
+          filtersHook.handleFilterChange('classification', value);
+        }
+        break;
       case 'route':
         if (typeof value === 'string') {
-          filtersHook.handleFilterChange(key, value);
+          filtersHook.handleFilterChange('route', value);
         }
         break;
     }
