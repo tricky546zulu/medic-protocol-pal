@@ -84,23 +84,13 @@ export const useMedicationFilters = ({
     return filtered;
   }, [medications, searchTerm, filters, dosingData, indicationData, showFavoritesOnly, userFavorites]);
 
-  // Updated to accept union type and handle it properly
-  const handleFilterChange = (key: string, value: string | boolean) => {
-    setFilters(prev => {
-      // Type-safe updates based on the key
-      switch (key) {
-        case 'highAlert':
-          return { ...prev, highAlert: value as boolean };
-        case 'patientType':
-          return { ...prev, patientType: value as string };
-        case 'classification':
-          return { ...prev, classification: value as string };
-        case 'route':
-          return { ...prev, route: value as string };
-        default:
-          return prev;
-      }
-    });
+  // Type-safe handlers for different filter types
+  const handleStringFilterChange = (key: 'patientType' | 'classification' | 'route', value: string) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleBooleanFilterChange = (key: 'highAlert', value: boolean) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
   };
 
   const clearFilters = () => {
@@ -143,7 +133,8 @@ export const useMedicationFilters = ({
     filters,
     filteredMedications,
     activeFiltersCount,
-    handleFilterChange,
+    handleStringFilterChange,
+    handleBooleanFilterChange,
     clearFilters,
     handleCategorySelect,
   };

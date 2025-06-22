@@ -58,11 +58,6 @@ const Medications = () => {
     setShowFavoritesOnly(false);
   };
 
-  // Simplified filter change handler that directly passes to the hook
-  const handleFilterChange = (key: string, value: string | boolean) => {
-    filtersHook.handleFilterChange(key, value);
-  };
-
   const totalActiveFilters = filtersHook.activeFiltersCount + (showFavoritesOnly ? 1 : 0);
   const hasActiveFilters = searchTerm || totalActiveFilters > 0;
 
@@ -103,7 +98,8 @@ const Medications = () => {
 
       <MedicationFilters
         filters={filtersHook.filters}
-        onFilterChange={handleFilterChange}
+        onStringFilterChange={filtersHook.handleStringFilterChange}
+        onBooleanFilterChange={filtersHook.handleBooleanFilterChange}
         onClearFilters={handleClearFilters}
         activeFiltersCount={totalActiveFilters}
       />

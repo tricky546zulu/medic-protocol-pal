@@ -15,7 +15,8 @@ interface MedicationFiltersProps {
     highAlert: boolean;
     route: string;
   };
-  onFilterChange: (key: string, value: string | boolean) => void;
+  onStringFilterChange: (key: 'patientType' | 'classification' | 'route', value: string) => void;
+  onBooleanFilterChange: (key: 'highAlert', value: boolean) => void;
   onClearFilters: () => void;
   activeFiltersCount: number;
 }
@@ -52,7 +53,8 @@ const ROUTES = [
 
 export const MedicationFilters = ({ 
   filters, 
-  onFilterChange, 
+  onStringFilterChange,
+  onBooleanFilterChange,
   onClearFilters, 
   activeFiltersCount 
 }: MedicationFiltersProps) => {
@@ -78,7 +80,7 @@ export const MedicationFilters = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
           <div>
             <Label className="text-sm font-medium mb-2 block">Patient Type</Label>
-            <Select value={filters.patientType} onValueChange={(value) => onFilterChange('patientType', value)}>
+            <Select value={filters.patientType} onValueChange={(value) => onStringFilterChange('patientType', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select patient type" />
               </SelectTrigger>
@@ -94,7 +96,7 @@ export const MedicationFilters = ({
 
           <div>
             <Label className="text-sm font-medium mb-2 block">Classification</Label>
-            <Select value={filters.classification} onValueChange={(value) => onFilterChange('classification', value)}>
+            <Select value={filters.classification} onValueChange={(value) => onStringFilterChange('classification', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select classification" />
               </SelectTrigger>
@@ -110,7 +112,7 @@ export const MedicationFilters = ({
 
           <div>
             <Label className="text-sm font-medium mb-2 block">Route</Label>
-            <Select value={filters.route} onValueChange={(value) => onFilterChange('route', value)}>
+            <Select value={filters.route} onValueChange={(value) => onStringFilterChange('route', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select route" />
               </SelectTrigger>
@@ -128,7 +130,7 @@ export const MedicationFilters = ({
             <Switch
               id="high-alert"
               checked={filters.highAlert}
-              onCheckedChange={(checked) => onFilterChange('highAlert', checked)}
+              onCheckedChange={(checked) => onBooleanFilterChange('highAlert', checked)}
             />
             <Label htmlFor="high-alert" className="flex items-center gap-2 text-sm">
               <AlertTriangle className="h-4 w-4 text-red-500" />
