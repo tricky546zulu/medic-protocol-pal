@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -152,7 +153,7 @@ const MedicationDetail = () => {
           Back to Medications
         </Button>
 
-        {/* Simplified Header */}
+        {/* Header */}
         <div className={`mb-10 p-6 rounded-lg bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg transition-all duration-300 ${medication.high_alert ? 'ring-1 ring-red-400/60' : 'ring-1 ring-violet-200/40'}`}>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-4">
@@ -166,7 +167,7 @@ const MedicationDetail = () => {
                     <div className="flex flex-wrap gap-2">
                       {medication.classification.map((cls, index) => (
                         <Badge key={index} variant="secondary" className="text-sm bg-gradient-to-r from-violet-100 to-purple-200 text-violet-800 px-3 py-1 rounded-lg border border-violet-200/60 font-medium">
-                          <span className="truncate max-w-32">{cls}</span>
+                          <span className="break-words max-w-32">{cls}</span>
                         </Badge>
                       ))}
                     </div>
@@ -235,14 +236,18 @@ const MedicationDetail = () => {
           {indications && indications.length > 0 && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
-                  <span className="flex items-center gap-4 text-lg font-bold text-gray-800 min-w-0 flex-1">
-                    <div className="p-3 bg-gradient-to-br from-sky-100 to-blue-200 rounded-lg border border-sky-200/60 shadow-lg flex-shrink-0">
-                      <Stethoscope className="h-5 w-5 text-sky-700" />
+                <Button variant="outline" className="w-full p-4 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
+                  <div className="flex items-center justify-between w-full gap-3">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="p-2 bg-gradient-to-br from-sky-100 to-blue-200 rounded-lg border border-sky-200/60 shadow-lg flex-shrink-0">
+                        <Stethoscope className="h-4 w-4 text-sky-700" />
+                      </div>
+                      <span className="text-sm sm:text-base font-bold text-gray-800 text-left break-words leading-tight">
+                        Indications & Clinical Uses
+                      </span>
                     </div>
-                    <span className="break-words truncate">Indications & Clinical Uses</span>
-                  </span>
-                  <ChevronDown className="h-5 w-5 text-gray-600 transition-transform duration-200 flex-shrink-0" />
+                    <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200 flex-shrink-0" />
+                  </div>
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
@@ -251,7 +256,7 @@ const MedicationDetail = () => {
                     {indications.map((indication, index) => (
                       <div key={indication.id} className="mb-6 last:mb-0">
                         <Badge variant="outline" className="mb-3 bg-gradient-to-r from-sky-100 to-blue-200 text-sky-800 border-sky-200/60 text-sm px-3 py-1 rounded-lg font-medium shadow-lg">
-                          <span className="truncate max-w-48">{indication.indication_type}</span>
+                          <span className="break-words max-w-48">{indication.indication_type}</span>
                         </Badge>
                         <p className="text-sm text-gray-800 break-words leading-relaxed font-medium">{indication.indication_text}</p>
                       </div>
@@ -266,11 +271,18 @@ const MedicationDetail = () => {
           {administration && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full flex items-center justify-between p-6 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
-                  <span className="text-lg font-bold text-gray-800 break-words min-w-0 flex-1 text-left truncate">
-                    Administration & Preparation Details
-                  </span>
-                  <ChevronDown className="h-5 w-5 text-gray-600 transition-transform duration-200 flex-shrink-0" />
+                <Button variant="outline" className="w-full p-4 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
+                  <div className="flex items-center justify-between w-full gap-3">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="p-2 bg-gradient-to-br from-emerald-100 to-green-200 rounded-lg border border-emerald-200/60 shadow-lg flex-shrink-0">
+                        <Pill className="h-4 w-4 text-emerald-700" />
+                      </div>
+                      <span className="text-sm sm:text-base font-bold text-gray-800 text-left break-words leading-tight">
+                        Administration & Preparation Details
+                      </span>
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200 flex-shrink-0" />
+                  </div>
                 </Button>
               </CollapsibleTrigger>
               <CollapsibleContent>
