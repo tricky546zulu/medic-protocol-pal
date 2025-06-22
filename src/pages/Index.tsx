@@ -40,7 +40,7 @@ const Index = () => {
         </div>
 
         {/* Key Features */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 group">
             <CardContent className="p-8 text-center">
               <div className="p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
@@ -64,32 +64,6 @@ const Index = () => {
               </p>
             </CardContent>
           </Card>
-        </div>
-
-        {/* Call to Action */}
-        <div className="text-center bg-gradient-to-r from-primary/5 to-blue-50 rounded-2xl p-8 max-w-3xl mx-auto">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-            Saskatchewan Health Authority Approved
-          </h2>
-          <p className="text-gray-700 mb-6">
-            Based on the official EMS Provincial Medications Manual (November 2024)
-          </p>
-          <div className="flex justify-center items-center gap-8 text-sm text-gray-600">
-            <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold text-primary mb-1">Adult</div>
-              <div>Protocols</div>
-            </div>
-            <div className="w-px h-12 bg-gray-300"></div>
-            <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold text-primary mb-1">Pediatric</div>
-              <div>Guidelines</div>
-            </div>
-            <div className="w-px h-12 bg-gray-300"></div>
-            <div className="flex flex-col items-center">
-              <div className="text-2xl font-bold text-destructive mb-1">Safety</div>
-              <div>Alerts</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -11,79 +11,83 @@ const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('add');
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          <Shield className="h-8 w-8 text-primary shrink-0" />
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 break-words">
-            Admin Panel
-          </h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl">
+              <Shield className="h-8 w-8 text-primary shrink-0" />
+            </div>
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 break-words">
+              Admin Panel
+            </h1>
+          </div>
+          <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+            Comprehensive medication data management for Saskatchewan EMS protocols
+          </p>
         </div>
-        <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-          Comprehensive medication data management for Saskatchewan EMS protocols
-        </p>
+
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto sm:h-10 bg-white/80 backdrop-blur-sm shadow-lg border border-gray-100">
+            <TabsTrigger value="add" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
+              <Plus className="h-4 w-4 shrink-0" />
+              <span className="truncate">Add Medication</span>
+            </TabsTrigger>
+            <TabsTrigger value="import" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
+              <Upload className="h-4 w-4 shrink-0" />
+              <span className="truncate">Bulk Import</span>
+            </TabsTrigger>
+            <TabsTrigger value="manage" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
+              <Database className="h-4 w-4 shrink-0" />
+              <span className="truncate">Manage Data</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="add" className="mt-6">
+            <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-lg sm:text-xl">Add Complete Medication Profile</CardTitle>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Use this comprehensive wizard to add all medication information including indications, 
+                  contraindications, dosing protocols, and administration details.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <MedicationWizard />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="import" className="mt-6">
+            <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-lg sm:text-xl">Bulk Import Medications</CardTitle>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Import multiple medications at once using CSV or JSON files. Perfect for populating 
+                  your database with data from existing medication manuals.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <BulkImportManager />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="manage" className="mt-6">
+            <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-lg sm:text-xl">Existing Medications</CardTitle>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  View and manage existing medication records in the database.
+                </p>
+              </CardHeader>
+              <CardContent>
+                <MedicationsList />
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
-
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto sm:h-10">
-          <TabsTrigger value="add" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
-            <Plus className="h-4 w-4 shrink-0" />
-            <span className="truncate">Add Medication</span>
-          </TabsTrigger>
-          <TabsTrigger value="import" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
-            <Upload className="h-4 w-4 shrink-0" />
-            <span className="truncate">Bulk Import</span>
-          </TabsTrigger>
-          <TabsTrigger value="manage" className="flex items-center gap-2 p-2 sm:p-1.5 text-xs sm:text-sm">
-            <Database className="h-4 w-4 shrink-0" />
-            <span className="truncate">Manage Data</span>
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="add" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Add Complete Medication Profile</CardTitle>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Use this comprehensive wizard to add all medication information including indications, 
-                contraindications, dosing protocols, and administration details.
-              </p>
-            </CardHeader>
-            <CardContent>
-              <MedicationWizard />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="import" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Bulk Import Medications</CardTitle>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Import multiple medications at once using CSV or JSON files. Perfect for populating 
-                your database with data from existing medication manuals.
-              </p>
-            </CardHeader>
-            <CardContent>
-              <BulkImportManager />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="manage" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Existing Medications</CardTitle>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                View and manage existing medication records in the database.
-              </p>
-            </CardHeader>
-            <CardContent>
-              <MedicationsList />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
     </div>
   );
 };
