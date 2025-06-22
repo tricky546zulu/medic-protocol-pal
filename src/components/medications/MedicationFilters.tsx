@@ -16,7 +16,7 @@ interface MedicationFiltersProps {
     route: string;
   };
   onStringFilterChange: (key: 'patientType' | 'classification' | 'route', value: string) => void;
-  onHighAlertToggle: (value: boolean) => void;
+  onHighAlertToggle: (value: string | boolean) => void; // MODIFIED
   onClearFilters: () => void;
   activeFiltersCount: number;
 }
