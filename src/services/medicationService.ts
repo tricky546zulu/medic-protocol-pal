@@ -31,7 +31,7 @@ export const medicationService = {
   async getAllDosing(): Promise<DosingData[]> {
     const { data, error } = await supabase
       .from('medication_dosing')
-      .select('medication_id, patient_type, route');
+      .select('*');
     
     if (error) throw error;
     return data || [];
@@ -40,13 +40,13 @@ export const medicationService = {
   async getAllIndications(): Promise<IndicationData[]> {
     const { data, error } = await supabase
       .from('medication_indications')
-      .select('medication_id, indication_text');
+      .select('*');
     
     if (error) throw error;
     return data || [];
   },
 
-  async searchMedications(searchTerm: string, medications: Medication[], indications: IndicationData[]): Promise<Medication[]> {
+  searchMedications(searchTerm: string, medications: Medication[], indications: IndicationData[]): Medication[] {
     if (!searchTerm) return medications;
 
     const searchLower = searchTerm.toLowerCase();

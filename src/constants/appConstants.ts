@@ -13,3 +13,10 @@ export const QUERY_STALE_TIME = {
   USER_DATA: 2 * 60 * 1000, // 2 minutes
   STATIC_DATA: 10 * 60 * 1000, // 10 minutes
 } as const;
+
+export const SEARCH_LIMITS = {
+  RECENT_SEARCHES: 5,
+  MEDICATION_SUGGESTIONS: 5,
+  INDICATION_SUGGESTIONS: 3,
+  TOTAL_SUGGESTIONS: 8,
+} as const;

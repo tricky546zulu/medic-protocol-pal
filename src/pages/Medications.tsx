@@ -58,6 +58,15 @@ const Medications = () => {
     setShowFavoritesOnly(false);
   };
 
+  const handleFilterChange = (key: string, value: string | boolean) => {
+    // Type-safe filter change handler
+    if (key === 'highAlert' && typeof value === 'boolean') {
+      filtersHook.handleFilterChange(key, value);
+    } else if (typeof value === 'string') {
+      filtersHook.handleFilterChange(key, value);
+    }
+  };
+
   const totalActiveFilters = filtersHook.activeFiltersCount + (showFavoritesOnly ? 1 : 0);
   const hasActiveFilters = searchTerm || totalActiveFilters > 0;
 
@@ -98,7 +107,7 @@ const Medications = () => {
 
       <MedicationFilters
         filters={filtersHook.filters}
-        onFilterChange={filtersHook.handleFilterChange}
+        onFilterChange={handleFilterChange}
         onClearFilters={handleClearFilters}
         activeFiltersCount={totalActiveFilters}
       />
