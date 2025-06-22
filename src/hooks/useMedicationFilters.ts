@@ -85,7 +85,16 @@ export const useMedicationFilters = ({
   }, [medications, searchTerm, filters, dosingData, indicationData, showFavoritesOnly, userFavorites]);
 
   const handleFilterChange = (key: string, value: string | boolean) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    // Type-safe filter change handler with explicit type checking for each key
+    if (key === 'highAlert' && typeof value === 'boolean') {
+      setFilters(prev => ({ ...prev, highAlert: value }));
+    } else if (key === 'patientType' && typeof value === 'string') {
+      setFilters(prev => ({ ...prev, patientType: value }));
+    } else if (key === 'classification' && typeof value === 'string') {
+      setFilters(prev => ({ ...prev, classification: value }));
+    } else if (key === 'route' && typeof value === 'string') {
+      setFilters(prev => ({ ...prev, route: value }));
+    }
   };
 
   const clearFilters = () => {
