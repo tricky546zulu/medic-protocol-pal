@@ -4,20 +4,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { AlertTriangle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 // Explicit type definitions for props
 interface MedicationFiltersProps {
   filters: {
     patientType: string;
     classification: string;
-    highAlert: boolean;
     route: string;
   };
   onStringFilterChange: (key: 'patientType' | 'classification' | 'route', value: string) => void;
-  onHighAlertToggle: (value: boolean) => void;
   onClearFilters: () => void;
   activeFiltersCount: number;
 }
@@ -55,7 +51,6 @@ const ROUTES = [
 export const MedicationFilters = ({ 
   filters, 
   onStringFilterChange,
-  onHighAlertToggle,
   onClearFilters, 
   activeFiltersCount 
 }: MedicationFiltersProps) => {
@@ -78,9 +73,9 @@ export const MedicationFilters = ({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
           <div>
-            <Label className="text-sm font-medium mb-2 block">Patient Type</Label>
+            <label className="text-sm font-medium mb-2 block">Patient Type</label>
             <Select value={filters.patientType} onValueChange={(value) => onStringFilterChange('patientType', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select patient type" />
@@ -96,7 +91,7 @@ export const MedicationFilters = ({
           </div>
 
           <div>
-            <Label className="text-sm font-medium mb-2 block">Classification</Label>
+            <label className="text-sm font-medium mb-2 block">Classification</label>
             <Select value={filters.classification} onValueChange={(value) => onStringFilterChange('classification', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select classification" />
@@ -112,7 +107,7 @@ export const MedicationFilters = ({
           </div>
 
           <div>
-            <Label className="text-sm font-medium mb-2 block">Route</Label>
+            <label className="text-sm font-medium mb-2 block">Route</label>
             <Select value={filters.route} onValueChange={(value) => onStringFilterChange('route', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select route" />
@@ -125,18 +120,6 @@ export const MedicationFilters = ({
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          <div className="flex items-center space-x-2 pt-6">
-            <Switch
-              id="high-alert"
-              checked={filters.highAlert}
-              onCheckedChange={onHighAlertToggle}
-            />
-            <Label htmlFor="high-alert" className="flex items-center gap-2 text-sm">
-              <AlertTriangle className="h-4 w-4 text-red-500" />
-              High Alert Only
-            </Label>
           </div>
         </div>
       </CardContent>

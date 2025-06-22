@@ -10,7 +10,6 @@ type IndicationData = Database['public']['Tables']['medication_indications']['Ro
 interface FilterState {
   patientType: string;
   classification: string;
-  highAlert: boolean;
   route: string;
 }
 
@@ -28,7 +27,6 @@ interface UseMedicationFiltersReturn {
   filteredMedications: Medication[];
   activeFiltersCount: number;
   handleStringFilterChange: (key: 'patientType' | 'classification' | 'route', value: string) => void;
-  handleHighAlertToggle: (value: boolean) => void;
   clearFilters: () => void;
   handleCategorySelect: (categoryId: string) => void;
 }
@@ -44,7 +42,6 @@ export const useMedicationFilters = ({
   const [filters, setFilters] = useState<FilterState>({
     patientType: 'all',
     classification: 'all',
-    highAlert: false,
     route: 'all',
   });
 
@@ -59,11 +56,6 @@ export const useMedicationFilters = ({
     // Search filter
     if (searchTerm) {
       filtered = medicationService.searchMedications(searchTerm, filtered, indicationData);
-    }
-
-    // High alert filter
-    if (filters.highAlert) {
-      filtered = filtered.filter(med => med.high_alert);
     }
 
     // Classification filter
@@ -99,15 +91,10 @@ export const useMedicationFilters = ({
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleHighAlertToggle = (value: boolean) => {
-    setFilters(prev => ({ ...prev, highAlert: value }));
-  };
-
   const clearFilters = () => {
     setFilters({
       patientType: 'all',
       classification: 'all',
-      highAlert: false,
       route: 'all',
     });
   };
@@ -129,14 +116,11 @@ export const useMedicationFilters = ({
       case 'pediatric':
         setFilters(prev => ({ ...prev, patientType: 'Pediatric' }));
         break;
-      case 'high-alert':
-        setFilters(prev => ({ ...prev, highAlert: true }));
-        break;
     }
   };
 
   const activeFiltersCount = Object.values(filters).filter(value => 
-    value !== 'all' && value !== false
+    value !== 'all'
   ).length;
 
   return {
@@ -144,7 +128,6 @@ export const useMedicationFilters = ({
     filteredMedications,
     activeFiltersCount,
     handleStringFilterChange,
-    handleHighAlertToggle,
     clearFilters,
     handleCategorySelect,
   };

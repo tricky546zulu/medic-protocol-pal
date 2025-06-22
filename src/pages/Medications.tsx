@@ -98,7 +98,6 @@ const Medications = () => {
       <MedicationFilters
         filters={filtersHook.filters}
         onStringFilterChange={filtersHook.handleStringFilterChange}
-        onHighAlertToggle={filtersHook.handleHighAlertToggle}
         onClearFilters={handleClearFilters}
         activeFiltersCount={totalActiveFilters}
       />
