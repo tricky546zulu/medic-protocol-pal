@@ -59,12 +59,12 @@ export const MedicationsList = () => {
   };
 
   if (isLoading) {
-    return <div className="text-center py-8">Loading medications...</div>;
+    return <div className="text-center py-6">Loading medications...</div>;
   }
 
   if (!medications || medications.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
+      <div className="text-center py-6 text-gray-500">
         No medications found. Add your first medication using the form above.
       </div>
     );
@@ -72,18 +72,18 @@ export const MedicationsList = () => {
 
   return (
     <>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {medications.map((medication) => (
-          <Card key={medication.id}>
-            <CardContent className="p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <Card key={medication.id} className="border border-gray-200">
+            <CardContent className="p-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2 flex-wrap">
-                    <h3 className="font-semibold text-sm sm:text-base truncate max-w-full sm:max-w-md">
+                    <h3 className="font-semibold text-sm truncate max-w-full sm:max-w-md">
                       {medication.medication_name}
                     </h3>
                     {medication.high_alert && (
-                      <Badge variant="destructive" className="flex items-center gap-1 shrink-0">
+                      <Badge variant="destructive" className="flex items-center gap-1 shrink-0 text-xs px-2 py-1">
                         <AlertTriangle className="h-3 w-3" />
                         <span className="hidden sm:inline">High Alert</span>
                         <span className="sm:hidden">Alert</span>
@@ -93,12 +93,12 @@ export const MedicationsList = () => {
                   {medication.classification && medication.classification.length > 0 && (
                     <div className="flex flex-wrap gap-1">
                       {medication.classification.slice(0, 3).map((cls, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs truncate max-w-24 sm:max-w-32">
+                        <Badge key={index} variant="secondary" className="text-xs truncate max-w-24 sm:max-w-32 px-2 py-1">
                           {cls}
                         </Badge>
                       ))}
                       {medication.classification.length > 3 && (
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge variant="secondary" className="text-xs px-2 py-1">
                           +{medication.classification.length - 3}
                         </Badge>
                       )}
@@ -109,19 +109,19 @@ export const MedicationsList = () => {
                   <Button 
                     size="sm" 
                     variant="outline" 
-                    className="h-8 px-2 sm:px-3"
+                    className="h-8 px-2 sm:px-3 text-xs"
                     onClick={() => setEditingMedicationId(medication.id)}
                   >
-                    <Edit className="h-4 w-4" />
+                    <Edit className="h-3 w-3" />
                     <span className="hidden sm:ml-1 sm:inline">Edit</span>
                   </Button>
                   <Button 
                     size="sm" 
                     variant="outline"
-                    className="h-8 px-2 sm:px-3"
+                    className="h-8 px-2 sm:px-3 text-xs"
                     onClick={() => deleteMedication(medication.id, medication.medication_name)}
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-3 w-3" />
                     <span className="hidden sm:ml-1 sm:inline">Delete</span>
                   </Button>
                 </div>

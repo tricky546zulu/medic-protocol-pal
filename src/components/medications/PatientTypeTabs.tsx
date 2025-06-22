@@ -42,19 +42,19 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
   const getPatientTypeColors = (type: string) => {
     switch (type.toLowerCase()) {
       case 'pediatric':
-        return 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-rose-400 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:backdrop-blur-lg hover:bg-rose-50/95 border-rose-300/70 text-rose-800 data-[state=active]:shadow-2xl data-[state=active]:border-rose-400/70 data-[state=active]:shadow-rose-400/80 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl shadow-rose-300/60';
+        return 'data-[state=active]:bg-rose-500 data-[state=active]:text-white hover:bg-rose-50 border-rose-200 text-rose-700';
       case 'neonatal':
-        return 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-violet-400 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:backdrop-blur-lg hover:bg-violet-50/95 border-violet-300/70 text-violet-800 data-[state=active]:shadow-2xl data-[state=active]:border-violet-400/70 data-[state=active]:shadow-violet-400/80 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl shadow-violet-300/60';
+        return 'data-[state=active]:bg-violet-500 data-[state=active]:text-white hover:bg-violet-50 border-violet-200 text-violet-700';
       case 'geriatric':
-        return 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-400 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:backdrop-blur-lg hover:bg-amber-50/95 border-amber-300/70 text-amber-800 data-[state=active]:shadow-2xl data-[state=active]:border-amber-400/70 data-[state=active]:shadow-amber-400/80 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl shadow-amber-300/60';
+        return 'data-[state=active]:bg-amber-500 data-[state=active]:text-white hover:bg-amber-50 border-amber-200 text-amber-700';
       default:
-        return 'data-[state=active]:bg-gradient-to-r data-[state=active]:from-sky-400 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:backdrop-blur-lg hover:bg-sky-50/95 border-sky-300/70 text-sky-800 data-[state=active]:shadow-2xl data-[state=active]:border-sky-400/70 data-[state=active]:shadow-sky-400/80 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl shadow-sky-300/60';
+        return 'data-[state=active]:bg-blue-500 data-[state=active]:text-white hover:bg-blue-50 border-blue-200 text-blue-700';
     }
   };
 
   return (
     <Tabs defaultValue={defaultType} className="w-full">
-      <TabsList className={`grid w-full mb-10 bg-white/95 backdrop-blur-xl shadow-2xl shadow-violet-300/70 border-2 border-white/80 h-auto p-4 rounded-3xl ${patientTypes.length === 1 ? 'grid-cols-1' : patientTypes.length === 2 ? 'grid-cols-2' : patientTypes.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'} gap-4 ring-2 ring-violet-300/60`}>
+      <TabsList className={`grid w-full mb-6 bg-white border shadow-sm rounded-xl h-auto p-2 ${patientTypes.length === 1 ? 'grid-cols-1' : patientTypes.length === 2 ? 'grid-cols-2' : patientTypes.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'} gap-1`}>
         {patientTypes.map((type) => {
           const Icon = getPatientTypeIcon(type);
           const colors = getPatientTypeColors(type);
@@ -63,17 +63,17 @@ export const PatientTypeTabs = ({ dosing, isHighAlert }: PatientTypeTabsProps) =
             <TabsTrigger 
               key={type} 
               value={type}
-              className={`font-bold py-3 px-3 sm:py-4 sm:px-4 lg:py-5 lg:px-6 rounded-2xl flex flex-col sm:flex-row items-center gap-2 sm:gap-3 lg:gap-4 border-2 bg-white/95 backdrop-blur-lg min-h-[3rem] sm:min-h-[4rem] ${colors} whitespace-normal text-center sm:text-left shadow-lg`}
+              className={`font-medium py-2 px-3 rounded-lg flex items-center justify-center gap-2 border transition-colors min-h-[2.5rem] ${colors}`}
             >
-              <Icon className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
-              <span className="font-bold tracking-wide text-xs sm:text-sm lg:text-base leading-tight break-words">{type}</span>
+              <Icon className="h-4 w-4 flex-shrink-0" />
+              <span className="text-sm font-medium truncate">{type}</span>
             </TabsTrigger>
           );
         })}
       </TabsList>
       
       {patientTypes.map((type) => (
-        <TabsContent key={type} value={type} className="space-y-10">
+        <TabsContent key={type} value={type} className="space-y-6">
           {dosingByType[type].map((dose) => (
             <EmergencyDosingCard 
               key={dose.id} 
