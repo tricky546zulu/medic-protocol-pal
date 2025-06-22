@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -16,7 +17,7 @@ interface MedicationFiltersProps {
     route: string;
   };
   onStringFilterChange: (key: 'patientType' | 'classification' | 'route', value: string) => void;
-  onHighAlertToggle: (value: string | boolean) => void; // MODIFIED
+  onHighAlertToggle: (value: boolean) => void;
   onClearFilters: () => void;
   activeFiltersCount: number;
 }

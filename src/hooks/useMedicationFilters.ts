@@ -28,7 +28,7 @@ interface UseMedicationFiltersReturn {
   filteredMedications: Medication[];
   activeFiltersCount: number;
   handleStringFilterChange: (key: 'patientType' | 'classification' | 'route', value: string) => void;
-  handleHighAlertToggle: (value: string | boolean) => void; // MODIFIED
+  handleHighAlertToggle: (value: boolean) => void;
   clearFilters: () => void;
   handleCategorySelect: (categoryId: string) => void;
 }
@@ -99,9 +99,8 @@ export const useMedicationFilters = ({
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleHighAlertToggle = (value: string | boolean) => {
-    const booleanValue = value === true || value === 'true' || value === 'checked';
-    setFilters(prev => ({ ...prev, highAlert: booleanValue }));
+  const handleHighAlertToggle = (value: boolean) => {
+    setFilters(prev => ({ ...prev, highAlert: value }));
   };
 
   const clearFilters = () => {
