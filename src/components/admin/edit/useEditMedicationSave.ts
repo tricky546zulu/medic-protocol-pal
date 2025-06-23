@@ -55,7 +55,7 @@ export const useEditMedicationSave = (medicationId: string, onSuccess: () => voi
             return { 
               ...dose, 
               medication_id: medicationId,
-              infusion_pump_settings: dose.infusion_pump_settings
+              infusion_pump_settings: dose.infusion_pump_settings as any
             };
           })
         );

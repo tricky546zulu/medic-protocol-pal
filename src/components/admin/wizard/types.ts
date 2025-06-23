@@ -17,6 +17,7 @@ export interface InfusionPumpSettings {
   vtbi?: string;
   pump_instructions?: string;
   medication_selection?: string;
+  [key: string]: any; // Add index signature for Json compatibility
 }
 
 export interface MedicationDosing {
