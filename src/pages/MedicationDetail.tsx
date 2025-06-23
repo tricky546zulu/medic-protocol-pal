@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -236,17 +235,17 @@ const MedicationDetail = () => {
           {indications && indications.length > 0 && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full p-4 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
-                  <div className="flex flex-col items-center justify-center w-full gap-3 relative">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-gradient-to-br from-sky-100 to-blue-200 rounded-lg border border-sky-200/60 shadow-lg flex-shrink-0">
-                        <Stethoscope className="h-4 w-4 text-sky-700" />
+                <Button variant="outline" className="w-full p-2 sm:p-4 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
+                  <div className="flex flex-col items-center justify-center w-full gap-2 sm:gap-3 relative">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="p-1 sm:p-2 bg-gradient-to-br from-sky-100 to-blue-200 rounded-lg border border-sky-200/60 shadow-lg flex-shrink-0">
+                        <Stethoscope className="h-3 w-3 sm:h-4 sm:w-4 text-sky-700" />
                       </div>
-                      <span className="text-sm sm:text-base font-bold text-gray-800 text-center break-words leading-tight">
+                      <span className="text-xs sm:text-sm md:text-base font-bold text-gray-800 text-center break-words leading-tight max-w-none">
                         Indications & Clinical Uses
                       </span>
                     </div>
-                    <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200 absolute right-2 top-1/2 transform -translate-y-1/2" />
+                    <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600 transition-transform duration-200 absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2" />
                   </div>
                 </Button>
               </CollapsibleTrigger>
@@ -271,17 +270,17 @@ const MedicationDetail = () => {
           {administration && (
             <Collapsible>
               <CollapsibleTrigger asChild>
-                <Button variant="outline" className="w-full p-4 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
-                  <div className="flex flex-col items-center justify-center w-full gap-3 relative">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-gradient-to-br from-emerald-100 to-green-200 rounded-lg border border-emerald-200/60 shadow-lg flex-shrink-0">
-                        <Pill className="h-4 w-4 text-emerald-700" />
+                <Button variant="outline" className="w-full p-2 sm:p-4 h-auto bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg hover:shadow-lg hover:bg-white/90 transition-all duration-300 rounded-lg">
+                  <div className="flex flex-col items-center justify-center w-full gap-2 sm:gap-3 relative">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="p-1 sm:p-2 bg-gradient-to-br from-emerald-100 to-green-200 rounded-lg border border-emerald-200/60 shadow-lg flex-shrink-0">
+                        <Pill className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-700" />
                       </div>
-                      <span className="text-sm sm:text-base font-bold text-gray-800 text-center break-words leading-tight">
+                      <span className="text-xs sm:text-sm md:text-base font-bold text-gray-800 text-center break-words leading-tight max-w-none">
                         Administration & Preparation Details
                       </span>
                     </div>
-                    <ChevronDown className="h-4 w-4 text-gray-600 transition-transform duration-200 absolute right-2 top-1/2 transform -translate-y-1/2" />
+                    <ChevronDown className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600 transition-transform duration-200 absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2" />
                   </div>
                 </Button>
               </CollapsibleTrigger>
