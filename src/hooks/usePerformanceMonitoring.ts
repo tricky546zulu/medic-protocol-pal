@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useCallback } from 'react';
 
 interface PerformanceMetrics {
@@ -25,6 +26,12 @@ interface PerformanceThresholds {
   goodFID: 100;
   goodCLS: 0.1;
   goodTTI: 3800;
+}
+
+// Type for First Input Delay entries
+interface PerformanceEventTiming extends PerformanceEntry {
+  processingStart: number;
+  startTime: number;
 }
 
 export const usePerformanceMonitoring = () => {
@@ -97,8 +104,9 @@ export const usePerformanceMonitoring = () => {
         // FID Observer
         const fidObserver = new PerformanceObserver((list) => {
           for (const entry of list.getEntries()) {
-            if (entry.processingStart > entry.startTime) {
-              metricsRef.current.firstInputDelay = entry.processingStart - entry.startTime;
+            const eventEntry = entry as PerformanceEventTiming;
+            if (eventEntry.processingStart > eventEntry.startTime) {
+              metricsRef.current.firstInputDelay = eventEntry.processingStart - eventEntry.startTime;
             }
           }
         });
