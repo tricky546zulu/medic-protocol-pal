@@ -21,9 +21,10 @@ export const PumpSettingsDisplay = ({ dosing }: PumpSettingsDisplayProps) => {
   }
 
   const pumpSettings = dosing.infusion_pump_settings as any;
+  console.log('PumpSettingsDisplay - Processing pump settings:', pumpSettings);
   
-  if (!pumpSettings || (typeof pumpSettings === 'object' && Object.keys(pumpSettings).length === 0)) {
-    console.log('PumpSettingsDisplay - No pump settings found');
+  if (!pumpSettings) {
+    console.log('PumpSettingsDisplay - No pump settings object found');
     return (
       <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
         <div className="flex items-center gap-2 text-blue-700">
@@ -34,7 +35,29 @@ export const PumpSettingsDisplay = ({ dosing }: PumpSettingsDisplayProps) => {
     );
   }
 
-  console.log('PumpSettingsDisplay - Rendering pump settings:', pumpSettings);
+  // Check if pump settings object is empty or has no meaningful data
+  const hasSettings = pumpSettings && (
+    pumpSettings.medication_selection ||
+    pumpSettings.cca_setting ||
+    pumpSettings.line_option ||
+    pumpSettings.duration ||
+    pumpSettings.vtbi ||
+    pumpSettings.pump_instructions
+  );
+
+  if (!hasSettings) {
+    console.log('PumpSettingsDisplay - Pump settings object exists but has no data');
+    return (
+      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="flex items-center gap-2 text-blue-700">
+          <Syringe className="h-4 w-4" />
+          <span className="text-sm font-medium">IV Pump Required - Settings not configured</span>
+        </div>
+      </div>
+    );
+  }
+
+  console.log('PumpSettingsDisplay - Rendering pump settings with data:', pumpSettings);
 
   return (
     <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">

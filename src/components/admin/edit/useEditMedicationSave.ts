@@ -10,6 +10,8 @@ export const useEditMedicationSave = (medicationId: string, onSuccess: () => voi
   const handleSave = async (medicationData: MedicationWizardData) => {
     setIsSubmitting(true);
     try {
+      console.log('Saving medication data:', medicationData);
+      
       // Update basic medication info
       const { error: medicationError } = await supabase
         .from('medications')
@@ -46,16 +48,21 @@ export const useEditMedicationSave = (medicationId: string, onSuccess: () => voi
       }
 
       if (medicationData.dosing.length > 0) {
+        console.log('Saving dosing data:', medicationData.dosing);
         const { error } = await supabase.from('medication_dosing').insert(
-          medicationData.dosing.map(dose => ({ 
-            ...dose, 
-            medication_id: medicationId,
-            infusion_pump_settings: dose.infusion_pump_settings as any
-          }))
+          medicationData.dosing.map(dose => {
+            console.log('Saving dose with pump settings:', dose.infusion_pump_settings);
+            return { 
+              ...dose, 
+              medication_id: medicationId,
+              infusion_pump_settings: dose.infusion_pump_settings
+            };
+          })
         );
         if (error) throw error;
       }
 
+      // Always insert administration data, even if empty
       const { error: adminError } = await supabase.from('medication_administration').insert({
         ...medicationData.administration,
         medication_id: medicationId,

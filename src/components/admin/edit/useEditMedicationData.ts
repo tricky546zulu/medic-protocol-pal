@@ -75,37 +75,49 @@ export const useEditMedicationData = (medicationId: string, isOpen: boolean) => 
         .select('*')
         .eq('medication_id', medicationId);
       if (error) throw error;
-      return data?.[0];
+      return data?.[0] || null; // Return null if no data found
     },
     enabled: isOpen && !!medicationId,
   });
 
   // Update local state when data is loaded
   useEffect(() => {
-    if (medication && indications && contraindications && dosing && administration) {
+    if (medication && indications !== undefined && contraindications !== undefined && dosing !== undefined && administration !== undefined) {
+      console.log('Setting medication data - administration:', administration);
       setMedicationData({
         basic: {
           medication_name: medication.medication_name,
           classification: medication.classification || [],
           high_alert: medication.high_alert || false,
         },
-        indications: indications.map(ind => ({
+        indications: indications?.map(ind => ({
           indication_type: ind.indication_type,
           indication_text: ind.indication_text,
-        })),
-        contraindications: contraindications.map(contra => contra.contraindication),
-        dosing: dosing.map(dose => ({
-          patient_type: dose.patient_type,
-          indication: dose.indication,
-          dose: dose.dose,
-          route: dose.route,
-          provider_routes: dose.provider_routes || [],
-          concentration_supplied: dose.concentration_supplied,
-          compatibility_stability: dose.compatibility_stability || [],
-          notes: dose.notes || [],
-          requires_infusion_pump: dose.requires_infusion_pump || false,
-          infusion_pump_settings: dose.infusion_pump_settings as any || {},
-        })),
+        })) || [],
+        contraindications: contraindications?.map(contra => contra.contraindication) || [],
+        dosing: dosing?.map(dose => {
+          console.log('Processing dosing item:', dose);
+          console.log('Infusion pump settings:', dose.infusion_pump_settings);
+          return {
+            patient_type: dose.patient_type,
+            indication: dose.indication,
+            dose: dose.dose,
+            route: dose.route,
+            provider_routes: dose.provider_routes || [],
+            concentration_supplied: dose.concentration_supplied,
+            compatibility_stability: dose.compatibility_stability || [],
+            notes: dose.notes || [],
+            requires_infusion_pump: dose.requires_infusion_pump || false,
+            infusion_pump_settings: dose.infusion_pump_settings as any || {
+              cca_setting: '',
+              line_option: 'A',
+              duration: '',
+              vtbi: '',
+              pump_instructions: '',
+              medication_selection: '',
+            },
+          };
+        }) || [],
         administration: {
           preparation: administration?.preparation || [],
           administration_notes: administration?.administration_notes || [],
