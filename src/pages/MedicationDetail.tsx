@@ -100,16 +100,12 @@ const MedicationDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-transparent to-blue-50/40"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,182,193,0.1),transparent_50%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(221,214,254,0.1),transparent_50%)]"></div>
-      
-      <div className="relative container mx-auto px-4 py-8 max-w-6xl">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
         <Button 
           variant="ghost" 
           onClick={handleBackClick}
-          className="mb-8 flex items-center gap-3 bg-white/70 backdrop-blur-lg border border-white/30 hover:bg-white/80 rounded-lg transition-all duration-300 shadow-lg h-12 px-6"
+          className="mb-8 flex items-center gap-3 bg-white border border-gray-200 hover:bg-gray-50"
         >
           <ArrowLeft className="h-5 w-5" />
           Back to Medications
@@ -120,7 +116,7 @@ const MedicationDetail = () => {
         {/* Emergency Dosing Section */}
         {dosing && dosing.length > 0 && (
           <div className="mb-10">
-            <h2 className="text-lg font-bold mb-6 text-center uppercase tracking-wide text-gray-800">Emergency Dosing</h2>
+            <h2 className="text-lg font-semibold mb-6 text-center text-gray-800">Emergency Dosing</h2>
             <PatientTypeTabs dosing={dosing} isHighAlert={medication.high_alert} />
           </div>
         )}

@@ -56,11 +56,11 @@ const Medications = () => {
   const hasActiveFilters = Boolean(searchTerm) || totalActiveFilters > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <div className="container mx-auto px-4 py-6 flex-1">
         {/* Header Section */}
         <div className="mb-6">
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-semibold text-gray-900 mb-2">
             Medication Database
           </h1>
           <p className="text-base text-gray-600 mb-6 max-w-2xl">
@@ -68,7 +68,7 @@ const Medications = () => {
           </p>
           
           {/* Search Section */}
-          <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
+          <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
             <div className="max-w-2xl mx-auto lg:mx-0 mb-4">
               <MedicationSearchContainer
                 medicationSuggestions={medicationSuggestions}
@@ -83,7 +83,7 @@ const Medications = () => {
                 <Button
                   variant={showFavoritesOnly ? "default" : "outline"}
                   onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-                  className={`flex items-center gap-2 h-9 rounded-lg transition-colors ${
+                  className={`flex items-center gap-2 h-9 transition-colors ${
                     showFavoritesOnly 
                       ? 'bg-rose-500 hover:bg-rose-600 text-white' 
                       : 'bg-white border-rose-200 hover:bg-rose-50 text-rose-700'

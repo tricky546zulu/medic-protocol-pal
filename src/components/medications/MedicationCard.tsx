@@ -17,43 +17,32 @@ interface MedicationCardProps {
 export const MedicationCard = ({ medication }: MedicationCardProps) => {
   const navigate = useNavigate();
 
-  const getClassificationColor = (index: number) => {
-    const colors = [
-      'bg-blue-50 text-blue-700',
-      'bg-rose-50 text-rose-700',
-      'bg-violet-50 text-violet-700',
-      'bg-amber-50 text-amber-700',
-      'bg-emerald-50 text-emerald-700',
-    ];
-    return colors[index % colors.length];
-  };
-
   return (
-    <Card className="bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
-      <CardHeader className="p-4 border-b border-gray-100">
+    <Card className="bg-white border border-gray-200 hover:border-gray-300 transition-colors duration-200 shadow-sm hover:shadow-md">
+      <CardHeader className="pb-3">
         <CardTitle 
-          className="text-base font-semibold flex items-center gap-3 cursor-pointer hover:text-violet-600 transition-colors"
+          className="text-lg font-medium text-gray-900 cursor-pointer hover:text-blue-600 transition-colors duration-200 flex items-start gap-3"
           onClick={() => navigate(`/medications/${medication.id}`)}
         >
-          <div className="flex-shrink-0 p-2 bg-violet-50 rounded-lg">
-            <Pill className="h-4 w-4 text-violet-600" />
+          <div className="flex-shrink-0 w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center mt-0.5">
+            <Pill className="h-4 w-4 text-blue-600" />
           </div>
-          <span className="text-gray-900 truncate">{medication.medication_name}</span>
+          <span className="leading-tight">{medication.medication_name}</span>
         </CardTitle>
       </CardHeader>
       
-      <CardContent className="p-4 space-y-4">
+      <CardContent className="pt-0 space-y-4">
         {medication.classification && medication.classification.length > 0 && (
           <div>
             <p className="text-xs font-medium text-gray-500 mb-2">Classification</p>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap gap-1.5">
               {medication.classification.slice(0, 3).map((cls, index) => (
-                <Badge key={cls} variant="secondary" className={`text-xs px-2 py-1 rounded ${getClassificationColor(index)}`}>
-                  <span className="truncate max-w-24">{cls}</span>
+                <Badge key={cls} variant="secondary" className="text-xs px-2 py-1 bg-gray-100 text-gray-700 hover:bg-gray-200 border-0">
+                  {cls}
                 </Badge>
               ))}
               {medication.classification.length > 3 && (
-                <Badge variant="secondary" className="text-xs bg-gray-50 text-gray-600 px-2 py-1 rounded">
+                <Badge variant="secondary" className="text-xs px-2 py-1 bg-gray-100 text-gray-600 border-0">
                   +{medication.classification.length - 3}
                 </Badge>
               )}
@@ -62,17 +51,17 @@ export const MedicationCard = ({ medication }: MedicationCardProps) => {
         )}
 
         {medication.high_alert && (
-          <Badge variant="destructive" className="flex items-center gap-1 w-fit bg-red-500 text-white text-xs px-2 py-1 rounded">
-            <AlertTriangle className="h-3 w-3" />
-            HIGH ALERT
-          </Badge>
+          <div className="flex items-center gap-2 p-2 bg-red-50 border border-red-200 rounded-lg">
+            <AlertTriangle className="h-4 w-4 text-red-600 flex-shrink-0" />
+            <span className="text-sm font-medium text-red-700">High Alert Medication</span>
+          </div>
         )}
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 pt-2">
           <Button 
             variant="outline" 
             size="sm" 
-            className="flex-1 h-8 rounded border-gray-200 hover:border-violet-300 hover:bg-violet-50 text-sm text-gray-700 hover:text-violet-700"
+            className="flex-1 text-sm border-gray-300 hover:bg-gray-50 hover:border-gray-400"
             onClick={() => navigate(`/medications/${medication.id}`)}
           >
             View Details

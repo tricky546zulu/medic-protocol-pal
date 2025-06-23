@@ -13,20 +13,20 @@ interface MedicationHeaderProps {
 
 export const MedicationHeader = ({ medication }: MedicationHeaderProps) => {
   return (
-    <div className={`mb-10 p-6 rounded-lg bg-white/85 backdrop-blur-lg border border-white/30 shadow-lg transition-all duration-300 ${medication.high_alert ? 'ring-1 ring-red-400/60' : 'ring-1 ring-violet-200/40'}`}>
+    <div className="mb-8 p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col xl:flex-row xl:items-start justify-between gap-4">
           <div className="flex items-start gap-4 min-w-0 flex-1">
-            <div className="flex-shrink-0 p-3 bg-gradient-to-br from-violet-100 to-purple-200 rounded-lg border border-violet-200/50 shadow-lg">
-              <Pill className="h-6 w-6 text-violet-700" />
+            <div className="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-200">
+              <Pill className="h-6 w-6 text-blue-600" />
             </div>
             <div className="min-w-0 flex-1">
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 break-words leading-tight">{medication.medication_name}</h1>
+              <h1 className="text-2xl font-semibold text-gray-900 mb-3 break-words leading-tight">{medication.medication_name}</h1>
               {medication.classification && medication.classification.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {medication.classification.map((cls, index) => (
-                    <Badge key={index} variant="secondary" className="text-sm bg-gradient-to-r from-violet-100 to-purple-200 text-violet-800 px-3 py-1 rounded-lg border border-violet-200/60 font-medium">
-                      <span className="break-words max-w-32">{cls}</span>
+                    <Badge key={index} variant="secondary" className="text-sm bg-gray-100 text-gray-700 border-0 px-3 py-1">
+                      {cls}
                     </Badge>
                   ))}
                 </div>
@@ -36,11 +36,10 @@ export const MedicationHeader = ({ medication }: MedicationHeaderProps) => {
           
           <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
             {medication.high_alert && (
-              <Badge variant="destructive" className="flex items-center gap-2 text-sm px-4 py-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600 border border-red-300/50 font-bold">
-                <AlertTriangle className="h-4 w-4" />
-                <span className="hidden sm:inline">HIGH ALERT MEDICATION</span>
-                <span className="sm:hidden">HIGH ALERT</span>
-              </Badge>
+              <div className="flex items-center gap-2 px-3 py-2 bg-red-50 border border-red-200 rounded-lg">
+                <AlertTriangle className="h-4 w-4 text-red-600" />
+                <span className="text-sm font-medium text-red-700">High Alert Medication</span>
+              </div>
             )}
             <BookmarkButton 
               medicationId={medication.id} 

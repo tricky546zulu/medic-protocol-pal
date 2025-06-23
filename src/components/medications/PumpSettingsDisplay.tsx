@@ -11,56 +11,76 @@ interface PumpSettingsDisplayProps {
 }
 
 export const PumpSettingsDisplay = ({ dosing }: PumpSettingsDisplayProps) => {
-  if (!dosing.requires_infusion_pump) return null;
+  console.log('PumpSettingsDisplay - dosing:', dosing);
+  console.log('PumpSettingsDisplay - requires_infusion_pump:', dosing.requires_infusion_pump);
+  console.log('PumpSettingsDisplay - infusion_pump_settings:', dosing.infusion_pump_settings);
+
+  if (!dosing.requires_infusion_pump) {
+    console.log('PumpSettingsDisplay - Not required, returning null');
+    return null;
+  }
 
   const pumpSettings = dosing.infusion_pump_settings as any;
   
-  if (!pumpSettings || Object.keys(pumpSettings).length === 0) return null;
+  if (!pumpSettings || (typeof pumpSettings === 'object' && Object.keys(pumpSettings).length === 0)) {
+    console.log('PumpSettingsDisplay - No pump settings found');
+    return (
+      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="flex items-center gap-2 text-blue-700">
+          <Syringe className="h-4 w-4" />
+          <span className="text-sm font-medium">IV Pump Required - Settings not configured</span>
+        </div>
+      </div>
+    );
+  }
+
+  console.log('PumpSettingsDisplay - Rendering pump settings:', pumpSettings);
 
   return (
-    <div className="p-3 bg-blue-50 rounded-lg text-sm border border-blue-200">
-      <div className="font-semibold text-blue-800 mb-3 flex items-center gap-2">
-        <Syringe className="h-4 w-4" />
-        ⚠️ IV PUMP SETTINGS:
+    <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+      <div className="flex items-center gap-2 mb-3">
+        <Syringe className="h-4 w-4 text-blue-600" />
+        <span className="text-xs font-medium text-blue-600 uppercase tracking-wide">IV Pump Settings</span>
       </div>
       
       {pumpSettings.medication_selection && (
-        <div className="mb-3 p-2 bg-blue-100 rounded-lg border border-blue-300">
-          <span className="font-semibold text-blue-900 text-sm">PUMP MEDICATION:</span>
-          <div className="font-semibold text-blue-900 text-sm mt-1">{pumpSettings.medication_selection}</div>
+        <div className="mb-3 p-2 bg-white border border-blue-200 rounded">
+          <p className="text-xs font-medium text-blue-600 mb-1">Pump Medication</p>
+          <p className="text-sm font-medium text-blue-900">{pumpSettings.medication_selection}</p>
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
         {pumpSettings.cca_setting && (
-          <div className="bg-white p-2 rounded-lg border border-white">
-            <span className="font-medium text-sm">CCA:</span>{' '}
-            <span className="text-sm font-medium">{pumpSettings.cca_setting}</span>
+          <div className="bg-white p-2 border border-blue-100 rounded">
+            <span className="text-xs font-medium text-blue-600">CCA: </span>
+            <span className="text-sm text-blue-900">{pumpSettings.cca_setting}</span>
           </div>
         )}
         {pumpSettings.line_option && (
-          <div className="bg-white p-2 rounded-lg border border-white">
-            <span className="font-medium text-sm">Line:</span>{' '}
-            <span className="text-sm font-medium">{pumpSettings.line_option}</span>
+          <div className="bg-white p-2 border border-blue-100 rounded">
+            <span className="text-xs font-medium text-blue-600">Line: </span>
+            <span className="text-sm text-blue-900">{pumpSettings.line_option}</span>
           </div>
         )}
         {pumpSettings.duration && (
-          <div className="bg-white p-2 rounded-lg border border-white">
-            <span className="font-medium text-sm">Duration:</span>{' '}
-            <span className="text-sm font-medium">{pumpSettings.duration}</span>
+          <div className="bg-white p-2 border border-blue-100 rounded">
+            <span className="text-xs font-medium text-blue-600">Duration: </span>
+            <span className="text-sm text-blue-900">{pumpSettings.duration}</span>
           </div>
         )}
         {pumpSettings.vtbi && (
-          <div className="bg-white p-2 rounded-lg border border-white">
-            <span className="font-medium text-sm">VTBI:</span>{' '}
-            <span className="text-sm font-medium">{pumpSettings.vtbi}</span>
+          <div className="bg-white p-2 border border-blue-100 rounded">
+            <span className="text-xs font-medium text-blue-600">VTBI: </span>
+            <span className="text-sm text-blue-900">{pumpSettings.vtbi}</span>
           </div>
         )}
       </div>
+      
       {pumpSettings.pump_instructions && (
-        <div className="mt-2 pt-2 border-t border-blue-300">
-          <span className="font-medium text-sm">Instructions:</span>{' '}
-          <span className="text-sm font-medium">{pumpSettings.pump_instructions}</span>
+        <div className="mt-3 pt-3 border-t border-blue-200">
+          <p className="text-xs font-medium text-blue-600 mb-1">Instructions</p>
+          <p className="text-sm text-blue-900">{pumpSettings.pump_instructions}</p>
         </div>
       )}
     </div>
