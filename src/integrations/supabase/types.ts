@@ -158,6 +158,7 @@ export type Database = {
           created_at: string | null
           high_alert: boolean | null
           id: string
+          infusion_only: boolean | null
           medication_name: string
           updated_at: string | null
         }
@@ -166,6 +167,7 @@ export type Database = {
           created_at?: string | null
           high_alert?: boolean | null
           id?: string
+          infusion_only?: boolean | null
           medication_name: string
           updated_at?: string | null
         }
@@ -174,6 +176,7 @@ export type Database = {
           created_at?: string | null
           high_alert?: boolean | null
           id?: string
+          infusion_only?: boolean | null
           medication_name?: string
           updated_at?: string | null
         }

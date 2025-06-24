@@ -19,6 +19,7 @@ export const useEditMedicationSave = (medicationId: string, onSuccess: () => voi
           medication_name: medicationData.basic.medication_name,
           classification: medicationData.basic.classification,
           high_alert: medicationData.basic.high_alert,
+          infusion_only: medicationData.basic.infusion_only || false,
         })
         .eq('id', medicationId);
 
@@ -72,7 +73,7 @@ export const useEditMedicationSave = (medicationId: string, onSuccess: () => voi
 
       toast({
         title: "Success",
-        description: "Medication updated successfully",
+        description: `${medicationData.basic.infusion_only ? 'Infusion protocol' : 'Medication'} updated successfully`,
       });
 
       onSuccess();
@@ -81,7 +82,7 @@ export const useEditMedicationSave = (medicationId: string, onSuccess: () => voi
       console.error('Error updating medication:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to update medication",
+        description: error.message || `Failed to update ${medicationData.basic.infusion_only ? 'infusion protocol' : 'medication'}`,
         variant: "destructive",
       });
     } finally {

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -116,19 +115,30 @@ const MedicationDetail = () => {
         {/* Emergency Dosing Section */}
         {dosing && dosing.length > 0 && (
           <div className="mb-10">
-            <h2 className="text-lg font-semibold mb-6 text-center text-gray-800">Emergency Dosing</h2>
-            <PatientTypeTabs dosing={dosing} isHighAlert={medication.high_alert} />
+            <h2 className="text-lg font-semibold mb-6 text-center text-gray-800">
+              {medication.infusion_only ? 'Infusion Protocol' : 'Emergency Dosing'}
+            </h2>
+            <PatientTypeTabs 
+              dosing={dosing} 
+              isHighAlert={medication.high_alert} 
+              isInfusionOnly={medication.infusion_only}
+            />
           </div>
         )}
 
-        {/* Quick Reference Section */}
-        <div className="mb-10">
-          <QuickReferenceCard medication={medication} dosing={dosing || []} />
-        </div>
+        {/* Quick Reference Section - Only show for non-infusion-only medications */}
+        {!medication.infusion_only && (
+          <div className="mb-10">
+            <QuickReferenceCard medication={medication} dosing={dosing || []} />
+          </div>
+        )}
 
         <ContraindicationsSection contraindications={contraindications || []} />
 
-        <CollapsibleSections indications={indications} administration={administration} />
+        {/* Only show detailed sections for non-infusion-only medications */}
+        {!medication.infusion_only && (
+          <CollapsibleSections indications={indications} administration={administration} />
+        )}
       </div>
     </div>
   );

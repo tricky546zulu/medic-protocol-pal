@@ -83,6 +83,21 @@ export const BasicInfoStep = ({ data, updateData }: WizardStepProps) => {
         />
         <Label htmlFor="highAlert">High Alert Medication</Label>
       </div>
+
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="infusionOnly"
+          checked={data.basic.infusion_only || false}
+          onCheckedChange={(checked) => updateData('basic', {
+            ...data.basic,
+            infusion_only: checked,
+          })}
+        />
+        <Label htmlFor="infusionOnly">Infusion Only Medication</Label>
+        <p className="text-xs text-gray-500 ml-2">
+          Check this for medications that only require pump configuration
+        </p>
+      </div>
     </div>
   );
 };
