@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Badge } from '@/components/ui/badge';
 import { Syringe } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
 
@@ -11,31 +10,13 @@ interface PumpSettingsDisplayProps {
 }
 
 export const PumpSettingsDisplay = ({ dosing }: PumpSettingsDisplayProps) => {
-  console.log('PumpSettingsDisplay - dosing:', dosing);
-  console.log('PumpSettingsDisplay - requires_infusion_pump:', dosing.requires_infusion_pump);
-  console.log('PumpSettingsDisplay - infusion_pump_settings:', dosing.infusion_pump_settings);
-
   if (!dosing.requires_infusion_pump) {
-    console.log('PumpSettingsDisplay - Not required, returning null');
     return null;
   }
 
   const pumpSettings = dosing.infusion_pump_settings as any;
-  console.log('PumpSettingsDisplay - Processing pump settings:', pumpSettings);
   
-  if (!pumpSettings) {
-    console.log('PumpSettingsDisplay - No pump settings object found');
-    return (
-      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-        <div className="flex items-center gap-2 text-blue-700">
-          <Syringe className="h-4 w-4" />
-          <span className="text-sm font-medium">IV Pump Required - Settings not configured</span>
-        </div>
-      </div>
-    );
-  }
-
-  // Check if pump settings object is empty or has no meaningful data
+  // Check if pump settings object has any meaningful data
   const hasSettings = pumpSettings && (
     pumpSettings.medication_selection ||
     pumpSettings.cca_setting ||
@@ -46,66 +27,38 @@ export const PumpSettingsDisplay = ({ dosing }: PumpSettingsDisplayProps) => {
   );
 
   if (!hasSettings) {
-    console.log('PumpSettingsDisplay - Pump settings object exists but has no data');
     return (
-      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-        <div className="flex items-center gap-2 text-blue-700">
-          <Syringe className="h-4 w-4" />
-          <span className="text-sm font-medium">IV Pump Required - Settings not configured</span>
-        </div>
+      <div className="flex items-center gap-2 text-blue-700 text-sm">
+        <Syringe className="h-4 w-4" />
+        <span>IV Pump Required</span>
       </div>
     );
   }
 
-  console.log('PumpSettingsDisplay - Rendering pump settings with data:', pumpSettings);
-
   return (
-    <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-      <div className="flex items-center gap-2 mb-3">
+    <div className="border border-blue-200 rounded-lg p-3 bg-blue-50">
+      <div className="flex items-center gap-2 mb-2">
         <Syringe className="h-4 w-4 text-blue-600" />
-        <span className="text-xs font-medium text-blue-600 uppercase tracking-wide">IV Pump Settings</span>
+        <span className="text-sm font-medium text-blue-800">IV Pump Settings</span>
       </div>
       
       {pumpSettings.medication_selection && (
-        <div className="mb-3 p-2 bg-white border border-blue-200 rounded">
-          <p className="text-xs font-medium text-blue-600 mb-1">Pump Medication</p>
-          <p className="text-sm font-medium text-blue-900">{pumpSettings.medication_selection}</p>
+        <div className="mb-2 p-2 bg-white rounded border border-blue-100">
+          <span className="text-sm font-medium text-blue-900">{pumpSettings.medication_selection}</span>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-        {pumpSettings.cca_setting && (
-          <div className="bg-white p-2 border border-blue-100 rounded">
-            <span className="text-xs font-medium text-blue-600">CCA: </span>
-            <span className="text-sm text-blue-900">{pumpSettings.cca_setting}</span>
-          </div>
-        )}
-        {pumpSettings.line_option && (
-          <div className="bg-white p-2 border border-blue-100 rounded">
-            <span className="text-xs font-medium text-blue-600">Line: </span>
-            <span className="text-sm text-blue-900">{pumpSettings.line_option}</span>
-          </div>
-        )}
-        {pumpSettings.duration && (
-          <div className="bg-white p-2 border border-blue-100 rounded">
-            <span className="text-xs font-medium text-blue-600">Duration: </span>
-            <span className="text-sm text-blue-900">{pumpSettings.duration}</span>
-          </div>
-        )}
-        {pumpSettings.vtbi && (
-          <div className="bg-white p-2 border border-blue-100 rounded">
-            <span className="text-xs font-medium text-blue-600">VTBI: </span>
-            <span className="text-sm text-blue-900">{pumpSettings.vtbi}</span>
+      <div className="text-sm text-blue-800 space-y-1">
+        {pumpSettings.cca_setting && <div>CCA: {pumpSettings.cca_setting}</div>}
+        {pumpSettings.line_option && <div>Line: {pumpSettings.line_option}</div>}
+        {pumpSettings.duration && <div>Duration: {pumpSettings.duration}</div>}
+        {pumpSettings.vtbi && <div>VTBI: {pumpSettings.vtbi}</div>}
+        {pumpSettings.pump_instructions && (
+          <div className="pt-2 border-t border-blue-200 italic">
+            {pumpSettings.pump_instructions}
           </div>
         )}
       </div>
-      
-      {pumpSettings.pump_instructions && (
-        <div className="mt-3 pt-3 border-t border-blue-200">
-          <p className="text-xs font-medium text-blue-600 mb-1">Instructions</p>
-          <p className="text-sm text-blue-900">{pumpSettings.pump_instructions}</p>
-        </div>
-      )}
     </div>
   );
 };
