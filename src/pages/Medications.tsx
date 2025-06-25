@@ -57,44 +57,46 @@ const Medications = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Professional Blue Header with Integrated Search */}
-      <div className="bg-blue-600 text-white py-6 shadow-sm">
-        <div className="container mx-auto px-4">
-          <h1 className="text-2xl font-bold mb-4 text-center lg:text-left">
-            SK EMS Meds
-          </h1>
-          
-          {/* Integrated Search */}
-          <div className="max-w-2xl mx-auto lg:mx-0 mb-4">
-            <MedicationSearchContainer
-              medicationSuggestions={medicationSuggestions}
-              indicationSuggestions={indicationSuggestions}
-              isLoading={isLoading}
-              onSearchChange={setSearchTerm}
-            />
-          </div>
-
-          {/* Favorites Button */}
-          {user && (
-            <div className="flex justify-center lg:justify-start">
-              <Button
-                variant={showFavoritesOnly ? "secondary" : "outline"}
-                onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-                className={`flex items-center gap-2 h-9 transition-colors ${
-                  showFavoritesOnly 
-                    ? 'bg-white text-blue-600 hover:bg-blue-50' 
-                    : 'bg-transparent border-white/30 hover:bg-white/10 text-white'
-                }`}
-              >
-                <Heart className={`h-4 w-4 ${showFavoritesOnly ? 'fill-current' : ''}`} />
-                My Favorites {userFavorites.length > 0 && `(${userFavorites.length})`}
-              </Button>
-            </div>
-          )}
-        </div>
-      </div>
-
       <div className="container mx-auto px-4 py-6 flex-1">
+        {/* Header Section */}
+        <div className="mb-6">
+          <h1 className="text-3xl font-semibold text-gray-900 mb-2">
+            Medication Database
+          </h1>
+          <p className="text-base text-gray-600 mb-6 max-w-2xl">
+            Provincial emergency medical services protocols and dosing guidelines
+          </p>
+          
+          {/* Search Section */}
+          <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
+            <div className="max-w-2xl mx-auto lg:mx-0 mb-4">
+              <MedicationSearchContainer
+                medicationSuggestions={medicationSuggestions}
+                indicationSuggestions={indicationSuggestions}
+                isLoading={isLoading}
+                onSearchChange={setSearchTerm}
+              />
+            </div>
+
+            {user && (
+              <div className="flex justify-center lg:justify-start">
+                <Button
+                  variant={showFavoritesOnly ? "default" : "outline"}
+                  onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+                  className={`flex items-center gap-2 h-9 transition-colors ${
+                    showFavoritesOnly 
+                      ? 'bg-rose-500 hover:bg-rose-600 text-white' 
+                      : 'bg-white border-rose-200 hover:bg-rose-50 text-rose-700'
+                  }`}
+                >
+                  <Heart className={`h-4 w-4 ${showFavoritesOnly ? 'fill-current' : ''}`} />
+                  My Favorites {userFavorites.length > 0 && `(${userFavorites.length})`}
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Filters */}
         <div className="mb-6">
           <MedicationFilters
@@ -120,8 +122,8 @@ const Medications = () => {
         )}
       </div>
 
-      {/* Subtle Footer with Disclaimer */}
-      <footer className="py-6 bg-gray-100 border-t border-gray-200">
+      {/* Footer with Disclaimer */}
+      <footer className="py-8 bg-white border-t border-gray-200">
         <MedicalDisclaimer />
       </footer>
     </div>
