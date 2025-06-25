@@ -19,69 +19,85 @@ export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCard
   );
 
   return (
-    <Card className="bg-white border border-gray-200 hover:border-gray-300 transition-colors">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-3">
-          <CardTitle className="text-lg font-medium text-gray-900">
-            {dosing.indication}
-          </CardTitle>
-          <div className="flex gap-2">
-            {dosing.route && (
-              <Badge variant="outline" className="text-gray-700 border-gray-300">
-                {dosing.route}
-              </Badge>
-            )}
-            {hasPumpSettings && (
-              <Badge variant="outline" className="flex items-center gap-1 text-blue-700 border-blue-300">
-                <Syringe className="h-3 w-3" />
-                IV Pump
-              </Badge>
-            )}
-            {isHighAlert && (
-              <Badge variant="outline" className="flex items-center gap-1 text-red-700 border-red-300">
-                <AlertTriangle className="h-3 w-3" />
-                High Alert
-              </Badge>
-            )}
-          </div>
+    <div className="med-card">
+      <div className="med-card-header">
+        <div className="min-w-0 flex-1">
+          <h3 className="med-section-title">{dosing.indication}</h3>
+          {dosing.patient_type && (
+            <span className="med-label">{dosing.patient_type}</span>
+          )}
         </div>
-      </CardHeader>
+        <div className="flex gap-2">
+          {dosing.route && (
+            <span className="med-category-tag">
+              {dosing.route}
+            </span>
+          )}
+          {hasPumpSettings && (
+            <span className="med-category-tag flex items-center gap-1">
+              <Syringe className="h-3 w-3" />
+              IV Pump
+            </span>
+          )}
+          {isHighAlert && (
+            <span className="med-critical-tag flex items-center gap-1">
+              <AlertTriangle className="h-3 w-3" />
+              High Alert
+            </span>
+          )}
+        </div>
+      </div>
       
-      <CardContent className="space-y-4">
-        {/* Primary: Emergency Dose */}
-        <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
-          <div className="text-2xl font-bold text-red-900 mb-1">
+      <div className="med-section">
+        {/* Primary Emergency Dose - Prominent Display */}
+        <div className="text-center p-6 bg-red-50 rounded-lg border-l-4 border-red-500 mb-6">
+          <div className="text-3xl font-bold text-red-900 mb-2">
             {dosing.dose}
           </div>
           {dosing.concentration_supplied && (
-            <div className="text-sm text-red-700">
+            <div className="med-body-text text-red-700 font-medium">
               {dosing.concentration_supplied}
             </div>
           )}
         </div>
 
-        {/* Essential Pump Settings Only */}
+        {/* Pump Settings Grid */}
         {hasPumpSettings && (
-          <div className="text-sm space-y-1 p-2 bg-blue-50 rounded border border-blue-200">
-            <div className="font-medium text-blue-800 mb-1">IV Pump Required</div>
-            {pumpSettings.medication_selection && (
-              <div className="text-blue-900">{pumpSettings.medication_selection}</div>
-            )}
-            {pumpSettings.cca_setting && (
-              <div className="text-blue-800">CCA: {pumpSettings.cca_setting}</div>
-            )}
+          <div className="med-pump-settings">
+            <div className="flex items-center gap-2 mb-3">
+              <Syringe className="h-4 w-4 text-blue-600" />
+              <span className="med-section-title text-blue-800">IV Pump Required</span>
+            </div>
+            <div className="med-dosing-grid">
+              {pumpSettings.medication_selection && (
+                <div>
+                  <span className="med-label block mb-1">Medication Selection</span>
+                  <p className="med-body-text font-medium">{pumpSettings.medication_selection}</p>
+                </div>
+              )}
+              {pumpSettings.cca_setting && (
+                <div>
+                  <span className="med-label block mb-1">CCA Setting</span>
+                  <p className="med-body-text font-medium">{pumpSettings.cca_setting}</p>
+                </div>
+              )}
+              {pumpSettings.duration && (
+                <div>
+                  <span className="med-label block mb-1">Duration</span>
+                  <p className="med-body-text font-medium">{pumpSettings.duration}</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
-        {/* Critical Notes Only */}
+        {/* Critical Notes */}
         {dosing.notes && dosing.notes.length > 0 && (
-          <div className="text-sm text-amber-800 p-2 bg-amber-50 rounded border-l-2 border-amber-400">
-            {dosing.notes.slice(0, 1).map((note, index) => (
-              <div key={index}>{note}</div>
-            ))}
+          <div className="med-critical-note">
+            <p>{dosing.notes[0]}</p>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
