@@ -22,6 +22,7 @@ import MyFavorites from "./pages/MyFavorites";
 import AdminPanel from "./pages/AdminPanel";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import { MedicalDisclaimer } from "@/components/MedicalDisclaimer"; // Import the disclaimer
 import "./App.css";
 import { useEffect, Suspense } from "react";
 
@@ -150,6 +151,7 @@ function App() {
                   </Suspense>
                 </ErrorBoundary>
               </div>
+              <MedicalDisclaimer /> {/* Add the disclaimer here */}
               <Toaster />
               <Sonner />
             </BrowserRouter>
