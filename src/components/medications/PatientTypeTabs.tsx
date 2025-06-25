@@ -19,20 +19,21 @@ export const PatientTypeTabs = ({ dosing, isHighAlert, isInfusionOnly }: Patient
 
   if (patientTypes.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500">
-        No dosing information available
+      <div className="text-center py-12 text-gray-500">
+        <div className="text-lg font-medium mb-2">No dosing information available</div>
+        <div className="text-sm">Please check back later or contact your administrator.</div>
       </div>
     );
   }
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 h-auto bg-white border border-gray-200 p-1">
+      <TabsList className="grid w-full h-auto bg-gray-50 border border-gray-200 p-1 rounded-lg mb-6" style={{ gridTemplateColumns: `repeat(${patientTypes.length}, 1fr)` }}>
         {patientTypes.map((patientType) => (
           <TabsTrigger 
             key={patientType} 
             value={patientType}
-            className="px-3 py-2 text-sm font-medium data-[state=active]:bg-blue-100 data-[state=active]:text-blue-900 data-[state=active]:border-blue-300"
+            className="px-4 py-3 text-sm font-medium rounded-md data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm text-gray-600 hover:text-gray-900 transition-all"
           >
             {patientType}
           </TabsTrigger>
@@ -43,8 +44,8 @@ export const PatientTypeTabs = ({ dosing, isHighAlert, isInfusionOnly }: Patient
         const patientDosing = dosing.filter(d => d.patient_type === patientType);
         
         return (
-          <TabsContent key={patientType} value={patientType} className="mt-6">
-            <div className="grid gap-6">
+          <TabsContent key={patientType} value={patientType} className="mt-0">
+            <div className="space-y-4">
               {patientDosing.map((dose) => (
                 <div key={dose.id}>
                   {isInfusionOnly ? (
