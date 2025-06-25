@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Syringe, AlertTriangle, Settings, Clock } from 'lucide-react';
+import { Syringe, AlertTriangle } from 'lucide-react';
 import type { Database } from '@/integrations/supabase/types';
 
 type MedicationDosing = Database['public']['Tables']['medication_dosing']['Row'];
@@ -16,100 +16,90 @@ export const InfusionOnlyCard = ({ dosing, isHighAlert }: InfusionOnlyCardProps)
   const pumpSettings = dosing.infusion_pump_settings as any;
 
   return (
-    <Card className="bg-white border border-gray-200 shadow-sm print:shadow-none print:border-2 print:border-black">
-      <CardContent className="p-6">
-        {/* Header Section */}
-        <div className="flex items-start justify-between mb-6 pb-4 border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-              <Syringe className="h-5 w-5 text-blue-600" />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                {dosing.indication}
-              </h3>
-              <span className="text-sm text-gray-600">Continuous Infusion Protocol</span>
-            </div>
+    <Card className="bg-white border border-gray-200">
+      <CardContent className="p-4">
+        {/* Header - Simplified */}
+        <div className="flex items-start justify-between mb-4 gap-3">
+          <div className="min-w-0 flex-1">
+            <h3 className="text-base font-semibold text-gray-900 break-words leading-tight">
+              {dosing.indication}
+            </h3>
+            <p className="text-sm text-gray-600 mt-1">Continuous Infusion</p>
           </div>
           {isHighAlert && (
-            <Badge className="bg-red-50 text-red-700 border-red-200 hover:bg-red-100">
+            <Badge className="bg-red-50 text-red-700 border-red-200 text-xs whitespace-nowrap flex-shrink-0">
               <AlertTriangle className="h-3 w-3 mr-1" />
               High Alert
             </Badge>
           )}
         </div>
 
-        {/* Primary Medication Selection */}
+        {/* Primary Selection - Streamlined */}
         {pumpSettings?.medication_selection && (
-          <div className="bg-blue-50 rounded-lg p-6 mb-6 border border-blue-200">
-            <div className="text-center">
-              <div className="text-xl font-bold text-blue-900 mb-2">
-                {pumpSettings.medication_selection}
-              </div>
-              {dosing.concentration_supplied && (
-                <div className="text-sm font-medium text-blue-700">
-                  Concentration: {dosing.concentration_supplied}
-                </div>
-              )}
+          <div className="bg-blue-50 rounded-lg p-4 mb-4 text-center">
+            <div className="text-lg font-bold text-blue-900 break-words">
+              {pumpSettings.medication_selection}
             </div>
+            {dosing.concentration_supplied && (
+              <div className="text-sm text-blue-700 mt-1 break-words">
+                {dosing.concentration_supplied}
+              </div>
+            )}
           </div>
         )}
 
-        {/* Pump Configuration Grid */}
-        <div className="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200">
-          <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            Pump Configuration
+        {/* Pump Configuration - Compact Grid */}
+        <div className="bg-gray-50 rounded-lg p-3 mb-4">
+          <h4 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1">
+            <Syringe className="h-3 w-3" />
+            Pump Settings
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-2 text-sm">
             {pumpSettings?.cca_setting && (
-              <div className="bg-white rounded p-3 border border-gray-200">
-                <span className="font-medium text-gray-700">CCA Setting</span>
-                <div className="text-gray-900 font-semibold">{pumpSettings.cca_setting}</div>
+              <div className="break-words">
+                <span className="font-medium text-gray-700">CCA:</span>
+                <div className="text-gray-900">{pumpSettings.cca_setting}</div>
               </div>
             )}
             {pumpSettings?.line_option && (
-              <div className="bg-white rounded p-3 border border-gray-200">
-                <span className="font-medium text-gray-700">Line Selection</span>
-                <div className="text-gray-900 font-semibold">Line {pumpSettings.line_option}</div>
+              <div>
+                <span className="font-medium text-gray-700">Line:</span>
+                <div className="text-gray-900">Line {pumpSettings.line_option}</div>
               </div>
             )}
             {pumpSettings?.duration && (
-              <div className="bg-white rounded p-3 border border-gray-200">
-                <span className="font-medium text-gray-700 flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  Duration
-                </span>
-                <div className="text-gray-900 font-semibold">{pumpSettings.duration}</div>
+              <div className="break-words">
+                <span className="font-medium text-gray-700">Duration:</span>
+                <div className="text-gray-900">{pumpSettings.duration}</div>
               </div>
             )}
             {pumpSettings?.vtbi && (
-              <div className="bg-white rounded p-3 border border-gray-200">
-                <span className="font-medium text-gray-700">VTBI</span>
-                <div className="text-gray-900 font-semibold">{pumpSettings.vtbi}</div>
+              <div className="break-words">
+                <span className="font-medium text-gray-700">VTBI:</span>
+                <div className="text-gray-900">{pumpSettings.vtbi}</div>
               </div>
             )}
           </div>
         </div>
 
-        {/* Pump Instructions */}
+        {/* Instructions - Compact */}
         {pumpSettings?.pump_instructions && (
-          <div className="bg-blue-50 rounded-lg p-4 mb-6 border border-blue-200">
-            <h4 className="text-sm font-semibold text-blue-900 mb-2">Instructions</h4>
-            <div className="text-sm text-blue-900">{pumpSettings.pump_instructions}</div>
+          <div className="bg-blue-50 rounded-lg p-3 mb-4">
+            <h4 className="text-sm font-semibold text-blue-900 mb-1">Instructions</h4>
+            <div className="text-sm text-blue-900 break-words">{pumpSettings.pump_instructions}</div>
           </div>
         )}
 
-        {/* Critical Notes */}
+        {/* Notes - Simplified */}
         {dosing.notes && dosing.notes.length > 0 && (
-          <div className="bg-amber-50 rounded-lg p-4 border border-amber-200">
-            <h4 className="text-sm font-semibold text-amber-800 mb-2 flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4" />
-              Important Notes
+          <div className="bg-amber-50 rounded-lg p-3">
+            <h4 className="text-sm font-semibold text-amber-800 mb-2 flex items-center gap-1">
+              <AlertTriangle className="h-3 w-3" />
+              Notes
             </h4>
-            <div className="space-y-2">
+            <div className="space-y-1">
               {dosing.notes.map((note, index) => (
-                <div key={index} className="text-sm text-amber-900">
+                <div key={index} className="text-sm text-amber-900 break-words">
                   • {note}
                 </div>
               ))}
