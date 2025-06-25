@@ -14,36 +14,31 @@ interface EmergencyDosingCardProps {
 
 export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCardProps) => {
   const pumpSettings = dosing.infusion_pump_settings as any;
-  const hasValidPumpSettings = dosing.requires_infusion_pump && pumpSettings && (
-    pumpSettings.medication_selection ||
-    pumpSettings.cca_setting ||
-    pumpSettings.line_option ||
-    pumpSettings.duration ||
-    pumpSettings.vtbi ||
-    pumpSettings.pump_instructions
+  const hasPumpSettings = dosing.requires_infusion_pump && pumpSettings && (
+    pumpSettings.medication_selection || pumpSettings.cca_setting
   );
 
   return (
-    <Card className="bg-white border border-gray-200 hover:border-gray-300 transition-colors duration-200">
-      <CardHeader className="pb-4">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-          <CardTitle className="text-base font-medium text-gray-900 leading-tight">
+    <Card className="bg-white border border-gray-200 hover:border-gray-300 transition-colors">
+      <CardHeader className="pb-3">
+        <div className="flex items-start justify-between gap-3">
+          <CardTitle className="text-lg font-medium text-gray-900">
             {dosing.indication}
           </CardTitle>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2">
             {dosing.route && (
-              <Badge variant="outline" className="text-xs px-2 py-1 border-gray-300 text-gray-700">
+              <Badge variant="outline" className="text-gray-700 border-gray-300">
                 {dosing.route}
               </Badge>
             )}
-            {hasValidPumpSettings && (
-              <Badge variant="outline" className="flex items-center gap-1 text-xs px-2 py-1 border-blue-300 text-blue-700">
+            {hasPumpSettings && (
+              <Badge variant="outline" className="flex items-center gap-1 text-blue-700 border-blue-300">
                 <Syringe className="h-3 w-3" />
                 IV Pump
               </Badge>
             )}
             {isHighAlert && (
-              <Badge variant="outline" className="flex items-center gap-1 text-xs px-2 py-1 border-red-300 text-red-700">
+              <Badge variant="outline" className="flex items-center gap-1 text-red-700 border-red-300">
                 <AlertTriangle className="h-3 w-3" />
                 High Alert
               </Badge>
@@ -53,70 +48,36 @@ export const EmergencyDosingCard = ({ dosing, isHighAlert }: EmergencyDosingCard
       </CardHeader>
       
       <CardContent className="space-y-4">
-        {/* Emergency Dose - Primary Focus */}
-        <div className="text-center">
-          <p className="text-sm font-medium text-gray-600 mb-2">Emergency Dose</p>
-          <div className="text-2xl font-bold text-gray-900 p-4 border-2 border-red-200 rounded-lg bg-red-50">
+        {/* Primary: Emergency Dose */}
+        <div className="text-center p-4 bg-red-50 rounded-lg border border-red-200">
+          <div className="text-2xl font-bold text-red-900 mb-1">
             {dosing.dose}
           </div>
           {dosing.concentration_supplied && (
-            <p className="text-sm text-gray-600 mt-2 font-medium">
+            <div className="text-sm text-red-700">
               {dosing.concentration_supplied}
-            </p>
+            </div>
           )}
         </div>
 
-        {/* IV Pump Settings - Only if valid settings exist */}
-        {hasValidPumpSettings && (
-          <div className="border border-blue-200 rounded-lg p-4 bg-blue-50">
-            <div className="flex items-center gap-2 mb-3">
-              <Syringe className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium text-blue-800">IV Pump Settings</span>
-            </div>
-            
+        {/* Essential Pump Settings Only */}
+        {hasPumpSettings && (
+          <div className="text-sm space-y-1 p-2 bg-blue-50 rounded border border-blue-200">
+            <div className="font-medium text-blue-800 mb-1">IV Pump Required</div>
             {pumpSettings.medication_selection && (
-              <div className="mb-3 p-2 bg-white rounded border border-blue-100">
-                <span className="text-sm font-medium text-blue-900">{pumpSettings.medication_selection}</span>
-              </div>
+              <div className="text-blue-900">{pumpSettings.medication_selection}</div>
             )}
-
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              {pumpSettings.cca_setting && (
-                <div>
-                  <span className="font-medium text-blue-700">CCA:</span> {pumpSettings.cca_setting}
-                </div>
-              )}
-              {pumpSettings.line_option && (
-                <div>
-                  <span className="font-medium text-blue-700">Line:</span> {pumpSettings.line_option}
-                </div>
-              )}
-              {pumpSettings.duration && (
-                <div>
-                  <span className="font-medium text-blue-700">Duration:</span> {pumpSettings.duration}
-                </div>
-              )}
-              {pumpSettings.vtbi && (
-                <div>
-                  <span className="font-medium text-blue-700">VTBI:</span> {pumpSettings.vtbi}
-                </div>
-              )}
-            </div>
-            
-            {pumpSettings.pump_instructions && (
-              <div className="mt-3 pt-3 border-t border-blue-200 text-sm text-blue-800">
-                {pumpSettings.pump_instructions}
-              </div>
+            {pumpSettings.cca_setting && (
+              <div className="text-blue-800">CCA: {pumpSettings.cca_setting}</div>
             )}
           </div>
         )}
 
         {/* Critical Notes Only */}
         {dosing.notes && dosing.notes.length > 0 && (
-          <div className="border-l-4 border-amber-400 pl-3 py-2">
-            <p className="text-sm font-medium text-amber-800 mb-1">Important Notes</p>
-            {dosing.notes.slice(0, 2).map((note, index) => (
-              <p key={index} className="text-sm text-amber-700">{note}</p>
+          <div className="text-sm text-amber-800 p-2 bg-amber-50 rounded border-l-2 border-amber-400">
+            {dosing.notes.slice(0, 1).map((note, index) => (
+              <div key={index}>{note}</div>
             ))}
           </div>
         )}
