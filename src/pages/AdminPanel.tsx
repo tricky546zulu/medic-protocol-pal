@@ -12,7 +12,7 @@ const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('add');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
