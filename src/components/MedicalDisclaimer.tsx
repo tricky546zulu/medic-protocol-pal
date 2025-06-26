@@ -1,21 +1,22 @@
 
 import React from 'react';
-import { Info } from 'lucide-react'; // Replaced AlertTriangle with Info
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
 
 export const MedicalDisclaimer = () => {
   return (
-    <footer className="bg-gray-100 text-gray-700 py-6 px-4 mt-8"> {/* Added mt-8 for spacing */}
-      <div className="container mx-auto flex items-start text-sm">
-        <Info className="h-5 w-5 mr-3 mt-1 text-gray-500 flex-shrink-0" /> {/* Adjusted icon styling */}
-        <div>
-          <p className="font-semibold mb-1">MEDICAL DISCLAIMER</p>
-          <p className="text-xs leading-relaxed">
+    <div className="max-w-4xl mx-auto px-4">
+      <Alert className="border-amber-200 bg-amber-50">
+        <AlertTriangle className="h-4 w-4 text-amber-600" />
+        <AlertDescription className="text-amber-800 text-sm">
+          <p className="font-medium mb-1">MEDICAL DISCLAIMER</p>
+          <p className="text-xs">
             This application is intended for use by trained Emergency Medical Services professionals only. 
             Information provided is for reference and should not replace clinical judgment or local protocols. 
             Always verify dosing and follow your medical director's guidelines.
           </p>
-        </div>
-      </div>
-    </footer>
+        </AlertDescription>
+      </Alert>
+    </div>
   );
 };
