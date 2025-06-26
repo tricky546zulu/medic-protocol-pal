@@ -28,7 +28,7 @@ export const useMedicationSearch = ({
     );
   }, [searchTerm, medicationSuggestions, indicationSuggestions]);
 
-  const handleSearchChange = useCallback((value: string) => {
+  const handleSearchChange = (value: string) => {
     setSearchTerm(value);
     
     if (value.length > 0) {
@@ -44,7 +44,7 @@ export const useMedicationSearch = ({
       // Hide suggestions if search term is empty
       setShowSuggestions(false);
     }
-  }, [medicationSuggestions, indicationSuggestions]);
+  }, [medicationSuggestions, indicationSuggestions]); // Added dependencies
 
   const handleSuggestionSelect = useCallback((suggestion: SearchSuggestion) => {
     setSearchTerm(suggestion.text);
@@ -52,7 +52,7 @@ export const useMedicationSearch = ({
     
     searchService.addRecentSearch(suggestion.text);
     setRecentSearches(searchService.getRecentSearches());
-  }, []);
+  }, []); // No external dependencies from props/state other than setters
 
   const handleVoiceSearch = useCallback(() => {
     searchService.startVoiceRecognition((transcript) => {
@@ -60,7 +60,7 @@ export const useMedicationSearch = ({
       // Optionally, trigger a search or suggestion update here as well
       // handleSearchChange(transcript);
     });
-  }, []);
+  }, []); // handleSearchChange could be a dependency if used
 
   const clearSearch = useCallback(() => {
     setSearchTerm('');
