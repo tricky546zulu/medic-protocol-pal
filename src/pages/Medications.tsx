@@ -56,7 +56,7 @@ const Medications = () => {
   const hasActiveFilters = Boolean(searchTerm) || totalActiveFilters > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-violet-50 to-sky-100 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <div className="container mx-auto px-4 py-6 flex-1">
         {/* Header Section */}
         <div className="mb-6">

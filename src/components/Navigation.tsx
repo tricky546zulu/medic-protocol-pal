@@ -13,16 +13,24 @@ export const Navigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, signOut, isLoading } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
-  // Static suggestions are kept here for now, but ideally would come from a service or context
-  const [suggestions, setSuggestions] = useState<string[]>(['Aspirin', 'Acetaminophen', 'Ibuprofen']);
-  const [indicationSuggestions, setIndicationSuggestions] = useState<Array<{ text: string; medicationId: string }>>([
-    { text: 'Headache', medicationId: '1' },
-    { text: 'Fever', medicationId: '2' },
-  ]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [indicationSuggestions, setIndicationSuggestions] = useState<Array<{ text: string; medicationId: string }>>([]);
 
-  // Removed the local instance of searchHook as MedicationSearch manages its own.
-  // If Navigation needs to react to search actions (e.g. navigate),
-  // MedicationSearch can expose callbacks.
+  // Initialize the search hook (example, replace with actual logic if needed)
+  const searchHook = useSearchHook({
+    medicationSuggestions: [],
+    indicationSuggestions: []
+  });
+
+  useEffect(() => {
+    // Example: Fetch suggestions if needed, or they might come from props or context
+    // For now, using static suggestions for demonstration
+    setSuggestions(['Aspirin', 'Acetaminophen', 'Ibuprofen']);
+    setIndicationSuggestions([
+      { text: 'Headache', medicationId: '1' },
+      { text: 'Fever', medicationId: '2' },
+    ]);
+  }, []);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -82,7 +90,7 @@ export const Navigation = () => {
               onChange={handleSearchChange}
               suggestions={suggestions} // Pass actual suggestions
               indicationSuggestions={indicationSuggestions} // Pass actual indication suggestions
-              // isLoading prop is managed by MedicationSearch's internal hook
+              isLoading={searchHook.isLoading}
             />
           </div>
 
@@ -151,7 +159,7 @@ export const Navigation = () => {
             onChange={handleSearchChange}
             suggestions={suggestions}
             indicationSuggestions={indicationSuggestions}
-            // isLoading prop is managed by MedicationSearch's internal hook
+            isLoading={searchHook.isLoading}
           />
         </div>
       </div>

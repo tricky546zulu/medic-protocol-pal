@@ -31,7 +31,7 @@ export const MedicationSearch = ({
     if (value !== searchHook.searchTerm) {
       searchHook.handleSearchChange(value);
     }
-  }, [value, searchHook.handleSearchChange]); // Added searchHook.handleSearchChange to dependencies
+  }, [value]);
 
   const handleChange = (newValue: string) => {
     searchHook.handleSearchChange(newValue);
