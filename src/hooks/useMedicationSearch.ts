@@ -1,5 +1,5 @@
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { searchService } from '@/services/searchService';
 import type { SearchSuggestion } from '@/services/searchService';
 
@@ -32,30 +32,40 @@ export const useMedicationSearch = ({
     setSearchTerm(value);
     
     if (value.length > 0) {
-      setShowSuggestions(combinedSuggestions.length > 0 && value.length > 1);
+      // Recalculate suggestions based on the new 'value' for immediate feedback
+      const currentSuggestions = searchService.generateSuggestions(
+        value,
+        medicationSuggestions,
+        indicationSuggestions
+      );
+      // Show suggestions if there are any and search term is longer than 1 char
+      setShowSuggestions(currentSuggestions.length > 0 && value.length > 1);
     } else {
+      // Hide suggestions if search term is empty
       setShowSuggestions(false);
     }
-  };
+  }, [medicationSuggestions, indicationSuggestions]); // Added dependencies
 
-  const handleSuggestionSelect = (suggestion: SearchSuggestion) => {
+  const handleSuggestionSelect = useCallback((suggestion: SearchSuggestion) => {
     setSearchTerm(suggestion.text);
     setShowSuggestions(false);
     
     searchService.addRecentSearch(suggestion.text);
     setRecentSearches(searchService.getRecentSearches());
-  };
+  }, []); // No external dependencies from props/state other than setters
 
-  const handleVoiceSearch = () => {
+  const handleVoiceSearch = useCallback(() => {
     searchService.startVoiceRecognition((transcript) => {
       setSearchTerm(transcript);
+      // Optionally, trigger a search or suggestion update here as well
+      // handleSearchChange(transcript);
     });
-  };
+  }, []); // handleSearchChange could be a dependency if used
 
-  const clearSearch = () => {
+  const clearSearch = useCallback(() => {
     setSearchTerm('');
     setShowSuggestions(false);
-  };
+  }, []);
 
   const showRecentSearches = !searchTerm && recentSearches.length > 0;
 
