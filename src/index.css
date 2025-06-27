@@ -16,26 +16,37 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 220 14% 15%; /* Updated for cleaner, more neutral look */
+    --primary: 220 14% 15%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary-foreground: 220 13% 20%; /* Darker secondary text for better contrast */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 15% 96%; /* Slightly cooler muted */
+    --muted-foreground: 220 9% 45%; /* Cooler muted foreground */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 220 14% 94%; /* Slightly cooler accent */
+    --accent-foreground: 220 13% 20%; /* Darker accent text */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%; /* Slightly less saturated destructive */
+    --destructive-foreground: 0 0% 100%; /* Pure white for destructive foreground */
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 220 8% 70%; /* Updated for subtle focus states */
+    --border: 220 13% 91%; /* Cooler border */
+    --input: 220 13% 88%;  /* Slightly darker input border for more definition */
+    --ring: 220 10% 65%; /* Cooler ring */
 
-    --radius: 0.5rem;
+    --radius: 0.5rem; /* Maintained */
+    --radius-sm: 0.375rem; /* New smaller radius */
+    --radius-lg: 0.75rem; /* New larger radius */
+
+    /* Additional Semantic Colors (examples) */
+    --success: 142.1 70.6% 45.3%; /* Green for success states */
+    --success-foreground: 142.1 70.6% 95.3%;
+    --warning: 43.1 95.6% 50.1%; /* Amber for warning states */
+    --warning-foreground: 43.1 95.6% 95.1%;
+    --info: 201.7 95.6% 48.4%; /* Blue for info states */
+    --info-foreground: 201.7 95.6% 95.4%;
+
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
