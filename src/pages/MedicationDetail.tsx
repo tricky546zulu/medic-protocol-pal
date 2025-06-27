@@ -1,44 +1,59 @@
 
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { supabase, SupabaseClient } from '@/integrations/supabase/client'; // Import SupabaseClient
+import { Database } from '@/integrations/supabase/types'; // Import Database type
 import { Button } from '@/components/ui/button';
-import { ArrowLeftIcon, AlertTriangleIcon } from 'lucide-react'; // Updated Icons
+import { ArrowLeftIcon } from 'lucide-react';
 import { PatientTypeTabs } from '@/components/medications/PatientTypeTabs';
 import { MedicationDetailSkeleton } from '@/components/medications/MedicationDetailSkeleton';
 import { MedicationNotFound } from '@/components/medications/MedicationNotFound';
 import { MedicationHeader } from '@/components/medications/MedicationHeader';
 import { ContraindicationsSection } from '@/components/medications/ContraindicationsSection';
 import { CollapsibleSections } from '@/components/medications/CollapsibleSections';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Import Card components
-import { toast } from '@/components/ui/use-toast'; // Import toast
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from '@/components/ui/use-toast';
+
+// Explicit types for Supabase data
+type Medication = Database['public']['Tables']['medications']['Row'];
+type Indication = Database['public']['Tables']['medication_indications']['Row'];
+type Contraindication = Database['public']['Tables']['medication_contraindications']['Row'];
+type DosingInfo = Database['public']['Tables']['medication_dosing']['Row'];
+type AdministrationInfo = Database['public']['Tables']['medication_administration']['Row'];
+
 
 const MedicationDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const fetchMedicationData = async (tableName: string, select = '*') => {
-    const { data, error } = await supabase
+  // Generic fetcher with explicit Supabase client and table names
+  const fetchMedicationSubData = async <T extends keyof Database['public']['Tables']>(
+    tableName: T,
+    select = '*'
+  ): Promise<Database['public']['Tables'][T]['Row'][] | null> => {
+    const { data, error } = await (supabase as SupabaseClient<Database>) // Type assertion
       .from(tableName)
       .select(select)
       .eq('medication_id', id);
+
     if (error) {
       console.error(`Error fetching ${tableName}:`, error);
-      toast({ // Add toast for individual fetch errors
-        title: `Error loading ${tableName.replace(/_/g, ' ')}`,
+      toast({
+        title: `Error loading ${String(tableName).replace(/_/g, ' ')}`,
         description: error.message || "Could not fetch data.",
         variant: "destructive",
       });
-      throw error;
+      throw error; // Re-throw to be caught by useQuery's error state
     }
     return data;
   };
 
-  const { data: medication, isLoading: medicationLoading, error: medicationError } = useQuery({
+
+  const { data: medication, isLoading: medicationLoading, error: medicationError } = useQuery<Medication, Error>({
     queryKey: ['medication', id],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as SupabaseClient<Database>)
         .from('medications')
         .select('*')
         .eq('id', id)
@@ -46,9 +61,8 @@ const MedicationDetail = () => {
       
       if (error) {
         console.error("Error fetching medication details:", error);
-        // Specific toast for main medication fetch failure
-        if (error.code === 'PGRST116') { // Not found error
-             throw new Error("Medication not found"); // Let this propagate to MedicationNotFound
+        if (error.code === 'PGRST116') {
+             throw new Error("Medication not found");
         }
         toast({
             title: "Error Loading Medication",
@@ -60,58 +74,64 @@ const MedicationDetail = () => {
       return data;
     },
     enabled: !!id,
-    retry: 1, // Retry once for network issues
+    retry: 1,
   });
 
-  const { data: indications } = useQuery({
+  const { data: indications } = useQuery<Indication[] | null, Error>({
     queryKey: ['medication-indications', id],
-    queryFn: () => fetchMedicationData('medication_indications'),
-    enabled: !!id && !!medication, // Only fetch if medication is loaded
-  });
-
-  const { data: contraindications } = useQuery({
-    queryKey: ['medication-contraindications', id],
-    queryFn: () => fetchMedicationData('medication_contraindications'),
+    queryFn: () => fetchMedicationSubData('medication_indications'),
     enabled: !!id && !!medication,
   });
 
-  const { data: dosing } = useQuery({
+  const { data: contraindications } = useQuery<Contraindication[] | null, Error>({
+    queryKey: ['medication-contraindications', id],
+    queryFn: () => fetchMedicationSubData('medication_contraindications'),
+    enabled: !!id && !!medication,
+  });
+
+  const { data: dosing } = useQuery<DosingInfo[] | null, Error>({
     queryKey: ['medication-dosing', id],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as SupabaseClient<Database>)
         .from('medication_dosing')
         .select('*')
         .eq('medication_id', id)
-        .order('patient_type'); // Keep order for tabs
-      if (error) throw error;
+        .order('patient_type');
+      if (error) {
+        toast({
+            title: "Error Loading Dosing Info",
+            description: error.message || "Could not fetch dosing information.",
+            variant: "destructive",
+        });
+        throw error;
+      }
       return data;
     },
     enabled: !!id && !!medication,
   });
 
-  const { data: administration } = useQuery({
+  const { data: administration } = useQuery<AdministrationInfo | null, Error>({
     queryKey: ['medication-administration', id],
     queryFn: async () => {
-      const data = await fetchMedicationData('medication_administration');
-      return data?.[0]; // Expecting a single row or none
+      const result = await fetchMedicationSubData('medication_administration');
+      return result?.[0] || null; // Expecting a single row or none
     },
     enabled: !!id && !!medication,
   });
 
-  const handleBackClick = () => navigate(-1); // Go back to previous page
+  const handleBackClick = () => navigate(-1);
 
   if (medicationLoading) {
     return <MedicationDetailSkeleton />;
   }
 
-  // Handle general fetch error for the main medication, or if it's not found after loading
   if (medicationError || !medication) {
     return <MedicationNotFound onBackClick={handleBackClick} error={medicationError?.message} />;
   }
 
   return (
-    <div className="min-h-screen bg-background pb-12"> {/* Use theme background, add padding bottom */}
-      <div className="container mx-auto px-4 py-6 sm:py-8 max-w-3xl"> {/* Responsive padding and max-width */}
+    <div className="min-h-screen bg-background pb-12">
+      <div className="container mx-auto px-4 py-6 sm:py-8 max-w-3xl">
         <Button 
           variant="ghost" 
           onClick={handleBackClick}
@@ -123,9 +143,8 @@ const MedicationDetail = () => {
 
         <MedicationHeader medication={medication} />
 
-        {/* Main Dosing Section */}
         {dosing && dosing.length > 0 ? (
-          <Card className="mb-6 sm:mb-8 shadow-md"> {/* Consistent margin */}
+          <Card className="mb-6 sm:mb-8 shadow-md">
             <CardHeader className="border-b border-border">
               <CardTitle className="text-lg sm:text-xl font-semibold text-foreground">
                 {medication.infusion_only ? 'Infusion Protocol' : 'Emergency Dosing Protocol'}
@@ -137,13 +156,12 @@ const MedicationDetail = () => {
             <CardContent className="p-4 sm:p-6">
               <PatientTypeTabs
                 dosing={dosing}
-                isHighAlert={medication.high_alert || false} // Ensure boolean
-                isInfusionOnly={medication.infusion_only || false} // Ensure boolean
+                isHighAlert={medication.high_alert || false}
+                isInfusionOnly={medication.infusion_only || false}
               />
             </CardContent>
           </Card>
         ) : (
-          // Optional: Show a placeholder if dosing info is expected but not available
           <Card className="mb-6 sm:mb-8 border-dashed">
              <CardContent className="p-6 text-center text-muted-foreground">
                 No dosing information available for this medication.
