@@ -1,9 +1,11 @@
 
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Added CardHeader, CardTitle
 import { Badge } from '@/components/ui/badge';
-import { Syringe, AlertTriangle } from 'lucide-react';
+import { SyringeIcon, AlertTriangleIcon, InfoIcon } from 'lucide-react'; // Updated Icons
 import type { Database } from '@/integrations/supabase/types';
+import { cn } from '@/lib/utils';
+import { PumpSettingsDisplay } from './PumpSettingsDisplay'; // Import PumpSettingsDisplay
 
 type MedicationDosing = Database['public']['Tables']['medication_dosing']['Row'];
 
@@ -12,98 +14,93 @@ interface InfusionOnlyCardProps {
   isHighAlert?: boolean;
 }
 
-export const InfusionOnlyCard = ({ dosing, isHighAlert }: InfusionOnlyCardProps) => {
-  const pumpSettings = dosing.infusion_pump_settings as any;
+export const InfusionOnlyCard = ({ dosing, isHighAlert = false }: InfusionOnlyCardProps) => {
+  const pumpSettings = dosing.infusion_pump_settings as any; // Keep type assertion for now
+  const hasPumpSettings = pumpSettings &&
+                          (pumpSettings.medication_selection || pumpSettings.cca_setting || pumpSettings.line_option || pumpSettings.duration || pumpSettings.vtbi || pumpSettings.pump_instructions);
 
   return (
-    <Card className="bg-white border border-gray-200">
-      <CardContent className="p-4">
-        {/* Header - Simplified */}
-        <div className="flex items-start justify-between mb-4 gap-3">
+    <Card className={cn(
+        "bg-card border border-border shadow-sm",
+        isHighAlert && "border-destructive/30 bg-destructive/5" // Subtle high alert theming
+      )}
+    >
+      <CardHeader className="pb-3 pt-4 px-4"> {/* Adjusted padding */}
+        <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <h3 className="text-base font-semibold text-gray-900 break-words leading-tight">
-              {dosing.indication}
-            </h3>
-            <p className="text-sm text-gray-600 mt-1">Continuous Infusion</p>
+            <CardTitle className="text-base font-semibold text-foreground break-words leading-tight">
+              {dosing.indication || "Indication not specified"}
+            </CardTitle>
+            <p className="text-sm text-muted-foreground mt-0.5">Continuous Infusion</p> {/* Consistent margin */}
           </div>
           {isHighAlert && (
-            <Badge className="bg-red-50 text-red-700 border-red-200 text-xs whitespace-nowrap flex-shrink-0">
-              <AlertTriangle className="h-3 w-3 mr-1" />
+            <Badge variant="destructive" className="text-xs items-center gap-1 flex-shrink-0">
+              <AlertTriangleIcon className="h-3 w-3" />
               High Alert
             </Badge>
           )}
         </div>
+      </CardHeader>
 
-        {/* Primary Selection - Streamlined */}
+      <CardContent className="p-4 pt-0"> {/* Adjusted padding */}
+        {/* Primary Medication Selection (if available) */}
         {pumpSettings?.medication_selection && (
-          <div className="bg-blue-50 rounded-lg p-4 mb-4 text-center">
-            <div className="text-lg font-bold text-blue-900 break-words">
+          <div className={cn(
+              "rounded-md p-3 sm:p-4 mb-3 sm:mb-4 text-center",
+              isHighAlert ? "bg-destructive/10" : "bg-primary/10" // Themed background
+            )}
+          >
+            <div className={cn(
+                "text-md sm:text-lg font-semibold break-words",
+                isHighAlert ? "text-destructive-foreground" : "text-primary" // Themed text
+              )}
+            >
               {pumpSettings.medication_selection}
             </div>
             {dosing.concentration_supplied && (
-              <div className="text-sm text-blue-700 mt-1 break-words">
-                {dosing.concentration_supplied}
+              <div className={cn(
+                  "text-xs sm:text-sm mt-1 break-words",
+                  isHighAlert ? "text-destructive-foreground/80" : "text-primary/80" // Themed text
+                )}
+              >
+                Supply: {dosing.concentration_supplied}
               </div>
             )}
           </div>
         )}
 
-        {/* Pump Configuration - Compact Grid */}
-        <div className="bg-gray-50 rounded-lg p-3 mb-4">
-          <h4 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-1">
-            <Syringe className="h-3 w-3" />
-            Pump Settings
-          </h4>
-          <div className="grid grid-cols-2 gap-2 text-sm">
-            {pumpSettings?.cca_setting && (
-              <div className="break-words">
-                <span className="font-medium text-gray-700">CCA:</span>
-                <div className="text-gray-900">{pumpSettings.cca_setting}</div>
-              </div>
-            )}
-            {pumpSettings?.line_option && (
-              <div>
-                <span className="font-medium text-gray-700">Line:</span>
-                <div className="text-gray-900">Line {pumpSettings.line_option}</div>
-              </div>
-            )}
-            {pumpSettings?.duration && (
-              <div className="break-words">
-                <span className="font-medium text-gray-700">Duration:</span>
-                <div className="text-gray-900">{pumpSettings.duration}</div>
-              </div>
-            )}
-            {pumpSettings?.vtbi && (
-              <div className="break-words">
-                <span className="font-medium text-gray-700">VTBI:</span>
-                <div className="text-gray-900">{pumpSettings.vtbi}</div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Instructions - Compact */}
-        {pumpSettings?.pump_instructions && (
-          <div className="bg-blue-50 rounded-lg p-3 mb-4">
-            <h4 className="text-sm font-semibold text-blue-900 mb-1">Instructions</h4>
-            <div className="text-sm text-blue-900 break-words">{pumpSettings.pump_instructions}</div>
-          </div>
+        {/* Pump Settings Display Component */}
+        {hasPumpSettings && pumpSettings && (
+          <PumpSettingsDisplay pumpSettings={pumpSettings} className="mb-3 sm:mb-4" />
         )}
 
-        {/* Notes - Simplified */}
+        {/* Notes */}
         {dosing.notes && dosing.notes.length > 0 && (
-          <div className="bg-amber-50 rounded-lg p-3">
-            <h4 className="text-sm font-semibold text-amber-800 mb-2 flex items-center gap-1">
-              <AlertTriangle className="h-3 w-3" />
-              Notes
+           <div className={cn(
+            "rounded-md p-3 mt-3 sm:mt-4",
+            isHighAlert ? "bg-destructive/10" : "bg-amber-500/10 border border-amber-500/20"
+            )}
+          >
+            <h4 className={cn(
+                "text-sm font-semibold mb-1.5 flex items-center gap-1.5",
+                isHighAlert ? "text-destructive-foreground" : "text-amber-700 dark:text-amber-400"
+              )}
+            >
+              <InfoIcon className="h-4 w-4" />
+              Important Notes
             </h4>
-            <div className="space-y-1">
+            <ul className="space-y-1 pl-1">
               {dosing.notes.map((note, index) => (
-                <div key={index} className="text-sm text-amber-900 break-words">
-                  • {note}
-                </div>
+                <li key={index} className={cn(
+                    "text-xs sm:text-sm break-words flex items-start gap-1.5",
+                    isHighAlert ? "text-destructive-foreground/90" : "text-amber-800 dark:text-amber-300"
+                  )}
+                >
+                  <span className="mt-0.5">•</span>
+                  <span>{note}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         )}
       </CardContent>

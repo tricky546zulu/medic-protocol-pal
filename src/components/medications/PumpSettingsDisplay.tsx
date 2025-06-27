@@ -1,57 +1,61 @@
-
 import React from 'react';
-import { Syringe } from 'lucide-react';
-import type { Database } from '@/integrations/supabase/types';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { SyringeIcon } from 'lucide-react'; // Or another suitable icon like Settings2Icon
+import { cn } from '@/lib/utils';
 
-type MedicationDosing = Database['public']['Tables']['medication_dosing']['Row'];
-
-interface PumpSettingsDisplayProps {
-  dosing: MedicationDosing;
+// Define a more specific type for pump settings if possible, or use Record<string, any>
+interface PumpSettings {
+  medication_selection?: string;
+  cca_setting?: string;
+  line_option?: string;
+  duration?: string;
+  vtbi?: string;
+  pump_instructions?: string;
+  [key: string]: any; // Allow other potential fields
 }
 
-export const PumpSettingsDisplay = ({ dosing }: PumpSettingsDisplayProps) => {
-  if (!dosing.requires_infusion_pump) {
-    return null;
-  }
+interface PumpSettingsDisplayProps {
+  pumpSettings: PumpSettings;
+  className?: string;
+}
 
-  const pumpSettings = dosing.infusion_pump_settings as any;
-  
-  // Check if pump settings object has any meaningful data
-  const hasSettings = pumpSettings && (
-    pumpSettings.medication_selection || pumpSettings.cca_setting
-  );
+export const PumpSettingsDisplay = ({ pumpSettings, className }: PumpSettingsDisplayProps) => {
+  const settingsToShow = [
+    { label: 'Medication', value: pumpSettings.medication_selection },
+    { label: 'CCA Setting', value: pumpSettings.cca_setting },
+    { label: 'Line Option', value: pumpSettings.line_option },
+    { label: 'Duration', value: pumpSettings.duration },
+    { label: 'VTBI', value: pumpSettings.vtbi },
+  ].filter(setting => setting.value); // Filter out settings with no value
 
-  if (!hasSettings) {
-    return (
-      <div className="flex items-center gap-2 text-blue-700 text-sm">
-        <Syringe className="h-4 w-4" />
-        <span>IV Pump Required</span>
-      </div>
-    );
+  if (settingsToShow.length === 0 && !pumpSettings.pump_instructions) {
+    return null; // Don't render if no settings or instructions
   }
 
   return (
-    <div className="text-sm p-2 bg-blue-50 rounded border border-blue-200">
-      <div className="flex items-center gap-2 text-blue-800 font-medium mb-1">
-        <Syringe className="h-4 w-4" />
-        IV Pump Settings
-      </div>
-      
-      {pumpSettings.medication_selection && (
-        <div className="text-blue-900 mb-1">{pumpSettings.medication_selection}</div>
-      )}
-
-      <div className="text-blue-800 space-y-1">
-        {pumpSettings.cca_setting && <div>CCA: {pumpSettings.cca_setting}</div>}
-        {pumpSettings.line_option && <div>Line: {pumpSettings.line_option}</div>}
-        {pumpSettings.duration && <div>Duration: {pumpSettings.duration}</div>}
-        {pumpSettings.vtbi && <div>VTBI: {pumpSettings.vtbi}</div>}
+    <Card className={cn("bg-primary/5 border-primary/20", className)}>
+      <CardHeader className="py-2 px-3 sm:py-3 sm:px-4 border-b border-primary/10">
+        <CardTitle className="text-sm font-semibold text-primary flex items-center gap-2">
+          <SyringeIcon className="h-4 w-4" />
+          IV Pump Settings
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="p-3 sm:p-4 space-y-2">
+        {settingsToShow.map((setting) => (
+          <div key={setting.label} className="text-xs sm:text-sm flex justify-between">
+            <span className="font-medium text-primary/90">{setting.label}:</span>
+            <span className="text-right text-foreground/90 break-words ml-2">{setting.value}</span>
+          </div>
+        ))}
         {pumpSettings.pump_instructions && (
-          <div className="pt-1 border-t border-blue-200 italic text-xs">
-            {pumpSettings.pump_instructions}
+          <div className="pt-2 mt-2 border-t border-primary/10">
+            <p className="text-xs sm:text-sm text-primary/90 font-medium mb-1">Instructions:</p>
+            <p className="text-xs sm:text-sm text-foreground/90 whitespace-pre-wrap break-words">
+              {pumpSettings.pump_instructions}
+            </p>
           </div>
         )}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };

@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Pill, Shield, Home, Menu, X, LogOut, User, Heart } from 'lucide-react';
+import { PillIcon, ShieldCheckIcon, HomeIcon, MenuIcon, XIcon, LogOutIcon, UserCircle2Icon, HeartIcon, BriefcaseMedicalIcon } from 'lucide-react'; // Updated icons
 import { useAuth } from '@/contexts/AuthContext';
+import { cn } from "@/lib/utils"; // Import cn utility
 
 export const Navigation = () => {
   const location = useLocation();
@@ -14,11 +15,11 @@ export const Navigation = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navLinks = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/medications', label: 'Medications', icon: Pill },
+    { path: '/', label: 'Home', icon: HomeIcon },
+    { path: '/medications', label: 'Medications', icon: BriefcaseMedicalIcon }, // Changed Pill to BriefcaseMedicalIcon
     ...(user ? [
-      { path: '/favorites', label: 'Favorites', icon: Heart },
-      { path: '/admin', label: 'Admin', icon: Shield }
+      { path: '/favorites', label: 'Favorites', icon: HeartIcon },
+      { path: '/admin', label: 'Admin', icon: ShieldCheckIcon } // Changed Shield to ShieldCheckIcon
     ] : []),
   ];
 
@@ -28,21 +29,48 @@ export const Navigation = () => {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate('/');
+    navigate('/'); // Navigate to home after sign out
+    setIsMobileMenuOpen(false); // Close mobile menu if open
   };
+
+  const NavLinkButton = ({ path, label, icon: Icon, currentPath, isMobile = false, onClick }: any) => (
+    <Button
+      variant={isActive(path) ? (isMobile ? 'secondary' : 'default') : 'ghost'}
+      className={cn(
+        "transition-all duration-200",
+        isMobile ? "w-full justify-start text-base min-h-[48px]" : "rounded-md", // Updated: rounded-md from rounded-lg
+        isActive(path) && !isMobile && "shadow-sm" // Softer shadow for active desktop links
+      )}
+      asChild
+      onClick={onClick}
+    >
+      <Link to={path} className={cn("flex items-center gap-2", isMobile && "gap-3 py-2")}>
+        <Icon className={cn(isMobile ? "h-5 w-5" : "h-4 w-4")} />
+        {label}
+      </Link>
+    </Button>
+  );
+
+
+  const commonNavClasses = "bg-background/90 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-50";
+  const commonContainerClasses = "container mx-auto px-4";
+  const commonFlexBetweenClasses = "flex items-center justify-between h-16"; // Standard h-16 for nav height
 
   if (isLoading) {
     return (
-      <nav className="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-50">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+      <nav className={commonNavClasses}>
+        <div className={commonContainerClasses}>
+          <div className={commonFlexBetweenClasses}>
             <Link to="/" className="flex items-center gap-3 font-bold text-xl text-primary">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Pill className="h-5 w-5" />
+              <div className="p-2 bg-primary/10 rounded-md"> {/* Updated: rounded-md from rounded-lg */}
+                <BriefcaseMedicalIcon className="h-5 w-5 text-primary" /> {/* Updated Icon */}
               </div>
               SK EMS Meds
             </Link>
-            <div className="animate-pulse text-gray-500">Loading...</div>
+            {/* Skeleton loader for user area could be added here if needed */}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="h-4 w-20 bg-muted rounded-md animate-pulse"></div>
+            </div>
           </div>
         </div>
       </nav>
@@ -50,12 +78,12 @@ export const Navigation = () => {
   }
 
   return (
-    <nav className="bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-3 font-bold text-xl text-primary hover:text-primary/80 transition-colors">
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Pill className="h-5 w-5" />
+    <nav className={commonNavClasses}>
+      <div className={commonContainerClasses}>
+        <div className={commonFlexBetweenClasses}>
+          <Link to="/" className="flex items-center gap-3 font-bold text-xl text-primary hover:text-primary/90 transition-colors">
+            <div className="p-2 bg-primary/10 rounded-md"> {/* Updated: rounded-md from rounded-lg */}
+              <BriefcaseMedicalIcon className="h-5 w-5 text-primary" /> {/* Updated Icon */}
             </div>
             SK EMS Meds
           </Link>
@@ -63,32 +91,28 @@ export const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map(link => (
-              <Button
+              <NavLinkButton
                 key={link.path}
-                variant={isActive(link.path) ? 'default' : 'ghost'}
-                className={`${isActive(link.path) ? 'shadow-md' : 'hover:bg-gray-50'} rounded-lg transition-all duration-200`}
-                asChild
-              >
-                <Link to={link.path} className="flex items-center gap-2">
-                  <link.icon className="h-4 w-4" />
-                  {link.label}
-                </Link>
-              </Button>
+                path={link.path}
+                label={link.label}
+                icon={link.icon}
+                currentPath={location.pathname}
+              />
             ))}
             
             {user ? (
-              <div className="flex items-center gap-3 ml-6 pl-6 border-l border-gray-200">
-                <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg">
-                  <User className="h-4 w-4" />
+              <div className="flex items-center gap-3 ml-4 pl-4 border-l border-border"> {/* Reduced margin, use border-border */}
+                <div className="flex items-center gap-2 text-sm text-foreground bg-secondary px-3 py-2 rounded-md"> {/* Use foreground, secondary, rounded-md */}
+                  <UserCircle2Icon className="h-4 w-4 text-muted-foreground" /> {/* Updated Icon & color */}
                   <span className="max-w-32 truncate">{user.email}</span>
                 </div>
-                <Button variant="outline" size="sm" onClick={handleSignOut} className="hover:bg-red-50 hover:border-red-200 hover:text-red-700 transition-all duration-200">
-                  <LogOut className="h-4 w-4 mr-1" />
+                <Button variant="outline" size="sm" onClick={handleSignOut} className="hover:bg-destructive/10 hover:border-destructive/30 hover:text-destructive transition-colors"> {/* Use destructive theme for sign out */}
+                  <LogOutIcon className="h-4 w-4 mr-2" /> {/* Updated Icon and margin */}
                   Sign Out
                 </Button>
               </div>
             ) : (
-              <Button asChild className="ml-6 shadow-md hover:shadow-lg transition-all duration-200">
+              <Button asChild className="ml-4" variant="default"> {/* Reduced margin, ensure default variant */}
                 <Link to="/auth">Sign In</Link>
               </Button>
             )}
@@ -100,9 +124,9 @@ export const Navigation = () => {
               variant="ghost" 
               size="icon" 
               onClick={toggleMobileMenu}
-              className="min-h-[44px] min-w-[44px] touch-manipulation hover:bg-gray-50 rounded-lg"
+              className="min-h-[44px] min-w-[44px] touch-manipulation rounded-md hover:bg-accent" // Use accent for hover, rounded-md
             >
-              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isMobileMenuOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
             </Button>
           </div>
         </div>
@@ -110,45 +134,40 @@ export const Navigation = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-lg">
+        <div className="md:hidden bg-background/90 backdrop-blur-md border-t border-border shadow-lg">
           <div className="container mx-auto px-4 py-4 space-y-2">
             {navLinks.map(link => (
-              <Button
+               <NavLinkButton
                 key={link.path}
-                variant={isActive(link.path) ? 'secondary' : 'ghost'}
-                className="w-full justify-start min-h-[48px] touch-manipulation rounded-lg"
-                asChild
+                path={link.path}
+                label={link.label}
+                icon={link.icon}
+                currentPath={location.pathname}
+                isMobile={true}
                 onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Link to={link.path} className="flex items-center gap-3 py-2 text-base">
-                  <link.icon className="h-5 w-5" />
-                  {link.label}
-                </Link>
-              </Button>
+              />
             ))}
             
             {user ? (
-              <div className="pt-4 border-t border-gray-200 space-y-2">
-                <div className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 bg-gray-50 rounded-lg">
-                  <User className="h-4 w-4" />
+              <div className="pt-4 mt-2 border-t border-border space-y-3"> {/* Added mt-2, space-y-3 */}
+                <div className="flex items-center gap-2 px-3 py-2 text-sm text-foreground bg-secondary rounded-md"> {/* Use foreground, secondary, rounded-md */}
+                  <UserCircle2Icon className="h-5 w-5 text-muted-foreground" /> {/* Updated Icon & color */}
                   <span className="truncate">{user.email}</span>
                 </div>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 min-h-[48px] touch-manipulation rounded-lg"
-                  onClick={() => {
-                    handleSignOut();
-                    setIsMobileMenuOpen(false);
-                  }}
+                  className="w-full justify-start text-destructive hover:text-destructive hover:bg-destructive/10 min-h-[48px] touch-manipulation rounded-md gap-3 py-2" // Use destructive theme, rounded-md
+                  onClick={handleSignOut}
                 >
-                  <LogOut className="h-4 w-4 mr-3" />
+                  <LogOutIcon className="h-5 w-5" /> {/* Updated Icon, removed mr-3 as gap is used */}
                   Sign Out
                 </Button>
               </div>
             ) : (
-              <div className="pt-4 border-t border-gray-200">
+              <div className="pt-4 mt-2 border-t border-border"> {/* Added mt-2 */}
                 <Button
-                  className="w-full min-h-[48px] touch-manipulation rounded-lg shadow-md"
+                  variant="default" // Ensure default variant
+                  className="w-full min-h-[48px] touch-manipulation rounded-md" // rounded-md
                   asChild
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
