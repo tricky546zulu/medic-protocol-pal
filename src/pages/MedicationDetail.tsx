@@ -4,15 +4,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
-import { ArrowLeftIcon, AlertTriangleIcon } from 'lucide-react'; // Updated Icons
+import { ArrowLeftIcon, AlertTriangleIcon } from 'lucide-react';
 import { PatientTypeTabs } from '@/components/medications/PatientTypeTabs';
 import { MedicationDetailSkeleton } from '@/components/medications/MedicationDetailSkeleton';
 import { MedicationNotFound } from '@/components/medications/MedicationNotFound';
 import { MedicationHeader } from '@/components/medications/MedicationHeader';
 import { ContraindicationsSection } from '@/components/medications/ContraindicationsSection';
 import { CollapsibleSections } from '@/components/medications/CollapsibleSections';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Import Card components
-import { toast } from '@/components/ui/use-toast'; // Import toast
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from '@/components/ui/use-toast';
 import type { Database } from '@/integrations/supabase/types';
 
 type TableName = 'medication_indications' | 'medication_contraindications' | 'medication_dosing' | 'medication_administration';
@@ -28,7 +28,7 @@ const MedicationDetail = () => {
       .eq('medication_id', id);
     if (error) {
       console.error(`Error fetching ${tableName}:`, error);
-      toast({ // Add toast for individual fetch errors
+      toast({
         title: `Error loading ${tableName.replace(/_/g, ' ')}`,
         description: error.message || "Could not fetch data.",
         variant: "destructive",
@@ -49,9 +49,8 @@ const MedicationDetail = () => {
       
       if (error) {
         console.error("Error fetching medication details:", error);
-        // Specific toast for main medication fetch failure
-        if (error.code === 'PGRST116') { // Not found error
-             throw new Error("Medication not found"); // Let this propagate to MedicationNotFound
+        if (error.code === 'PGRST116') {
+             throw new Error("Medication not found");
         }
         toast({
             title: "Error Loading Medication",
@@ -63,19 +62,25 @@ const MedicationDetail = () => {
       return data;
     },
     enabled: !!id,
-    retry: 1, // Retry once for network issues
+    retry: 1,
   });
 
   const { data: indications } = useQuery({
     queryKey: ['medication-indications', id],
     queryFn: () => fetchMedicationData('medication_indications'),
-    enabled: !!id && !!medication, // Only fetch if medication is loaded
+    enabled: !!id && !!medication,
+    onError: (error) => {
+      console.error('Error fetching indications:', error);
+    },
   });
 
   const { data: contraindications } = useQuery({
     queryKey: ['medication-contraindications', id],
     queryFn: () => fetchMedicationData('medication_contraindications'),
     enabled: !!id && !!medication,
+    onError: (error) => {
+      console.error('Error fetching contraindications:', error);
+    },
   });
 
   const { data: dosing } = useQuery({
@@ -85,36 +90,49 @@ const MedicationDetail = () => {
         .from('medication_dosing')
         .select('*')
         .eq('medication_id', id)
-        .order('patient_type'); // Keep order for tabs
-      if (error) throw error;
+        .order('patient_type');
+      if (error) {
+        console.error('Error fetching dosing:', error);
+        toast({
+          title: "Error loading dosing information",
+          description: error.message || "Could not fetch dosing data.",
+          variant: "destructive",
+        });
+        throw error;
+      }
       return data;
     },
     enabled: !!id && !!medication,
+    onError: (error) => {
+      console.error('Error fetching dosing:', error);
+    },
   });
 
   const { data: administration } = useQuery({
     queryKey: ['medication-administration', id],
     queryFn: async () => {
       const data = await fetchMedicationData('medication_administration');
-      return data?.[0]; // Expecting a single row or none
+      return data?.[0];
     },
     enabled: !!id && !!medication,
+    onError: (error) => {
+      console.error('Error fetching administration:', error);
+    },
   });
 
-  const handleBackClick = () => navigate(-1); // Go back to previous page
+  const handleBackClick = () => navigate(-1);
 
   if (medicationLoading) {
     return <MedicationDetailSkeleton />;
   }
 
-  // Handle general fetch error for the main medication, or if it's not found after loading
   if (medicationError || !medication) {
     return <MedicationNotFound onBackClick={handleBackClick} error={medicationError?.message} />;
   }
 
   return (
-    <div className="min-h-screen bg-background pb-12"> {/* Use theme background, add padding bottom */}
-      <div className="container mx-auto px-4 py-6 sm:py-8 max-w-3xl"> {/* Responsive padding and max-width */}
+    <div className="min-h-screen bg-background pb-12">
+      <div className="container mx-auto px-4 py-6 sm:py-8 max-w-3xl">
         <Button 
           variant="ghost" 
           onClick={handleBackClick}
@@ -126,9 +144,8 @@ const MedicationDetail = () => {
 
         <MedicationHeader medication={medication} />
 
-        {/* Main Dosing Section */}
         {dosing && dosing.length > 0 ? (
-          <Card className="mb-6 sm:mb-8 shadow-md"> {/* Consistent margin */}
+          <Card className="mb-6 sm:mb-8 shadow-md">
             <CardHeader className="border-b border-border">
               <CardTitle className="text-lg sm:text-xl font-semibold text-foreground">
                 {medication.infusion_only ? 'Infusion Protocol' : 'Emergency Dosing Protocol'}
@@ -140,13 +157,12 @@ const MedicationDetail = () => {
             <CardContent className="p-4 sm:p-6">
               <PatientTypeTabs
                 dosing={dosing}
-                isHighAlert={medication.high_alert || false} // Ensure boolean
-                isInfusionOnly={medication.infusion_only || false} // Ensure boolean
+                isHighAlert={medication.high_alert || false}
+                isInfusionOnly={medication.infusion_only || false}
               />
             </CardContent>
           </Card>
         ) : (
-          // Optional: Show a placeholder if dosing info is expected but not available
           <Card className="mb-6 sm:mb-8 border-dashed">
              <CardContent className="p-6 text-center text-muted-foreground">
                 No dosing information available for this medication.
