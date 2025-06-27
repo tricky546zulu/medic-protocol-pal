@@ -2,6 +2,7 @@ import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, RefreshCw, Home, Bug } from 'lucide-react';
+import { useErrorReporting } from '@/hooks/useErrorReporting';
 
 interface Props {
   children: ReactNode;
@@ -17,6 +18,8 @@ interface State {
 }
 
 export class ErrorBoundary extends Component<Props, State> {
+  private errorReporting: any;
+
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false };

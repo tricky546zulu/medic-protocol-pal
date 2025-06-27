@@ -1,39 +1,28 @@
 
 import React from 'react';
-import { Button, ButtonProps } from '@/components/ui/button'; // Added ButtonProps
-import { BookmarkIcon, BookmarkMinusIcon, Loader2Icon } from 'lucide-react'; // Updated Icons
-import { toast } from '@/components/ui/use-toast'; // Corrected toast import
+import { Button } from '@/components/ui/button';
+import { Bookmark, BookmarkMinus } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { useFavorites } from '@/hooks/useFavorites';
-import { cn } from '@/lib/utils';
 
-interface BookmarkButtonProps extends Pick<ButtonProps, 'size' | 'className'> { // Added className
+interface BookmarkButtonProps {
   medicationId: string;
   medicationName: string;
-  showText?: boolean; // Option to show/hide text
 }
 
-export const BookmarkButton = ({
-  medicationId,
-  medicationName,
-  size = "sm", // Default size
-  showText = true,
-  className // Added className prop
-}: BookmarkButtonProps) => {
+export const BookmarkButton = ({ medicationId, medicationName }: BookmarkButtonProps) => {
   const { user } = useAuth();
   const { userFavorites, addFavorite, removeFavorite, isAddingFavorite, isRemovingFavorite } = useFavorites();
 
   const isBookmarked = userFavorites.includes(medicationId);
   const isLoading = isAddingFavorite || isRemovingFavorite;
 
-  const toggleBookmark = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation(); // Prevent card click-through if nested
-    event.preventDefault();
-
+  const toggleBookmark = () => {
     if (!user) {
       toast({
-        title: "Sign In Required",
-        description: "Please sign in to manage your bookmarks.",
+        title: "Sign in required",
+        description: "Please sign in to bookmark medications",
         variant: "destructive",
       });
       return;
@@ -46,31 +35,20 @@ export const BookmarkButton = ({
     }
   };
 
-  const IconComponent = isBookmarked ? BookmarkMinusIcon : BookmarkIcon;
-  const buttonText = isLoading ? "..." : isBookmarked ? "Bookmarked" : "Bookmark";
-
   return (
     <Button
-      variant={isBookmarked ? "secondary" : "outline"} // Use secondary for bookmarked state for better contrast with primary actions
-      size={size}
+      variant={isBookmarked ? "default" : "outline"}
+      size="sm"
       onClick={toggleBookmark}
       disabled={isLoading}
-      className={cn(
-        "touch-manipulation transition-colors duration-150",
-        showText ? "gap-2" : "", // Only add gap if text is shown
-        size === "icon" && "aspect-square", // Ensure icon buttons are square
-        isBookmarked && "border-primary/50 text-primary hover:bg-primary/10",
-        !isBookmarked && "hover:bg-accent",
-        className // Apply passed className
-      )}
-      aria-label={isBookmarked ? `Remove ${medicationName} from bookmarks` : `Add ${medicationName} to bookmarks`}
+      className="flex items-center gap-2 touch-manipulation min-h-[44px]"
     >
-      {isLoading ? (
-        <Loader2Icon className="h-4 w-4 animate-spin" />
+      {isBookmarked ? (
+        <BookmarkMinus className="h-4 w-4" />
       ) : (
-        <IconComponent className="h-4 w-4" />
+        <Bookmark className="h-4 w-4" />
       )}
-      {showText && <span>{buttonText}</span>}
+      {isLoading ? "..." : isBookmarked ? "Bookmarked" : "Bookmark"}
     </Button>
   );
 };
