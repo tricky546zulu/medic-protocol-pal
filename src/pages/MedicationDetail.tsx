@@ -13,12 +13,15 @@ import { ContraindicationsSection } from '@/components/medications/Contraindicat
 import { CollapsibleSections } from '@/components/medications/CollapsibleSections';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Import Card components
 import { toast } from '@/components/ui/use-toast'; // Import toast
+import type { Database } from '@/integrations/supabase/types';
+
+type TableName = 'medication_indications' | 'medication_contraindications' | 'medication_dosing' | 'medication_administration';
 
 const MedicationDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const fetchMedicationData = async (tableName: string, select = '*') => {
+  const fetchMedicationData = async (tableName: TableName, select = '*') => {
     const { data, error } = await supabase
       .from(tableName)
       .select(select)

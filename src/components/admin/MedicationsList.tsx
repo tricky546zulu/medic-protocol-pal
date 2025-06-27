@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Added CardHeader, CardTitle
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button'; // Added buttonVariants import
 import { AlertTriangleIcon, EditIcon, Trash2Icon, PillIcon, PlusCircleIcon } from 'lucide-react'; // Updated Icons
 import { toast } from '@/components/ui/use-toast'; // Updated toast import
 import { EditMedicationModal } from './EditMedicationModal';

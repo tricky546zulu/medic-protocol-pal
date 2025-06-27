@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useFavorites } from '@/hooks/useFavorites';
 import { cn } from '@/lib/utils';
 
-interface BookmarkButtonProps extends Pick<ButtonProps, 'size'> { // Allow size prop
+interface BookmarkButtonProps extends Pick<ButtonProps, 'size' | 'className'> { // Added className
   medicationId: string;
   medicationName: string;
   showText?: boolean; // Option to show/hide text
@@ -17,7 +17,8 @@ export const BookmarkButton = ({
   medicationId,
   medicationName,
   size = "sm", // Default size
-  showText = true
+  showText = true,
+  className // Added className prop
 }: BookmarkButtonProps) => {
   const { user } = useAuth();
   const { userFavorites, addFavorite, removeFavorite, isAddingFavorite, isRemovingFavorite } = useFavorites();
@@ -59,7 +60,8 @@ export const BookmarkButton = ({
         showText ? "gap-2" : "", // Only add gap if text is shown
         size === "icon" && "aspect-square", // Ensure icon buttons are square
         isBookmarked && "border-primary/50 text-primary hover:bg-primary/10",
-        !isBookmarked && "hover:bg-accent"
+        !isBookmarked && "hover:bg-accent",
+        className // Apply passed className
       )}
       aria-label={isBookmarked ? `Remove ${medicationName} from bookmarks` : `Add ${medicationName} to bookmarks`}
     >
