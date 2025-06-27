@@ -69,18 +69,12 @@ const MedicationDetail = () => {
     queryKey: ['medication-indications', id],
     queryFn: () => fetchMedicationData('medication_indications'),
     enabled: !!id && !!medication,
-    onError: (error) => {
-      console.error('Error fetching indications:', error);
-    },
   });
 
   const { data: contraindications } = useQuery({
     queryKey: ['medication-contraindications', id],
     queryFn: () => fetchMedicationData('medication_contraindications'),
     enabled: !!id && !!medication,
-    onError: (error) => {
-      console.error('Error fetching contraindications:', error);
-    },
   });
 
   const { data: dosing } = useQuery({
@@ -103,9 +97,6 @@ const MedicationDetail = () => {
       return data;
     },
     enabled: !!id && !!medication,
-    onError: (error) => {
-      console.error('Error fetching dosing:', error);
-    },
   });
 
   const { data: administration } = useQuery({
@@ -115,9 +106,6 @@ const MedicationDetail = () => {
       return data?.[0];
     },
     enabled: !!id && !!medication,
-    onError: (error) => {
-      console.error('Error fetching administration:', error);
-    },
   });
 
   const handleBackClick = () => navigate(-1);
